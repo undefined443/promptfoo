@@ -93,7 +93,7 @@ export default {
     // Pre-bundle react/compiler-runtime so Vite doesn't discover it late
     // (injected by the React Compiler babel plugin) and trigger a full
     // dep re-optimization that invalidates in-flight requests.
-    include: ['react/compiler-runtime'],
+    include: ['@lingui/react', 'react/compiler-runtime'],
     exclude: ['react-syntax-highlighter'],
   },
   build: {
