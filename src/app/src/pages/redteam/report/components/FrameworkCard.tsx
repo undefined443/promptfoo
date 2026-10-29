@@ -4,6 +4,7 @@ import { Badge } from '@app/components/ui/badge';
 import { Card, CardContent } from '@app/components/ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { calculateAttackSuccessRate } from '@promptfoo/presentation/redteamMetrics';
 import {
   ALIASED_PLUGIN_MAPPINGS,
@@ -32,23 +33,23 @@ const severityBadgeVariants: Record<
 > = {
   [Severity.Critical]: {
     variant: 'critical',
-    tooltip: 'Critical: Requires immediate attention - high risk security vulnerabilities',
+    tooltip: t`Critical: Requires immediate attention - high risk security vulnerabilities`,
   },
   [Severity.High]: {
     variant: 'high',
-    tooltip: 'High: Serious security issues that should be prioritized',
+    tooltip: t`High: Serious security issues that should be prioritized`,
   },
   [Severity.Medium]: {
     variant: 'medium',
-    tooltip: 'Medium: Moderate security concerns that should be addressed',
+    tooltip: t`Medium: Moderate security concerns that should be addressed`,
   },
   [Severity.Low]: {
     variant: 'low',
-    tooltip: 'Low: Minor issues with limited security impact',
+    tooltip: t`Low: Minor issues with limited security impact`,
   },
   [Severity.Informational]: {
     variant: 'info',
-    tooltip: 'Informational: Findings for awareness with no direct security impact',
+    tooltip: t`Informational: Findings for awareness with no direct security impact`,
   },
 };
 
@@ -318,7 +319,7 @@ const FrameworkCard = ({
 
                       <div>
                         <FrameworkPluginSection
-                          title="Failed:"
+                          title={t`Failed:`}
                           titleClassName="text-xs font-bold text-destructive"
                           containerClassName="bg-red-50/50 px-2 py-1 dark:bg-red-950/20"
                           plugins={sortedNonCompliantItems}
@@ -329,7 +330,7 @@ const FrameworkCard = ({
                           type="failed"
                         />
                         <FrameworkPluginSection
-                          title="Passed:"
+                          title={t`Passed:`}
                           titleClassName="text-xs font-bold text-emerald-600 dark:text-emerald-500"
                           containerClassName="mt-2 bg-emerald-50/50 px-2 py-1 dark:bg-emerald-950/20"
                           plugins={sortedCompliantItems}
@@ -340,7 +341,7 @@ const FrameworkCard = ({
                           type="passed"
                         />
                         <FrameworkPluginSection
-                          title="Not Tested:"
+                          title={t`Not Tested:`}
                           titleClassName="text-xs font-bold text-muted-foreground"
                           containerClassName="mt-2 bg-gray-100/50 px-2 py-1 dark:bg-gray-800/20"
                           plugins={visibleUntestedItems}
@@ -360,7 +361,7 @@ const FrameworkCard = ({
             // Standard list view for other frameworks but with same format
             <div className="overflow-hidden rounded border border-border">
               <div className="flex items-center justify-between border-b border-border bg-black/5 p-2 dark:bg-white/5">
-                <span className="text-sm font-medium">Framework Results</span>
+                <span className="text-sm font-medium">{t`Framework Results`}</span>
                 <Badge
                   variant={nonCompliantPlugins.length === 0 ? 'success' : 'destructive'}
                   className="h-5 whitespace-nowrap text-[0.7rem]"
@@ -377,7 +378,7 @@ const FrameworkCard = ({
                 {/* Failed plugins first */}
                 {nonCompliantPlugins.length > 0 && (
                   <div className="bg-red-50/50 px-2 py-1 dark:bg-red-950/20">
-                    <span className="text-xs font-bold text-destructive">Failed:</span>
+                    <span className="text-xs font-bold text-destructive">{t`Failed:`}</span>
                   </div>
                 )}
                 {sortedPlugins.map((plugin, index) => (
@@ -400,9 +401,7 @@ const FrameworkCard = ({
                   );
                   return compliantPlugins.length > 0 ? (
                     <div className="mt-2 bg-emerald-50/50 px-2 py-1 dark:bg-emerald-950/20">
-                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-500">
-                        Passed:
-                      </span>
+                      <span className="text-xs font-bold text-emerald-600 dark:text-emerald-500">{t`Passed:`}</span>
                     </div>
                   ) : null;
                 })()}

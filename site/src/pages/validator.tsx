@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import Link from '@docusaurus/Link';
-import { Editor } from '@monaco-editor/react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -11,6 +10,8 @@ import { AggregateAjvError } from '@segment/ajv-human-errors';
 import { loadYaml } from '@site/src/utils/yaml';
 import Layout from '@theme/Layout';
 import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+import type { editor as MonacoEditor } from 'monaco-editor';
 
 const DEFAULT_INPUT = `prompts:
   - "Write a tweet about {{topic}}"
@@ -38,18 +39,21 @@ defaultTest:
 `;
 
 const ConfigValidator = () => {
-  const [input, setInput] = useState(DEFAULT_INPUT);
   const [validationOutput, setValidationOutput] = useState('Configuration is valid');
-  const [schema, setSchema] = useState<object | null>(null);
+  const schemaRef = useRef<object | null>(null);
+  const editorContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch('/config-schema.json')
       .then((response) => response.json())
-      .then((data) => setSchema(data))
+      .then((data) => {
+        schemaRef.current = data;
+      })
       .catch((error) => console.error('Error loading schema:', error));
   }, []);
 
-  const validateConfig = (value: string) => {
+  const validateConfig = useCallback((value: string) => {
+    const schema = schemaRef.current;
     if (!schema) {
       setValidationOutput('Schema not loaded yet.');
       return;
@@ -66,7 +70,9 @@ const ConfigValidator = () => {
       const ajv = new Ajv({
         allErrors: false,
         verbose: true,
+        allowUnionTypes: true,
       });
+      addFormats(ajv);
 
       ajv.validate(schema, parsedConfig);
 
@@ -105,13 +111,45 @@ const ConfigValidator = () => {
         `Error parsing input: ${error instanceof Error ? error.message : String(error)}`,
       );
     }
-  };
+  }, []);
 
-  const handleEditorChange = (value?: string) => {
-    const nextValue = value ?? '';
-    setInput(nextValue);
-    validateConfig(nextValue);
-  };
+  useEffect(() => {
+    let editor: MonacoEditor.IStandaloneCodeEditor | undefined;
+    let disposed = false;
+
+    const setupEditor = async () => {
+      const monaco = await import('monaco-editor/editor/editor.api');
+      await import('monaco-editor/editor/editor.main');
+
+      const container = editorContainerRef.current;
+      if (disposed || !container) {
+        return;
+      }
+
+      globalThis.MonacoEnvironment = {
+        getWorker: () => new Worker(new URL('../utils/monaco-editor.worker.ts', import.meta.url)),
+      };
+
+      editor = monaco.editor.create(container, {
+        value: DEFAULT_INPUT,
+        language: 'yaml',
+        automaticLayout: true,
+        tabSize: 2,
+        minimap: { enabled: false },
+      });
+
+      editor.onDidChangeModelContent(() => {
+        validateConfig(editor?.getValue() ?? '');
+      });
+    };
+
+    setupEditor();
+
+    return () => {
+      disposed = true;
+      editor?.dispose();
+    };
+  }, [validateConfig]);
 
   return (
     <Layout title="Config Validator" description="Validate your promptfoo configuration">
@@ -131,13 +169,7 @@ const ConfigValidator = () => {
         <Grid container spacing={3}>
           <Grid size={{ xs: 12, md: 6 }}>
             <Paper elevation={3} sx={{ height: '80vh' }}>
-              <Editor
-                height="100%"
-                defaultLanguage="yaml"
-                value={input}
-                onChange={handleEditorChange}
-                options={{ tabSize: 2, minimap: { enabled: false } }}
-              />
+              <div ref={editorContainerRef} style={{ height: '100%' }} />
             </Paper>
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>

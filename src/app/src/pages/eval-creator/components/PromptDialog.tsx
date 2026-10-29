@@ -10,6 +10,7 @@ import {
 } from '@app/components/ui/dialog';
 import { Label } from '@app/components/ui/label';
 import { Textarea } from '@app/components/ui/textarea';
+import { t } from '@lingui/core/macro';
 
 interface PromptDialogProps {
   open: boolean;
@@ -49,11 +50,11 @@ const PromptDialog = ({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{isEditing ? `Edit Prompt ${index + 1}` : 'Add Prompt'}</DialogTitle>
+          <DialogTitle>{isEditing ? `Edit Prompt ${index + 1}` : t`Add Prompt`}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-2 py-4">
-          <Label htmlFor="prompt-input">Prompt</Label>
+          <Label htmlFor="prompt-input">{t`Prompt`}</Label>
           <Textarea
             id="prompt-input"
             ref={textareaRef}
@@ -63,21 +64,23 @@ const PromptDialog = ({
             className="min-h-[200px] font-mono text-sm"
           />
           <p className="text-sm text-muted-foreground">
-            Tip: use the {'{{varname}}'} syntax to add variables to your prompt.
+            {t`Tip: use the`} {'{{varname}}'} {t`syntax to add variables to your prompt.`}
           </p>
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">
           <Button variant="outline" onClick={onCancel}>
-            Cancel
+            {t`Cancel`}
           </Button>
           {!isEditing && (
-            <Button variant="secondary" onClick={() => handleAdd(false)} disabled={!editingPrompt}>
-              Add Another
-            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => handleAdd(false)}
+              disabled={!editingPrompt}
+            >{t`Add Another`}</Button>
           )}
           <Button onClick={() => handleAdd(true)} disabled={!editingPrompt}>
-            {isEditing ? 'Save' : 'Add'}
+            {isEditing ? t`Save` : t`Add`}
           </Button>
         </DialogFooter>
       </DialogContent>

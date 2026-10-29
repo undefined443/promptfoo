@@ -29,6 +29,7 @@ import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { MODEL_AUDIT_ROUTES } from '@app/constants/routes';
 import { formatDataGridDate } from '@app/utils/date';
+import { t } from '@lingui/core/macro';
 import { Link as RouterLink, useNavigate } from 'react-router';
 import { type ListScansQuery, MODEL_AUDIT_SORT_FIELDS } from '../../../../types/api/modelAudit';
 import { useModelAuditConfigStore, useModelAuditHistoryStore } from '../model-audit/stores';
@@ -159,7 +160,7 @@ export default function ModelAuditHistory() {
         header: 'Name',
         size: 200,
         cell: ({ getValue }) => (
-          <span className="text-sm truncate block">{getValue<string>() || 'Unnamed scan'}</span>
+          <span className="text-sm truncate block">{getValue<string>() || t`Unnamed scan`}</span>
         ),
       },
       {
@@ -195,15 +196,15 @@ export default function ModelAuditHistory() {
               ) : (
                 <CheckCircleIcon className="size-3.5" />
               )}
-              {hasErrors ? 'Issues Found' : 'Clean'}
+              {hasErrors ? t`Issues Found` : t`Clean`}
             </Badge>
           );
         },
         meta: {
           filterVariant: 'select',
           filterOptions: [
-            { label: 'Issues Found', value: 'Issues Found' },
-            { label: 'Clean', value: 'Clean' },
+            { label: t`Issues Found`, value: 'Issues Found' },
+            { label: t`Clean`, value: 'Clean' },
           ],
         },
       },
@@ -249,7 +250,7 @@ export default function ModelAuditHistory() {
                 <DeleteIcon className="size-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Delete</TooltipContent>
+            <TooltipContent>{t`Delete`}</TooltipContent>
           </Tooltip>
         ),
       },
@@ -267,10 +268,8 @@ export default function ModelAuditHistory() {
               <HistoryIcon className="size-7 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">Scan History</h1>
-              <p className="text-sm text-muted-foreground mt-1.5">
-                View and manage your model security scan results
-              </p>
+              <h1 className="text-2xl font-bold tracking-tight">{t`Scan History`}</h1>
+              <p className="text-sm text-muted-foreground mt-1.5">{t`View and manage your model security scan results`}</p>
             </div>
           </div>
         </div>
@@ -282,7 +281,7 @@ export default function ModelAuditHistory() {
         <div className="flex justify-between items-center">
           <Button size="sm" onClick={handleNewScan}>
             <AddIcon className="size-4 mr-2" />
-            New Scan
+            {t`New Scan`}
           </Button>
         </div>
 
@@ -292,7 +291,7 @@ export default function ModelAuditHistory() {
               <div className="mb-4 flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
                 <AlertTriangleIcon className="size-6" />
               </div>
-              <h3 className="text-lg font-semibold text-destructive mb-1">Error loading history</h3>
+              <h3 className="text-lg font-semibold text-destructive mb-1">{t`Error loading history`}</h3>
               <p className="text-sm text-muted-foreground">{historyError}</p>
             </div>
           ) : totalCount === 0 && historicalScans.length === 0 && !isLoadingHistory ? (
@@ -300,14 +299,12 @@ export default function ModelAuditHistory() {
               <div className="flex size-12 items-center justify-center rounded-full bg-muted text-muted-foreground">
                 <SearchIcon className="size-6" />
               </div>
-              <h3 className="text-lg font-semibold">No scan history found</h3>
-              <p className="text-sm text-muted-foreground">
-                Run your first model security scan to see results here
-              </p>
+              <h3 className="text-lg font-semibold">{t`No scan history found`}</h3>
+              <p className="text-sm text-muted-foreground">{t`Run your first model security scan to see results here`}</p>
               <Button asChild>
                 <RouterLink to={MODEL_AUDIT_ROUTES.SETUP}>
                   <AddIcon className="size-4 mr-2" />
-                  New Scan
+                  {t`New Scan`}
                 </RouterLink>
               </Button>
             </div>
@@ -338,10 +335,8 @@ export default function ModelAuditHistory() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete Scan?</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this scan from history? This action cannot be undone.
-            </DialogDescription>
+            <DialogTitle>{t`Delete Scan?`}</DialogTitle>
+            <DialogDescription>{t`Are you sure you want to delete this scan from history? This action cannot be undone.`}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button
@@ -349,18 +344,18 @@ export default function ModelAuditHistory() {
               onClick={() => setDeleteDialogOpen(false)}
               disabled={isDeleting}
             >
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
               {isDeleting ? (
                 <>
                   <Spinner size="sm" className="mr-2" />
-                  Deleting...
+                  {t`Deleting...`}
                 </>
               ) : (
                 <>
                   <DeleteIcon className="size-4 mr-2" />
-                  Delete
+                  {t`Delete`}
                 </>
               )}
             </Button>

@@ -6,6 +6,7 @@ import { PageHeader } from '@app/components/layout/PageHeader';
 import { Card } from '@app/components/ui/card';
 import { EVAL_ROUTES } from '@app/constants/routes';
 import { formatDataGridDate } from '@app/utils/date';
+import { t } from '@lingui/core/macro';
 import { Link, useSearchParams } from 'react-router';
 import DatasetDialog from './DatasetDialog';
 import type { TestCase, TestCasesWithMetadata } from '@promptfoo/types';
@@ -115,7 +116,7 @@ export default function Datasets({ data, isLoading, error }: DatasetsProps) {
         cell: ({ getValue }) => {
           const value = getValue<string | null>();
           if (!value) {
-            return <span className="text-sm text-muted-foreground">Unknown</span>;
+            return <span className="text-sm text-muted-foreground">{t`Unknown`}</span>;
           }
           return <span className="text-sm">{formatDataGridDate(value)}</span>;
         },
@@ -156,10 +157,8 @@ export default function Datasets({ data, isLoading, error }: DatasetsProps) {
     <PageContainer className="fixed top-[calc(var(--nav-height)_+_var(--update-banner-height,0px))] left-0 right-0 bottom-0 flex flex-col overflow-hidden min-h-0">
       <PageHeader>
         <div className="container max-w-7xl mx-auto p-6">
-          <h1 className="text-2xl font-bold tracking-tight">Datasets</h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Manage test datasets and track their evaluation history
-          </p>
+          <h1 className="text-2xl font-bold tracking-tight">{t`Datasets`}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t`Manage test datasets and track their evaluation history`}</p>
         </div>
       </PageHeader>
       <div className="flex-1 min-h-0 flex flex-col p-6">
@@ -171,7 +170,7 @@ export default function Datasets({ data, isLoading, error }: DatasetsProps) {
               isLoading={isLoading}
               error={error}
               onRowClick={handleRowClick}
-              emptyMessage="Create a dataset to start evaluating your AI responses"
+              emptyMessage={t`Create a dataset to start evaluating your AI responses`}
               initialSorting={[{ id: 'recentEvalDate', desc: true }]}
               globalFilterLabel="Search datasets"
             />

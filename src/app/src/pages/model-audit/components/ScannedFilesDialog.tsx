@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { FileIcon, FolderIcon } from '@app/components/ui/icons';
+import { t } from '@lingui/core/macro';
 import { getIssueFilePath, isCriticalSeverity } from '../utils';
 
 import type { ScanPath, ScanResult } from '../ModelAudit.types';
@@ -30,7 +31,7 @@ export default function ScannedFilesDialog({
         <DialogHeader>
           <div className="flex items-center gap-2">
             <FileIcon className="size-5" />
-            <DialogTitle>Scanned Files</DialogTitle>
+            <DialogTitle>{t`Scanned Files`}</DialogTitle>
           </div>
         </DialogHeader>
 
@@ -38,7 +39,7 @@ export default function ScannedFilesDialog({
           {scanResults?.scannedFilesList && scanResults.scannedFilesList.length > 0 ? (
             <div>
               <p className="text-sm text-muted-foreground mb-4">
-                Total: {scanResults.scannedFilesList.length} files scanned
+                {t`Total:`} {scanResults.scannedFilesList.length} {t`files scanned`}
               </p>
               <div className="space-y-1 max-h-96 overflow-y-auto border border-border rounded-lg">
                 {scanResults.scannedFilesList.map((file, index) => {
@@ -80,7 +81,7 @@ export default function ScannedFilesDialog({
             <div className="py-6">
               {scanResults && paths.length > 0 ? (
                 <>
-                  <p className="text-sm font-semibold mb-3">Scanned Paths:</p>
+                  <p className="text-sm font-semibold mb-3">{t`Scanned Paths:`}</p>
                   <div className="space-y-1 border border-border rounded-lg">
                     {paths.map((path, index) => (
                       <div
@@ -101,7 +102,7 @@ export default function ScannedFilesDialog({
                   </div>
                 </>
               ) : (
-                <p className="text-center text-muted-foreground">No scan results available</p>
+                <p className="text-center text-muted-foreground">{t`No scan results available`}</p>
               )}
             </div>
           )}
@@ -109,7 +110,7 @@ export default function ScannedFilesDialog({
 
         <DialogFooter>
           <Button onClick={onClose} variant="outline">
-            Close
+            {t`Close`}
           </Button>
         </DialogFooter>
       </DialogContent>

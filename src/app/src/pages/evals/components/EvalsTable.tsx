@@ -16,6 +16,7 @@ import { EVAL_ROUTES } from '@app/constants/routes';
 import { cn } from '@app/lib/utils';
 import { callApi } from '@app/utils/api';
 import { formatDataGridDate } from '@app/utils/date';
+import { t } from '@lingui/core/macro';
 import invariant from '@promptfoo/util/invariant';
 import { Link, useLocation } from 'react-router';
 import type { EvalSummary } from '@promptfoo/types';
@@ -196,7 +197,7 @@ export default function EvalsTable({
               title={text || row.original.evalId}
               className="line-clamp-2 text-sm font-medium text-foreground hover:text-primary hover:underline"
             >
-              {text || 'Untitled evaluation'}
+              {text || t`Untitled evaluation`}
             </Link>
           );
         },
@@ -256,15 +257,15 @@ export default function EvalsTable({
                       !isRedteam && 'bg-muted text-muted-foreground border-muted-foreground/20',
                     )}
                   >
-                    {isRedteam ? 'Red Team' : 'Eval'}
+                    {isRedteam ? t`Red Team` : t`Eval`}
                   </Badge>
                 );
               },
               meta: {
                 filterVariant: 'select',
                 filterOptions: [
-                  { label: 'Red Team', value: 'Red Team' },
-                  { label: 'Eval', value: 'Eval' },
+                  { label: t`Red Team`, value: 'Red Team' },
+                  { label: t`Eval`, value: 'Eval' },
                 ],
               },
               size: 100,
@@ -312,7 +313,8 @@ export default function EvalsTable({
         data-testid="delete-selected-button"
       >
         <DeleteIcon className="size-4 mr-1.5" />
-        Delete ({selectedEvalIds.length})
+        {t`Delete (`}
+        {selectedEvalIds.length})
       </Button>
     ) : null;
 
@@ -323,7 +325,7 @@ export default function EvalsTable({
         data={rows}
         isLoading={isLoading}
         error={error}
-        emptyMessage="No evaluations found. Create an eval to get started."
+        emptyMessage={t`No evaluations found. Create an eval to get started.`}
         onRowClick={(row) => {
           if (row.evalId !== focusedEvalId) {
             onEvalSelected(row.evalId);
@@ -348,20 +350,21 @@ export default function EvalsTable({
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Delete {selectedEvalIds.length} eval{selectedEvalIds.length === 1 ? '' : 's'}?
+              {t`Delete`} {selectedEvalIds.length} eval{selectedEvalIds.length === 1 ? '' : 's'}?
             </DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete the selected eval
-              {selectedEvalIds.length === 1 ? '' : 's'}? This action cannot be undone.
+              {t`Are you sure you want to delete the selected eval`}
+              {selectedEvalIds.length === 1 ? '' : 's'}
+              {t`? This action cannot be undone.`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setConfirmDeleteOpen(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete}>
               <DeleteIcon className="size-4 mr-1.5" />
-              Delete
+              {t`Delete`}
             </Button>
           </DialogFooter>
         </DialogContent>

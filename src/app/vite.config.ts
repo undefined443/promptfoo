@@ -4,15 +4,16 @@ import { fileURLToPath } from 'node:url';
 import os from 'os';
 import path from 'path';
 
+import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react';
 import { configDefaults } from 'vitest/config';
 import packageJson from '../../package.json' with { type: 'json' };
-import { browserInventoryPlugin } from './vite.browser-inventory';
+import { browserInventoryPlugin } from './vite.browser-inventory.ts';
 import {
   browserModulesPlugin,
   reactCompilerPlugin,
   vendorCodeSplittingGroups,
-} from './vite.shared';
+} from './vite.shared.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -76,6 +77,11 @@ export default {
   },
   base: process.env.VITE_PUBLIC_BASENAME || '/',
   plugins: [
+    lingui({
+      cwd: __dirname,
+      configPath: path.resolve(__dirname, 'lingui.config.mjs'),
+      macroTransform: true,
+    }),
     browserModulesPlugin(),
     reactCompilerPlugin(),
     ...react(),
@@ -91,7 +97,7 @@ export default {
     // Pre-bundle react/compiler-runtime so Vite doesn't discover it late
     // (injected by the React Compiler babel plugin) and trigger a full
     // dep re-optimization that invalidates in-flight requests.
-    include: ['react/compiler-runtime'],
+    include: ['@lingui/react', 'react/compiler-runtime'],
     exclude: ['react-syntax-highlighter'],
   },
   build: {

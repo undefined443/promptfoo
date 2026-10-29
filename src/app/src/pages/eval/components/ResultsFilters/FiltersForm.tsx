@@ -13,6 +13,7 @@ import {
 } from '@app/components/ui/select';
 import { Spinner } from '@app/components/ui/spinner';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { displayNameOverrides, severityDisplayNames } from '@promptfoo/redteam/constants/metadata';
 import { formatPolicyIdentifierAsMetric } from '@promptfoo/redteam/plugins/policy/utils';
 import { Plus, SlidersHorizontal, X } from 'lucide-react';
@@ -381,13 +382,13 @@ function FilterRow({
       {filter.type === 'metadata' &&
         (metadataKeysLoading ? (
           <div className="relative w-[140px]">
-            <Input value="" placeholder="Loading keys..." disabled className="h-8 pr-8" />
+            <Input value="" placeholder={t`Loading keys...`} disabled className="h-8 pr-8" />
             <Spinner className="size-3 absolute right-2 top-2.5" />
           </div>
         ) : metadataKeys && metadataKeys.length > 0 ? (
           <Select value={filter.field || ''} onValueChange={handleFieldChange}>
             <SelectTrigger className="h-8 w-[140px] shrink-0">
-              <SelectValue placeholder="Choose key..." />
+              <SelectValue placeholder={t`Choose key...`} />
             </SelectTrigger>
             <SelectContent>
               {metadataKeys.map((key) => (
@@ -401,7 +402,7 @@ function FilterRow({
           <Input
             value={filter.field || ''}
             onChange={(e) => handleFieldChange(e.target.value)}
-            placeholder={metadataKeysError ? 'Error loading keys' : 'Enter key name...'}
+            placeholder={metadataKeysError ? t`Error loading keys` : t`Enter key name...`}
             className={cn('h-8 w-[140px]', metadataKeysError && 'border-destructive')}
           />
         ))}
@@ -410,7 +411,7 @@ function FilterRow({
       {filter.type === 'metric' && filters.options.metric.length > 0 && (
         <Select value={filter.field || ''} onValueChange={handleFieldChange}>
           <SelectTrigger className="h-8 w-[140px] shrink-0">
-            <SelectValue placeholder="Choose metric..." />
+            <SelectValue placeholder={t`Choose metric...`} />
           </SelectTrigger>
           <SelectContent>
             {filters.options.metric.map((metric) => (
@@ -428,7 +429,7 @@ function FilterRow({
         onValueChange={(v) => handleOperatorChange(v as ResultsFilter['operator'])}
       >
         <SelectTrigger className="h-8 w-[110px] shrink-0">
-          <SelectValue placeholder="Operator..." />
+          <SelectValue placeholder={t`Operator...`} />
         </SelectTrigger>
         <SelectContent>
           {operatorOptions.map((opt) => (
@@ -574,7 +575,7 @@ export default function FiltersForm() {
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm">
           <SlidersHorizontal className="size-4 mr-2" />
-          Filters
+          {t`Filters`}
           {activeFilterCount > 0 && (
             <span className="ml-1.5 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
               {activeFilterCount}
@@ -592,7 +593,7 @@ export default function FiltersForm() {
         <div className="space-y-3">
           {/* Header */}
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium">Filters</h4>
+            <h4 className="text-sm font-medium">{t`Filters`}</h4>
             {filterList.length > 0 && (
               <Button
                 variant="ghost"
@@ -600,14 +601,14 @@ export default function FiltersForm() {
                 onClick={handleClearAll}
                 className="h-auto px-2 py-1 text-xs text-muted-foreground hover:text-foreground"
               >
-                Clear all
+                {t`Clear all`}
               </Button>
             )}
           </div>
 
           {/* Filter rows */}
           {filterList.length === 0 ? (
-            <p className="text-sm text-muted-foreground">No filters applied</p>
+            <p className="text-sm text-muted-foreground">{t`No filters applied`}</p>
           ) : (
             <div className="space-y-2">
               {filterList.map((filter, index) => (
@@ -625,7 +626,7 @@ export default function FiltersForm() {
           {/* Add filter button */}
           <Button variant="outline" size="sm" onClick={handleAddFilter} className="w-full">
             <Plus className="mr-2 size-4" />
-            Add filter
+            {t`Add filter`}
           </Button>
         </div>
       </PopoverContent>

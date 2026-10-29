@@ -174,3 +174,27 @@ describe.each(['', '/promptfoo'])('App routes with basename "%s"', (basename) =>
     expect(activeRouter.state.historyAction).toBe('REPLACE');
   });
 });
+
+describe('app locale initialization', () => {
+  afterEach(async () => {
+    const { i18n } = await import('./i18n');
+    i18n.activate('en');
+    document.documentElement.lang = 'en';
+  });
+
+  it.each([
+    { languages: ['zh-CN'], language: 'en-US', locale: 'zh-CN' },
+    { languages: ['zh-Hans-CN'], language: 'en-US', locale: 'zh-CN' },
+    { languages: ['en-US'], language: 'zh-CN', locale: 'en' },
+    { languages: [], language: 'zh-SG', locale: 'zh-CN' },
+  ])('activates $locale for languages $languages', async ({ languages, language, locale }) => {
+    vi.spyOn(navigator, 'languages', 'get').mockReturnValue(languages);
+    vi.spyOn(navigator, 'language', 'get').mockReturnValue(language);
+    vi.resetModules();
+
+    const { i18n } = await import('./i18n');
+
+    expect(i18n.locale).toBe(locale);
+    expect(document.documentElement.lang).toBe(locale);
+  });
+});

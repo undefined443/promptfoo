@@ -4,7 +4,7 @@ Simple Node.js server using Express and native WebSockets that exposes two real-
 
 ## Requirements
 
-- Node.js >= 22.22.0
+- Node.js >= 24.11.0
 - An OpenAI API key
 
 ## Setup

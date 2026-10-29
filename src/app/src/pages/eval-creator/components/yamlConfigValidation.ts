@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import {
   type ConfigDraft,
   normalizeConfigDraft,
@@ -22,8 +23,7 @@ export function validateYamlConfigDraft(
   };
 }
 
-export const INVALID_FULL_CONFIG_YAML_MESSAGE =
-  'Invalid YAML configuration. Upload a full configuration with top-level fields such as providers, prompts, and tests. To import individual test cases, use Import CSV or YAML in Test Cases.';
+export const INVALID_FULL_CONFIG_YAML_MESSAGE = t`Invalid YAML configuration. Upload a full configuration with top-level fields such as providers, prompts, and tests. To import individual test cases, use Import CSV or YAML in Test Cases.`;
 
 const TEST_CASE_FIELDS = new Set([
   'description',

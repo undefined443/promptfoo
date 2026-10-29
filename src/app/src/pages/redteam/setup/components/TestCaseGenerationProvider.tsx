@@ -11,6 +11,7 @@ import React, {
 import { useTelemetry } from '@app/hooks/useTelemetry';
 import { useToast } from '@app/hooks/useToast';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import {
   DEFAULT_MULTI_TURN_MAX_TURNS,
   isMultiTurnStrategy,
@@ -329,9 +330,9 @@ export const TestCaseGenerationProvider: React.FC<{
         const errorMessage =
           error instanceof Error
             ? error.message.includes('timed out')
-              ? 'Test generation timed out. Please try again or check your connection.'
+              ? t`Test generation timed out. Please try again or check your connection.`
               : error.message
-            : 'Failed to generate test case';
+            : t`Failed to generate test case`;
 
         toast.showToast(errorMessage, 'error', ERROR_MSG_DURATION);
 
@@ -415,7 +416,7 @@ export const TestCaseGenerationProvider: React.FC<{
 
         console.error('Failed to run test against target:', error);
         const errorMessage =
-          error instanceof Error ? error.message : 'Failed to run test against target';
+          error instanceof Error ? error.message : t`Failed to run test against target`;
         setTargetResponses((prev) => [
           ...prev,
           {
@@ -729,9 +730,9 @@ export const TestCaseGenerationProvider: React.FC<{
             const errorMessage =
               error instanceof Error
                 ? error.message.includes('timed out')
-                  ? 'Test generation timed out. Please try again or check your connection.'
+                  ? t`Test generation timed out. Please try again or check your connection.`
                   : error.message
-                : 'Failed to generate test case';
+                : t`Failed to generate test case`;
 
             toast.showToast(errorMessage, 'error', ERROR_MSG_DURATION);
 

@@ -27,9 +27,9 @@ type ParseNodeEngineVersionOptions = {
 declare const __PROMPTFOO_NODE_ENGINE_RANGE__: string | undefined;
 declare const __PROMPTFOO_NODE_ENGINE_COMPARATOR_SETS__: NodeEngineComparator[][] | undefined;
 
-const fallbackNodeEngineRange = '>=22.22.0';
+const fallbackNodeEngineRange = '>=24.11.0';
 const fallbackNodeEngineComparatorSets: NodeEngineComparator[][] = [
-  [{ operator: '>=', version: '22.22.0' }],
+  [{ operator: '>=', version: '24.11.0' }],
 ];
 
 const nodeEngineRange =

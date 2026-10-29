@@ -4,6 +4,7 @@ import { Card } from '@app/components/ui/card';
 import { Collapsible, CollapsibleContent } from '@app/components/ui/collapsible';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { TraceData, TraceSpan } from '@promptfoo/types';
 
@@ -148,7 +149,7 @@ export default function TraceTimeline({ trace }: TraceTimelineProps) {
   if (!trace.spans || trace.spans.length === 0) {
     return (
       <div className="p-2">
-        <p className="text-sm text-muted-foreground">No trace data available</p>
+        <p className="text-sm text-muted-foreground">{t`No trace data available`}</p>
       </div>
     );
   }
@@ -157,9 +158,11 @@ export default function TraceTimeline({ trace }: TraceTimelineProps) {
 
   return (
     <div className="pt-4">
-      <p className="text-sm text-muted-foreground mb-2">Trace ID: {trace.traceId}</p>
+      <p className="text-sm text-muted-foreground mb-2">
+        {t`Trace ID:`} {trace.traceId}
+      </p>
       <p className="text-sm text-muted-foreground mb-6">
-        Total Duration: {formatDuration(totalDuration)}
+        {t`Total Duration:`} {formatDuration(totalDuration)}
       </p>
 
       <Card className="p-4 overflow-auto">
@@ -185,7 +188,7 @@ export default function TraceTimeline({ trace }: TraceTimelineProps) {
                 <button
                   type="button"
                   onClick={() => toggleSpan(span.spanId)}
-                  aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${span.name}`}
+                  aria-label={`${isExpanded ? t`Collapse` : t`Expand`} ${span.name}`}
                   className={cn(
                     'mr-1 p-1 rounded hover:bg-muted transition-colors',
                     !hasAttributes && 'invisible',
@@ -234,13 +237,19 @@ export default function TraceTimeline({ trace }: TraceTimelineProps) {
                     </TooltipTrigger>
                     <TooltipContent>
                       <div className="space-y-1">
-                        <p className="text-xs">Duration: {formatDuration(span.duration)}</p>
-                        <p className="text-xs">Start: {formatTimestamp(span.startTime)}</p>
+                        <p className="text-xs">
+                          {t`Duration:`} {formatDuration(span.duration)}
+                        </p>
+                        <p className="text-xs">
+                          {t`Start:`} {formatTimestamp(span.startTime)}
+                        </p>
                         {span.endTime && (
-                          <p className="text-xs">End: {formatTimestamp(span.endTime)}</p>
+                          <p className="text-xs">
+                            {t`End:`} {formatTimestamp(span.endTime)}
+                          </p>
                         )}
                         {hasAttributes && (
-                          <p className="text-xs italic">Click expand to view attributes</p>
+                          <p className="text-xs italic">{t`Click expand to view attributes`}</p>
                         )}
                       </div>
                     </TooltipContent>
@@ -251,42 +260,42 @@ export default function TraceTimeline({ trace }: TraceTimelineProps) {
               {/* Expandable attributes panel */}
               <CollapsibleContent>
                 <div className="mb-4 mt-2 rounded border-l-[3px] border-primary bg-muted/50 p-4 sm:ml-10">
-                  <h4 className="text-sm font-semibold mb-2">Span Details</h4>
+                  <h4 className="text-sm font-semibold mb-2">{t`Span Details`}</h4>
 
                   <div className="mb-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <div>
-                      <p className="text-xs text-muted-foreground">Span ID</p>
+                      <p className="text-xs text-muted-foreground">{t`Span ID`}</p>
                       <p className="text-sm font-mono text-[11px]">{span.spanId}</p>
                     </div>
                     {span.parentSpanId && (
                       <div>
-                        <p className="text-xs text-muted-foreground">Parent Span ID</p>
+                        <p className="text-xs text-muted-foreground">{t`Parent Span ID`}</p>
                         <p className="text-sm font-mono text-[11px]">{span.parentSpanId}</p>
                       </div>
                     )}
                     <div>
-                      <p className="text-xs text-muted-foreground">Start Time</p>
+                      <p className="text-xs text-muted-foreground">{t`Start Time`}</p>
                       <p className="text-xs">{formatTimestamp(span.startTime)}</p>
                     </div>
                     {span.endTime && (
                       <div>
-                        <p className="text-xs text-muted-foreground">End Time</p>
+                        <p className="text-xs text-muted-foreground">{t`End Time`}</p>
                         <p className="text-xs">{formatTimestamp(span.endTime)}</p>
                       </div>
                     )}
                     <div>
-                      <p className="text-xs text-muted-foreground">Duration</p>
+                      <p className="text-xs text-muted-foreground">{t`Duration`}</p>
                       <p className="text-xs">{formatDuration(span.duration)}</p>
                     </div>
                     <div>
-                      <p className="text-xs text-muted-foreground">Status</p>
+                      <p className="text-xs text-muted-foreground">{t`Status`}</p>
                       <p className={cn('text-xs', status.textClass)}>{status.label}</p>
                     </div>
                   </div>
 
                   {hasAttributes && (
                     <>
-                      <h4 className="text-sm font-semibold mb-2">Attributes</h4>
+                      <h4 className="text-sm font-semibold mb-2">{t`Attributes`}</h4>
                       <div className="bg-background rounded p-2 max-h-[300px] overflow-auto">
                         {Object.entries(span.attributes!).map(([key, value], attrIndex, arr) => (
                           <div

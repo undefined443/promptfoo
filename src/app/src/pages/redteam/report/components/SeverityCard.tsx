@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@app/components/ui/card';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Severity, severityDisplayNames } from '@promptfoo/redteam/constants';
 
 interface SeverityCardProps {
@@ -93,7 +94,7 @@ export default function SeverityCard({
         {issueCount}
       </span>
       <span className={cn('text-sm', hasIssues ? styles.text : 'text-muted-foreground')}>
-        {issueCount === 1 ? 'Vulnerability' : 'Vulnerabilities'}
+        {issueCount === 1 ? t`Vulnerability` : t`Vulnerabilities`}
       </span>
     </CardContent>
   );
@@ -141,7 +142,7 @@ export default function SeverityCard({
 
   // Wrap clickable cards with tooltip
   if (navigateOnClick && hasIssues) {
-    const tooltipTitle = isActive ? 'Click to clear filter' : 'Click to filter';
+    const tooltipTitle = isActive ? t`Click to clear filter` : t`Click to filter`;
     return (
       <Tooltip>
         <TooltipTrigger asChild>{cardContent}</TooltipTrigger>

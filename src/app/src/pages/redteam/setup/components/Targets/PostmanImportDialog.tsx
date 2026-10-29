@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from '@app/components/ui/select';
 import { Textarea } from '@app/components/ui/textarea';
+import { t } from '@lingui/core/macro';
 import { Upload } from 'lucide-react';
 
 interface PostmanCollectionItem {
@@ -338,12 +339,10 @@ const PostmanImportDialog = ({ open, onClose, onImport }: PostmanImportDialogPro
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Import from Postman Collection</DialogTitle>
+          <DialogTitle>{t`Import from Postman Collection`}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            Upload a Postman collection file or paste the JSON below.
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Upload a Postman collection file or paste the JSON below.`}</p>
           <div>
             <input
               accept=".json"
@@ -356,7 +355,7 @@ const PostmanImportDialog = ({ open, onClose, onImport }: PostmanImportDialogPro
               <Button variant="outline" asChild className="cursor-pointer">
                 <span>
                   <Upload className="mr-2 size-4" />
-                  Upload JSON File
+                  {t`Upload JSON File`}
                 </span>
               </Button>
             </label>
@@ -400,13 +399,13 @@ const PostmanImportDialog = ({ open, onClose, onImport }: PostmanImportDialogPro
 
           {postmanRequests.length > 0 && (
             <div className="space-y-2">
-              <Label>Select a request to import:</Label>
+              <Label>{t`Select a request to import:`}</Label>
               <Select
                 value={selectedRequestIndex === null ? '' : String(selectedRequestIndex)}
                 onValueChange={(value) => setSelectedRequestIndex(Number(value))}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Choose a request..." />
+                  <SelectValue placeholder={t`Choose a request...`} />
                 </SelectTrigger>
                 <SelectContent>
                   {postmanRequests.map((req, index) => (
@@ -436,16 +435,18 @@ const PostmanImportDialog = ({ open, onClose, onImport }: PostmanImportDialogPro
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={handleClose}>
-            Cancel
+            {t`Cancel`}
           </Button>
           {postmanRequests.length === 0 ? (
-            <Button onClick={handlePostmanParse} disabled={!postmanJson.trim()}>
-              Parse Collection
-            </Button>
+            <Button
+              onClick={handlePostmanParse}
+              disabled={!postmanJson.trim()}
+            >{t`Parse Collection`}</Button>
           ) : (
-            <Button onClick={handlePostmanImport} disabled={selectedRequestIndex === null}>
-              Import Selected Request
-            </Button>
+            <Button
+              onClick={handlePostmanImport}
+              disabled={selectedRequestIndex === null}
+            >{t`Import Selected Request`}</Button>
           )}
         </DialogFooter>
       </DialogContent>

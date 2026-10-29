@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import { Label } from '@app/components/ui/label';
 import { Textarea } from '@app/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
+import { t } from '@lingui/core/macro';
 import { Plus, Trash2 } from 'lucide-react';
 import { useRedTeamConfig } from '../hooks/useRedTeamConfig';
 
@@ -53,17 +54,17 @@ export default function Prompts() {
 
   return (
     <div>
-      <h2 className="mb-2 text-xl font-medium">Prompts</h2>
+      <h2 className="mb-2 text-xl font-medium">{t`Prompts`}</h2>
       <p className="mb-4 text-muted-foreground">
-        Enter your prompts below. Use{' '}
-        <code className="rounded bg-muted px-1 py-0.5 font-mono text-sm">{'{{ prompt }}'}</code> as
-        a placeholder where you want the user's input to appear in your prompt template.
+        {t`Enter your prompts below. Use`}{' '}
+        <code className="rounded bg-muted px-1 py-0.5 font-mono text-sm">{'{{ prompt }}'}</code>{' '}
+        {t`as a placeholder where you want the user's input to appear in your prompt template.`}
       </p>
       {config.prompts.map((prompt, index) => (
         <div key={index} className="mb-4 flex items-start gap-2">
           <div className="flex-1">
             <Label htmlFor={`prompt-${index}`}>
-              {config.prompts.length === 1 ? 'Prompt' : `Prompt ${index + 1}`}
+              {config.prompts.length === 1 ? t`Prompt` : `Prompt ${index + 1}`}
             </Label>
             <Textarea
               id={`prompt-${index}`}
@@ -85,13 +86,13 @@ export default function Prompts() {
                 <Trash2 className="size-4" />
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Remove prompt</TooltipContent>
+            <TooltipContent>{t`Remove prompt`}</TooltipContent>
           </Tooltip>
         </div>
       ))}
       <Button variant="outline" onClick={addPrompt}>
         <Plus className="mr-2 size-4" />
-        Add Prompt
+        {t`Add Prompt`}
       </Button>
     </div>
   );

@@ -1,5 +1,5 @@
 import { playwright } from '@vitest/browser-playwright';
-import appConfig from './vite.config';
+import appConfig from './vite.config.ts';
 
 export default {
   ...appConfig,
@@ -11,6 +11,7 @@ export default {
     globals: false,
     css: true,
     include: ['src/**/*.browser.{ts,tsx}'],
+    setupFiles: ['./src/i18n.ts'],
     testTimeout: process.env.CI ? 20_000 : 30_000,
     hookTimeout: process.env.CI ? 20_000 : 30_000,
     teardownTimeout: 10_000,

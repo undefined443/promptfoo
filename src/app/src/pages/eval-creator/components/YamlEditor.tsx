@@ -9,6 +9,7 @@ import { useToast } from '@app/hooks/useToast';
 import Prism from '@app/lib/prism';
 import { cn } from '@app/lib/utils';
 import { useStore } from '@app/stores/evalConfig';
+import { t } from '@lingui/core/macro';
 import { loadYaml } from '@promptfoo/util/yamlLoad';
 import * as yaml from 'js-yaml';
 import { validateYamlConfigDraft } from './yamlConfigValidation';
@@ -60,7 +61,7 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
         updateConfig(validation.config);
 
         setParseError(null);
-        showToast('Configuration saved successfully', 'success');
+        showToast(t`Configuration saved successfully`, 'success');
         return true;
       } else {
         setParseError(validation.error);
@@ -88,7 +89,7 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
     setCode(originalCode);
     setHasUnsavedChanges(false);
     setParseError(null);
-    showToast('Changes discarded', 'info');
+    showToast(t`Changes discarded`, 'info');
   };
 
   const handleDownload = () => {
@@ -163,7 +164,7 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
           <div className="flex flex-wrap items-center gap-2">
             <Button size="sm" onClick={handleSave} disabled={!hasUnsavedChanges}>
               <SaveIcon className="size-4 mr-2" />
-              Save
+              {t`Save`}
             </Button>
             <Button
               variant="outline"
@@ -172,17 +173,15 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
               disabled={!hasUnsavedChanges}
             >
               <CancelIcon className="size-4 mr-2" />
-              Discard Changes
+              {t`Discard Changes`}
             </Button>
             <Button variant="outline" size="sm" onClick={handleDownload}>
               <DownloadIcon className="size-4 mr-2" />
-              Download YAML
+              {t`Download YAML`}
             </Button>
           </div>
           {hasUnsavedChanges && (
-            <span className="text-sm text-amber-600 dark:text-amber-400 font-medium">
-              ● Unsaved changes
-            </span>
+            <span className="text-sm text-amber-600 dark:text-amber-400 font-medium">{t`● Unsaved changes`}</span>
           )}
         </div>
       )}
@@ -191,9 +190,10 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
         <Alert variant="info" className="items-start">
           <TerminalIcon className="size-4 mt-0.5" />
           <AlertContent className="space-y-2">
-            <p className="font-medium text-sm">Run in CLI</p>
+            <p className="font-medium text-sm">{t`Run in CLI`}</p>
             <AlertDescription>
-              Download this file as <code>{YAML_DOWNLOAD_FILE_NAME}</code>, then run:
+              {t`Download this file as`} <code>{YAML_DOWNLOAD_FILE_NAME}</code>
+              {t`, then run:`}
             </AlertDescription>
             <div className="relative">
               <code className="block rounded bg-background/70 px-3 py-2 pr-12 text-sm font-mono">
@@ -202,7 +202,7 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
               <CopyButton
                 value={EVAL_CLI_COMMAND}
                 className="absolute right-2 top-1.5"
-                aria-label="Copy CLI command"
+                aria-label={t`Copy CLI command`}
               />
             </div>
           </AlertContent>
@@ -221,7 +221,7 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
       {/* Editor Container */}
       <div className="relative min-w-0">
         <label htmlFor={textareaId} className="sr-only">
-          {readOnly ? 'YAML configuration preview' : 'YAML configuration editor'}
+          {readOnly ? t`YAML configuration preview` : t`YAML configuration editor`}
         </label>
         <div
           ref={editorContainerRef}
@@ -267,7 +267,7 @@ const YamlEditorComponent = ({ initialConfig, readOnly = false, initialYaml }: Y
 
         {/* Copy button - offset to avoid scrollbar */}
         <div className="absolute top-2 right-5">
-          <CopyButton value={code} aria-label="Copy YAML configuration" />
+          <CopyButton value={code} aria-label={t`Copy YAML configuration`} />
         </div>
       </div>
     </div>

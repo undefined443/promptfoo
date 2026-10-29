@@ -6,6 +6,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@app/components/ui/dialog';
+import { t } from '@lingui/core/macro';
 
 export interface Tool {
   type: string;
@@ -34,7 +35,7 @@ const ToolsDialog = ({ open, onClose, tools }: ToolsDialogProps) => {
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Available Tools</DialogTitle>
+          <DialogTitle>{t`Available Tools`}</DialogTitle>
         </DialogHeader>
         <div className="max-h-[60vh] overflow-y-auto">
           <ul className="space-y-4">
@@ -55,7 +56,7 @@ const ToolsDialog = ({ open, onClose, tools }: ToolsDialogProps) => {
                   </div>
                 ) : (
                   <div>
-                    <h4 className="font-medium text-foreground">Unknown Tool Type</h4>
+                    <h4 className="font-medium text-foreground">{t`Unknown Tool Type`}</h4>
                     <pre className="mt-2 overflow-x-auto rounded bg-muted/50 p-2 text-xs">
                       {JSON.stringify(tool, null, 2)}
                     </pre>
@@ -67,7 +68,7 @@ const ToolsDialog = ({ open, onClose, tools }: ToolsDialogProps) => {
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Close
+            {t`Close`}
           </Button>
         </DialogFooter>
       </DialogContent>

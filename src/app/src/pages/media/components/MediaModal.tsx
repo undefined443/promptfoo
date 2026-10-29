@@ -18,6 +18,7 @@ import {
   MEDIA_ZOOM_STEP,
   MEDIA_ZOOM_WHEEL_STEP,
 } from '@app/utils/media';
+import { t } from '@lingui/core/macro';
 import {
   CheckCircle,
   ChevronDown,
@@ -59,7 +60,7 @@ function ScoreRing({ score, size = 48 }: { score: number; size?: number }) {
       className="relative"
       style={{ width: size, height: size }}
       role="meter"
-      aria-label={`Score: ${percentage}%${isPass ? ' (passing)' : ' (failing)'}`}
+      aria-label={t`Score: ${percentage}%` + (isPass ? t` (passing)` : t` (failing)`)}
       aria-valuenow={percentage}
       aria-valuemin={0}
       aria-valuemax={100}
@@ -468,7 +469,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
         hideCloseButton
       >
         <DialogTitle className="sr-only">
-          {item.kind.charAt(0).toUpperCase() + item.kind.slice(1)} preview —{' '}
+          {item.kind.charAt(0).toUpperCase() + item.kind.slice(1)} {t`preview —`}{' '}
           {item.context.evalDescription || item.hash.slice(0, 8)}
         </DialogTitle>
         <div className="flex h-full min-w-0 w-full flex-col md:flex-row">
@@ -477,7 +478,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
             {/* Close button - visible on dark background */}
             <DialogClose className="absolute top-4 left-4 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-white/90 shadow-lg transition-all hover:scale-105 hover:bg-white dark:bg-zinc-800/90 dark:hover:bg-zinc-700">
               <X className="h-5 w-5" />
-              <span className="sr-only">Close</span>
+              <span className="sr-only">{t`Close`}</span>
             </DialogClose>
 
             {item.kind === 'image' && (
@@ -497,7 +498,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
               >
                 <img
                   src={mediaUrl}
-                  alt={item.context.evalDescription || 'Generated image'}
+                  alt={item.context.evalDescription || t`Generated image`}
                   className="max-w-full max-h-full object-contain select-none"
                   style={{
                     transform: `scale(${zoomLevel}) translate(${panPosition.x / zoomLevel}px, ${panPosition.y / zoomLevel}px)`,
@@ -520,7 +521,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                       ? 'text-gray-500 cursor-not-allowed'
                       : 'text-white hover:bg-white/20',
                   )}
-                  aria-label="Zoom out"
+                  aria-label={t`Zoom out`}
                 >
                   <ZoomOut className="h-4 w-4" />
                 </button>
@@ -539,7 +540,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                       ? 'text-gray-500 cursor-not-allowed'
                       : 'text-white hover:bg-white/20',
                   )}
-                  aria-label="Zoom in"
+                  aria-label={t`Zoom in`}
                 >
                   <ZoomIn className="h-4 w-4" />
                 </button>
@@ -547,7 +548,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                   <button
                     onClick={handleZoomReset}
                     className="ml-1 flex h-8 w-8 items-center justify-center rounded text-white transition-colors hover:bg-white/20 [@media(hover:none)]:h-11 [@media(hover:none)]:w-11"
-                    aria-label="Reset zoom"
+                    aria-label={t`Reset zoom`}
                   >
                     <Minimize2 className="h-4 w-4" />
                   </button>
@@ -595,10 +596,10 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
             {item.kind === 'other' && (
               <div className="flex flex-col items-center gap-4 p-8 text-white">
                 <FileIcon className="h-16 w-16 text-gray-400" />
-                <span className="text-sm text-gray-400">Preview not available</span>
+                <span className="text-sm text-gray-400">{t`Preview not available`}</span>
                 <Button onClick={handleDownload} variant="secondary">
                   <Download className="h-4 w-4 mr-2" />
-                  Download
+                  {t`Download`}
                 </Button>
               </div>
             )}
@@ -608,7 +609,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
               <button
                 onClick={handlePrevious}
                 className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-all hover:scale-105 hover:bg-white dark:bg-zinc-800/90 dark:hover:bg-zinc-700"
-                aria-label="Previous"
+                aria-label={t`Previous`}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
@@ -617,7 +618,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
               <button
                 onClick={handleNext}
                 className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 shadow-lg transition-all hover:scale-105 hover:bg-white dark:bg-zinc-800/90 dark:hover:bg-zinc-700"
-                aria-label="Next"
+                aria-label={t`Next`}
               >
                 <ChevronRight className="h-5 w-5" />
               </button>
@@ -668,12 +669,12 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                   <div className="flex items-center gap-2">
                     {item.context.pass === true && (
                       <span className="text-lg font-semibold text-emerald-700 dark:text-emerald-300">
-                        Passed
+                        {t`Passed`}
                       </span>
                     )}
                     {item.context.pass === false && (
                       <span className="text-lg font-semibold text-red-700 dark:text-red-300">
-                        Failed
+                        {t`Failed`}
                       </span>
                     )}
                     {item.context.pass === undefined && (
@@ -713,7 +714,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                 <div className="min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                      Prompt
+                      {t`Prompt`}
                     </h4>
                     <CopyButton
                       value={item.context.prompt}
@@ -733,7 +734,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
               {item.context.variables && Object.keys(item.context.variables).length > 0 && (
                 <div className="min-w-0">
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Variables
+                    {t`Variables`}
                   </h4>
                   <div className="bg-card rounded-lg border border-border/50 p-3 space-y-2 max-h-32 overflow-y-auto shadow-sm">
                     {Object.entries(item.context.variables).map(([key, value]) => (
@@ -752,7 +753,7 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
               {hasGraders && (
                 <div>
                   <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">
-                    Assertions
+                    {t`Assertions`}
                   </h4>
                   <div className="space-y-2">
                     {item.context.graderResults!.map((grader, idx) => (
@@ -783,7 +784,9 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                 className="flex items-center gap-2 text-sm text-primary hover:text-primary/80 transition-colors group"
               >
                 <ExternalLink className="h-4 w-4 shrink-0 group-hover:translate-x-0.5 transition-transform" />
-                <span className="truncate">View in {item.context.evalDescription || 'Eval'}</span>
+                <span className="truncate">
+                  {t`View in`} {item.context.evalDescription || t`Eval`}
+                </span>
               </Link>
 
               <div
@@ -797,14 +800,14 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                   className="h-11 gap-1.5"
                 >
                   <Download className="h-3.5 w-3.5" />
-                  <span>Download</span>
+                  <span>{t`Download`}</span>
                 </Button>
                 <CopyButton
                   value={permalinkUrl}
                   className="h-11 w-11 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground"
                   iconSize="h-4 w-4"
-                  aria-label="Copy permalink"
-                  title="Copy permalink"
+                  aria-label={t`Copy permalink`}
+                  title={t`Copy permalink`}
                 />
               </div>
 
@@ -818,14 +821,14 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                     className={cn('h-4 w-4 transition-transform', showDetails && 'rotate-180')}
                   />
                   <span className="font-medium">
-                    {showDetails ? 'Hide' : 'Show'} technical details
+                    {showDetails ? t`Hide` : t`Show`} {t`technical details`}
                   </span>
                 </button>
 
                 {showDetails && (
                   <div className="mt-3 space-y-2 text-xs bg-card rounded-lg border border-border/50 p-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Cell</span>
+                      <span className="text-muted-foreground">{t`Cell`}</span>
                       <span className="font-mono">
                         {item.context.testIdx === undefined
                           ? '—'
@@ -835,23 +838,23 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Size</span>
+                      <span className="text-muted-foreground">{t`Size`}</span>
                       <span className="font-mono">{formatBytes(item.sizeBytes)}</span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-muted-foreground">Created</span>
+                      <span className="text-muted-foreground">{t`Created`}</span>
                       <span>{formatMediaDate(item.createdAt)}</span>
                     </div>
                     {item.context.location && (
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-muted-foreground shrink-0">Location</span>
+                        <span className="text-muted-foreground shrink-0">{t`Location`}</span>
                         <code className="font-mono text-[10px] bg-muted px-1.5 py-0.5 rounded truncate">
                           {item.context.location}
                         </code>
                       </div>
                     )}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="text-muted-foreground shrink-0">Hash</span>
+                      <span className="text-muted-foreground shrink-0">{t`Hash`}</span>
                       <div className="flex items-center gap-1.5 min-w-0">
                         <code className="font-mono text-[10px] bg-muted px-1.5 py-0.5 rounded truncate">
                           {item.hash.slice(0, 16)}...
@@ -878,19 +881,19 @@ export function MediaModal({ item, items, onClose, onNavigate }: MediaModalProps
                   onClick={handleDownload}
                   variant="outline"
                   size="sm"
-                  aria-label="Download"
-                  title="Download"
+                  aria-label={t`Download`}
+                  title={t`Download`}
                   className="h-8 gap-1.5 [@media(hover:none)]:h-11"
                 >
                   <Download className="h-3.5 w-3.5" />
-                  <span className="hidden sm:inline">Download</span>
+                  <span className="hidden sm:inline">{t`Download`}</span>
                 </Button>
                 <CopyButton
                   value={permalinkUrl}
                   className="h-8 w-8 rounded-md border border-input bg-background hover:bg-accent hover:text-accent-foreground [@media(hover:none)]:h-11 [@media(hover:none)]:w-11"
                   iconSize="h-4 w-4"
-                  aria-label="Copy permalink"
-                  title="Copy permalink"
+                  aria-label={t`Copy permalink`}
+                  title={t`Copy permalink`}
                 />
               </div>
               {/* Keyboard shortcuts */}

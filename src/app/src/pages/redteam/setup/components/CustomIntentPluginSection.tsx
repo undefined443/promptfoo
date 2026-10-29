@@ -14,6 +14,7 @@ import { Separator } from '@app/components/ui/separator';
 import { Spinner } from '@app/components/ui/spinner';
 import { Textarea } from '@app/components/ui/textarea';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { CloudUpload, Eye, Plus, Trash2, Upload, X } from 'lucide-react';
 import { useRedTeamConfig } from '../hooks/useRedTeamConfig';
 import type { PluginConfig } from '@promptfoo/redteam/types';
@@ -363,7 +364,7 @@ export default function CustomIntentSection() {
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Dismiss upload error"
+                aria-label={t`Dismiss upload error`}
                 className="size-5"
                 onClick={() => setUploadError(null)}
               >
@@ -394,8 +395,8 @@ export default function CustomIntentSection() {
             onClick={() => document.getElementById('file-upload-input')?.click()}
           >
             <CloudUpload className="mx-auto mb-2 size-12 text-muted-foreground" />
-            <h3 className="text-lg font-semibold">Drop files here or click to upload</h3>
-            <p className="mt-1 text-sm text-muted-foreground">Supports .csv and .json files</p>
+            <h3 className="text-lg font-semibold">{t`Drop files here or click to upload`}</h3>
+            <p className="mt-1 text-sm text-muted-foreground">{t`Supports .csv and .json files`}</p>
             <div className="mt-3 flex justify-center gap-2">
               <Badge variant="outline">CSV</Badge>
               <Badge variant="outline">JSON</Badge>
@@ -427,9 +428,7 @@ export default function CustomIntentSection() {
                       className={cn(isArrayIntent && 'italic')}
                     />
                     {isArrayIntent && (
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        Multi-step intent (read-only)
-                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">{t`Multi-step intent (read-only)`}</p>
                     )}
                   </div>
                   <Button
@@ -454,10 +453,10 @@ export default function CustomIntentSection() {
                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
               >
-                Previous
+                {t`Previous`}
               </Button>
               <span className="text-sm text-muted-foreground">
-                Page {currentPage} of {totalPages}
+                {t`Page`} {currentPage} of {totalPages}
               </span>
               <Button
                 variant="outline"
@@ -465,7 +464,7 @@ export default function CustomIntentSection() {
                 onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
               >
-                Next
+                {t`Next`}
               </Button>
             </div>
           )}
@@ -476,12 +475,12 @@ export default function CustomIntentSection() {
               disabled={hasEmptyArrayItems(localConfig.intent as (string | string[])[])}
             >
               <Plus className="mr-2 size-4" />
-              Add Intent
+              {t`Add Intent`}
             </Button>
             <Button variant="outline" asChild>
               <label>
                 <Upload className="mr-2 size-4" />
-                Upload File
+                {t`Upload File`}
                 <input
                   id="file-upload-input"
                   type="file"
@@ -506,7 +505,7 @@ export default function CustomIntentSection() {
               disabled={shouldDisableClearAll()}
             >
               <X className="mr-2 size-4" />
-              Clear All
+              {t`Clear All`}
             </Button>
           </div>
         </>
@@ -518,27 +517,22 @@ export default function CustomIntentSection() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Eye className="size-5" />
-              Preview Upload: {previewDialog?.filename}
+              {t`Preview Upload:`} {previewDialog?.filename}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div>
               <p className="flex items-center gap-2">
-                Found {previewDialog?.intents.length} intent
+                {t`Found`} {previewDialog?.intents.length} intent
                 {previewDialog?.intents.length === 1 ? '' : 's'}
                 {previewDialog?.hasNested && (
-                  <Badge variant="info" className="ml-2">
-                    Contains multi-step intents
-                  </Badge>
+                  <Badge variant="info" className="ml-2">{t`Contains multi-step intents`}</Badge>
                 )}
               </p>
               {previewDialog?.hasNested && (
                 <Alert variant="info" className="mt-3">
                   <AlertContent>
-                    <AlertDescription>
-                      Multi-step intents will be preserved as sequential prompts for advanced
-                      testing scenarios.
-                    </AlertDescription>
+                    <AlertDescription>{t`Multi-step intents will be preserved as sequential prompts for advanced testing scenarios.`}</AlertDescription>
                   </AlertContent>
                 </Alert>
               )}
@@ -553,7 +547,7 @@ export default function CustomIntentSection() {
                     <p className="mt-0.5 text-sm text-muted-foreground">
                       {Array.isArray(intent)
                         ? `Multi-step intent (${intent.length} steps)`
-                        : 'Single intent'}
+                        : t`Single intent`}
                     </p>
                   </div>
                   {index < Math.min(9, (previewDialog?.intents.length || 0) - 1) && <Separator />}
@@ -562,7 +556,7 @@ export default function CustomIntentSection() {
               {(previewDialog?.intents.length || 0) > 10 && (
                 <div className="px-4 py-3">
                   <p className="italic text-muted-foreground">
-                    ... and {(previewDialog?.intents.length || 0) - 10} more
+                    {t`... and`} {(previewDialog?.intents.length || 0) - 10} more
                   </p>
                 </div>
               )}
@@ -570,11 +564,11 @@ export default function CustomIntentSection() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setPreviewDialog(null)}>
-              Cancel
+              {t`Cancel`}
             </Button>
-            <Button onClick={() => previewDialog && applyUploadedIntents(previewDialog.intents)}>
-              Add All Intents
-            </Button>
+            <Button
+              onClick={() => previewDialog && applyUploadedIntents(previewDialog.intents)}
+            >{t`Add All Intents`}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -583,18 +577,14 @@ export default function CustomIntentSection() {
       <Dialog open={showClearConfirm} onOpenChange={setShowClearConfirm}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Clear All Intents</DialogTitle>
+            <DialogTitle>{t`Clear All Intents`}</DialogTitle>
           </DialogHeader>
-          <p className="text-muted-foreground">
-            Are you sure you want to clear all intents? This action cannot be undone.
-          </p>
+          <p className="text-muted-foreground">{t`Are you sure you want to clear all intents? This action cannot be undone.`}</p>
           <DialogFooter>
             <Button variant="outline" onClick={() => setShowClearConfirm(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
-            <Button variant="destructive" onClick={clearAllIntents}>
-              Clear All
-            </Button>
+            <Button variant="destructive" onClick={clearAllIntents}>{t`Clear All`}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

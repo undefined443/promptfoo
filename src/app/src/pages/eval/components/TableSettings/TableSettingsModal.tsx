@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { Separator } from '@app/components/ui/separator';
+import { t } from '@lingui/core/macro';
 import { RotateCcw, Settings } from 'lucide-react';
 import SettingsPanel from './components/SettingsPanel';
 import { useSettingsState } from './hooks/useSettingsState';
@@ -43,7 +44,7 @@ const TableSettingsModal = ({
         <DialogHeader className="p-5 pb-3 border-b border-border/10">
           <DialogTitle className="flex items-center gap-2 text-lg font-semibold">
             <Settings className="size-5 text-primary" />
-            Table Settings
+            {t`Table Settings`}
           </DialogTitle>
         </DialogHeader>
 
@@ -61,13 +62,13 @@ const TableSettingsModal = ({
             onClick={handleResetToDefaults}
             variant="ghost"
             size="sm"
-            aria-label="Reset settings to defaults"
-            title="Reset all settings to their default values"
+            aria-label={t`Reset settings to defaults`}
+            title={t`Reset all settings to their default values`}
           >
             <RotateCcw className="size-4 mr-2" />
-            Reset to Defaults
+            {t`Reset to Defaults`}
           </Button>
-          <Button onClick={handleClose}>Done</Button>
+          <Button onClick={handleClose}>{t`Done`}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

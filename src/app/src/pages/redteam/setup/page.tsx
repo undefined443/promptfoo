@@ -25,6 +25,7 @@ import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
 import { callApi } from '@app/utils/api';
 import { formatDataGridDate } from '@app/utils/date';
+import { t } from '@lingui/core/macro';
 import { REDTEAM_DEFAULTS } from '@promptfoo/redteam/constants';
 import { loadYaml } from '@promptfoo/util/yamlLoad';
 import { ProviderOptionsSchema } from '@promptfoo/validators/providers';
@@ -106,22 +107,22 @@ const withStatefulTargetConfig = (
 };
 
 const TAB_CONFIG = [
-  { value: '0', label: 'Target Type', icon: Crosshair },
-  { value: '1', label: 'Target Config', icon: Settings },
-  { value: '2', label: 'Application Details', icon: LayoutGrid },
-  { value: '3', label: 'Plugins', icon: Puzzle, showCount: true, countKey: 'plugins' as const },
+  { value: '0', label: t`Target Type`, icon: Crosshair },
+  { value: '1', label: t`Target Config`, icon: Settings },
+  { value: '2', label: t`Application Details`, icon: LayoutGrid },
+  { value: '3', label: t`Plugins`, icon: Puzzle, showCount: true, countKey: 'plugins' as const },
   {
     value: '4',
-    label: 'Strategies',
+    label: t`Strategies`,
     icon: Brain,
     showCount: true,
     countKey: 'strategies' as const,
   },
-  { value: '5', label: 'Review', icon: ClipboardCheck },
+  { value: '5', label: t`Review`, icon: ClipboardCheck },
 ];
 
 export default function RedTeamSetupPage() {
-  usePageMeta({ title: 'Red team setup', description: 'Configure red team testing' });
+  usePageMeta({ title: t`Red team setup`, description: t`Configure red team testing` });
   const location = useLocation();
   const navigate = useNavigate();
   const { recordEvent } = useTelemetry();
@@ -508,12 +509,12 @@ export default function RedTeamSetupPage() {
               style={{ width: SIDEBAR_WIDTH, minWidth: SIDEBAR_WIDTH }}
             >
               <p className="mb-1 text-base font-medium text-foreground">
-                {configName ? `Config: ${configName}` : 'New Configuration'}
+                {configName ? t`Config: ${configName}` : t`New Configuration`}
               </p>
               {hasUnsavedChanges ? (
                 <div className="flex items-center justify-between gap-2">
                   <span className="flex items-center gap-1 text-sm text-amber-600 dark:text-amber-500">
-                    <span>●</span> Unsaved changes
+                    <span>●</span> {t`Unsaved changes`}
                   </span>
                   <Button
                     size="sm"
@@ -521,9 +522,7 @@ export default function RedTeamSetupPage() {
                     className="min-w-0 border-amber-500 px-2 py-1 text-amber-600 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-500 dark:hover:bg-amber-950/30"
                     onClick={handleSaveConfig}
                     disabled={!configName || Boolean(targetConfigError)}
-                  >
-                    Save now
-                  </Button>
+                  >{t`Save now`}</Button>
                 </div>
               ) : (
                 configDate && (
@@ -570,7 +569,7 @@ export default function RedTeamSetupPage() {
                 onClick={() => setSaveDialogOpen(true)}
               >
                 <Save className="mr-2 size-[18px]" />
-                Save Config
+                {t`Save Config`}
               </Button>
               <Button
                 variant="ghost"
@@ -581,7 +580,7 @@ export default function RedTeamSetupPage() {
                 }}
               >
                 <FolderOpen className="mr-2 size-[18px]" />
-                Load Config
+                {t`Load Config`}
               </Button>
               <Button
                 variant="ghost"
@@ -589,7 +588,7 @@ export default function RedTeamSetupPage() {
                 onClick={() => setResetDialogOpen(true)}
               >
                 <RotateCcw className="mr-2 size-[18px]" />
-                Reset Config
+                {t`Reset Config`}
               </Button>
             </div>
           </div>
@@ -604,12 +603,12 @@ export default function RedTeamSetupPage() {
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="mb-1 truncate text-base font-medium text-foreground">
-                  {configName ? `Config: ${configName}` : 'New Configuration'}
+                  {configName ? t`Config: ${configName}` : t`New Configuration`}
                 </p>
                 {hasUnsavedChanges ? (
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="flex items-center gap-1 text-sm text-amber-600 dark:text-amber-500">
-                      <span>●</span> Unsaved changes
+                      <span>●</span> {t`Unsaved changes`}
                     </span>
                     <Button
                       size="sm"
@@ -617,9 +616,7 @@ export default function RedTeamSetupPage() {
                       className="min-w-0 border-amber-500 px-2 py-1 text-amber-600 hover:bg-amber-50 dark:border-amber-600 dark:text-amber-500 dark:hover:bg-amber-950/30"
                       onClick={handleSaveConfig}
                       disabled={!configName || Boolean(targetConfigError)}
-                    >
-                      Save now
-                    </Button>
+                    >{t`Save now`}</Button>
                   </div>
                 ) : (
                   configDate && (
@@ -634,13 +631,13 @@ export default function RedTeamSetupPage() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" size="sm" className="shrink-0">
                     <Settings className="mr-2 size-4" />
-                    Config
+                    {t`Config`}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem onClick={() => setSaveDialogOpen(true)}>
                     <Save className="mr-2 size-4" />
-                    Save Config
+                    {t`Save Config`}
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() => {
@@ -649,11 +646,11 @@ export default function RedTeamSetupPage() {
                     }}
                   >
                     <FolderOpen className="mr-2 size-4" />
-                    Load Config
+                    {t`Load Config`}
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => setResetDialogOpen(true)}>
                     <RotateCcw className="mr-2 size-4" />
-                    Reset Config
+                    {t`Reset Config`}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -709,16 +706,16 @@ export default function RedTeamSetupPage() {
       <Dialog open={saveDialogOpen} onOpenChange={(open) => !open && setSaveDialogOpen(false)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Save Configuration</DialogTitle>
+            <DialogTitle>{t`Save Configuration`}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="config-name">Configuration Name</Label>
+              <Label htmlFor="config-name">{t`Configuration Name`}</Label>
               <Input
                 id="config-name"
                 value={configName}
                 onChange={(e) => setConfigName(e.target.value)}
-                placeholder="Enter configuration name"
+                placeholder={t`Enter configuration name`}
                 autoFocus
               />
             </div>
@@ -730,7 +727,7 @@ export default function RedTeamSetupPage() {
                 className="flex-1"
               >
                 <Download className="mr-2 size-4" />
-                Export YAML
+                {t`Export YAML`}
               </Button>
               <Button
                 onClick={handleSaveConfig}
@@ -738,7 +735,7 @@ export default function RedTeamSetupPage() {
                 className="flex-1"
               >
                 <Save className="mr-2 size-4" />
-                Save
+                {t`Save`}
               </Button>
             </div>
             {targetConfigError && <p className="text-sm text-destructive">{targetConfigError}</p>}
@@ -750,16 +747,13 @@ export default function RedTeamSetupPage() {
       <Dialog open={loadDialogOpen} onOpenChange={(open) => !open && setLoadDialogOpen(false)}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Load or Import Configuration</DialogTitle>
+            <DialogTitle>{t`Load or Import Configuration`}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             {/* Import YAML Section */}
             <div>
-              <p className="text-sm font-medium">Import YAML File</p>
-              <p className="mb-2 text-sm text-muted-foreground">
-                Import an existing promptfoo redteam YAML configuration. Your application details
-                will be automatically parsed and pre-filled in the form.
-              </p>
+              <p className="text-sm font-medium">{t`Import YAML File`}</p>
+              <p className="mb-2 text-sm text-muted-foreground">{t`Import an existing promptfoo redteam YAML configuration. Your application details will be automatically parsed and pre-filled in the form.`}</p>
               <input
                 accept=".yml,.yaml"
                 className="hidden"
@@ -769,16 +763,16 @@ export default function RedTeamSetupPage() {
               />
               <label htmlFor="yaml-file-upload">
                 <Button variant="outline" className="w-full" asChild>
-                  <span>Import YAML File</span>
+                  <span>{t`Import YAML File`}</span>
                 </Button>
               </label>
             </div>
 
-            <p className="text-sm font-medium">Or choose a saved configuration:</p>
+            <p className="text-sm font-medium">{t`Or choose a saved configuration:`}</p>
 
             {savedConfigs.length === 0 ? (
               <div className="py-8 text-center">
-                <p className="text-muted-foreground">No saved configurations found</p>
+                <p className="text-muted-foreground">{t`No saved configurations found`}</p>
               </div>
             ) : (
               <div className="max-h-[50vh] space-y-1 overflow-y-auto">
@@ -799,7 +793,7 @@ export default function RedTeamSetupPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setLoadDialogOpen(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -809,18 +803,15 @@ export default function RedTeamSetupPage() {
       <Dialog open={resetDialogOpen} onOpenChange={(open) => !open && setResetDialogOpen(false)}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Reset Configuration</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to reset the configuration to default values? This action cannot
-              be undone.
-            </DialogDescription>
+            <DialogTitle>{t`Reset Configuration`}</DialogTitle>
+            <DialogDescription>{t`Are you sure you want to reset the configuration to default values? This action cannot be undone.`}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setResetDialogOpen(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={handleResetConfig}>
-              Reset
+              {t`Reset`}
             </Button>
           </DialogFooter>
         </DialogContent>

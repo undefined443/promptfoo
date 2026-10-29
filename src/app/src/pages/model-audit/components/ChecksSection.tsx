@@ -10,6 +10,7 @@ import {
 } from '@app/components/ui/collapsible';
 import { ExpandLessIcon, ExpandMoreIcon } from '@app/components/ui/icons';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
+import { t } from '@lingui/core/macro';
 import type { ColumnDef } from '@tanstack/react-table';
 
 import type { ScanAsset, ScanCheck } from '../ModelAudit.types';
@@ -25,7 +26,7 @@ interface ChecksSectionProps {
 
 // Status badge component for table cells
 function StatusBadge({ status }: { status: string }) {
-  const label = status === 'passed' ? 'Passed' : status === 'failed' ? 'Failed' : 'Skipped';
+  const label = status === 'passed' ? t`Passed` : status === 'failed' ? t`Failed` : t`Skipped`;
   const variant = status === 'passed' ? 'success' : status === 'failed' ? 'critical' : 'secondary';
   return <Badge variant={variant}>{label}</Badge>;
 }
@@ -77,9 +78,9 @@ export default function ChecksSection({
         meta: {
           filterVariant: 'select',
           filterOptions: [
-            { label: 'Failed', value: 'failed' },
-            { label: 'Passed', value: 'passed' },
-            { label: 'Skipped', value: 'skipped' },
+            { label: t`Failed`, value: 'failed' },
+            { label: t`Passed`, value: 'passed' },
+            { label: t`Skipped`, value: 'skipped' },
           ],
         },
       },
@@ -119,11 +120,11 @@ export default function ChecksSection({
         meta: {
           filterVariant: 'select',
           filterOptions: [
-            { label: 'Critical', value: 'critical' },
-            { label: 'Error', value: 'error' },
-            { label: 'Warning', value: 'warning' },
-            { label: 'Info', value: 'info' },
-            { label: 'Debug', value: 'debug' },
+            { label: t`Critical`, value: 'critical' },
+            { label: t`Error`, value: 'error' },
+            { label: t`Warning`, value: 'warning' },
+            { label: t`Info`, value: 'info' },
+            { label: t`Debug`, value: 'debug' },
           ],
         },
       },
@@ -195,23 +196,25 @@ export default function ChecksSection({
     <div>
       {/* Section Header */}
       <div className="flex items-center gap-4 mb-4">
-        <h3 className="text-lg font-semibold">Security Checks</h3>
+        <h3 className="text-lg font-semibold">{t`Security Checks`}</h3>
 
         {/* Summary badges */}
         {totalChecks !== undefined && (
           <div className="flex items-center gap-2">
-            <Badge variant="outline">Total: {totalChecks}</Badge>
+            <Badge variant="outline">
+              {t`Total:`} {totalChecks}
+            </Badge>
             {passedChecks !== undefined && (
               <Badge
                 variant="success"
                 className="border border-emerald-200 dark:border-emerald-800"
               >
-                Passed: {passedChecks}
+                {t`Passed:`} {passedChecks}
               </Badge>
             )}
             {failedChecks !== undefined && failedChecks > 0 && (
               <Badge variant="critical" className="border border-red-200 dark:border-red-800">
-                Failed: {failedChecks}
+                {t`Failed:`} {failedChecks}
               </Badge>
             )}
           </div>
@@ -227,7 +230,7 @@ export default function ChecksSection({
               size="sm"
               onClick={() => setShowPassed(!showPassed)}
             >
-              {showPassed ? 'Show Failed/Skipped Only' : 'Show All Checks'}
+              {showPassed ? t`Show Failed/Skipped Only` : t`Show All Checks`}
             </Button>
           </div>
 
@@ -239,7 +242,7 @@ export default function ChecksSection({
               { id: 'severity', desc: true },
               { id: 'status', desc: true },
             ]}
-            emptyMessage={showPassed ? 'No checks to display' : 'All checks passed'}
+            emptyMessage={showPassed ? t`No checks to display` : t`All checks passed`}
             showToolbar={false}
           />
         </>
@@ -249,25 +252,26 @@ export default function ChecksSection({
       {checks.length === 0 && totalChecks !== undefined && totalChecks > 0 && (
         <div className="space-y-3">
           <p className="text-sm text-muted-foreground">
-            {totalChecks} checks were performed{filesScanned ? ` on ${filesScanned} files` : ''}.
+            {totalChecks} {t`checks were performed`}
+            {filesScanned ? ` on ${filesScanned} files` : ''}.
           </p>
 
           {/* Show scanned assets when no detailed checks are available */}
           {assets.length > 0 && (
             <Collapsible open={showAssets} onOpenChange={setShowAssets}>
               <div className="flex items-center gap-2">
-                <span className="text-sm font-medium">Scanned Assets:</span>
+                <span className="text-sm font-medium">{t`Scanned Assets:`}</span>
                 <CollapsibleTrigger asChild>
                   <Button variant="ghost" size="sm">
                     {showAssets ? (
                       <>
                         <ExpandLessIcon className="size-4 mr-1" />
-                        Hide Details
+                        {t`Hide Details`}
                       </>
                     ) : (
                       <>
                         <ExpandMoreIcon className="size-4 mr-1" />
-                        Show Details
+                        {t`Show Details`}
                       </>
                     )}
                   </Button>

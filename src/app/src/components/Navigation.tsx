@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { IS_RUNNING_LOCALLY } from '@app/constants';
 import { EVAL_ROUTES, MODEL_AUDIT_ROUTES, REDTEAM_ROUTES, ROUTES } from '@app/constants/routes';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Info, Settings } from 'lucide-react';
 import { Link, useLocation } from 'react-router';
 import ApiSettingsModal from './ApiSettingsModal';
@@ -131,71 +132,71 @@ function NavDropdown({ label, compactLabel, items, isActiveCheck, className }: N
   );
 }
 
-const createMenuItems: MenuItem[] = [
-  {
-    href: ROUTES.SETUP,
-    label: 'Eval',
-    description: 'Create and configure evaluation tests',
-  },
-  {
-    href: REDTEAM_ROUTES.SETUP,
-    label: 'Red Team',
-    description: 'Set up security testing scenarios',
-  },
-  {
-    href: MODEL_AUDIT_ROUTES.SETUP,
-    label: 'Model Audit',
-    description: 'Configure and run a model security scan',
-  },
-];
-
-const resultsMenuItems: MenuItem[] = [
-  {
-    href: EVAL_ROUTES.ROOT,
-    label: 'Latest Eval',
-    description: 'View your most recent evaluation results',
-  },
-  {
-    href: EVAL_ROUTES.LIST,
-    label: 'All Evals',
-    description: 'Browse and manage all evaluation runs',
-  },
-  {
-    href: REDTEAM_ROUTES.REPORTS,
-    label: 'Red Team Vulnerability Reports',
-    description: 'View findings from red teams',
-  },
-  {
-    href: ROUTES.MEDIA,
-    label: 'Media Library',
-    description: 'Browse generated images, videos, and audio',
-  },
-];
-
-const browseMenuItems: MenuItem[] = [
-  {
-    href: MODEL_AUDIT_ROUTES.ROOT,
-    label: 'Model Audit',
-    description: 'Review model audit runs',
-  },
-  {
-    href: ROUTES.PROMPTS,
-    label: 'Prompts',
-    description: 'Browse saved prompts',
-  },
-  {
-    href: ROUTES.DATASETS,
-    label: 'Datasets',
-    description: 'Browse saved datasets',
-  },
-  {
-    href: ROUTES.HISTORY,
-    label: 'History',
-    description: 'View evaluation history',
-  },
-];
-
 export default function Navigation() {
+  const createMenuItems: MenuItem[] = [
+    {
+      href: ROUTES.SETUP,
+      label: t`Eval`,
+      description: t`Create and configure evaluation tests`,
+    },
+    {
+      href: REDTEAM_ROUTES.SETUP,
+      label: t`Red Team`,
+      description: t`Set up security testing scenarios`,
+    },
+    {
+      href: MODEL_AUDIT_ROUTES.SETUP,
+      label: t`Model Audit`,
+      description: t`Configure and run a model security scan`,
+    },
+  ];
+
+  const resultsMenuItems: MenuItem[] = [
+    {
+      href: EVAL_ROUTES.ROOT,
+      label: t`Latest Eval`,
+      description: t`View your most recent evaluation results`,
+    },
+    {
+      href: EVAL_ROUTES.LIST,
+      label: t`All Evals`,
+      description: t`Browse and manage all evaluation runs`,
+    },
+    {
+      href: REDTEAM_ROUTES.REPORTS,
+      label: t`Red Team Vulnerability Reports`,
+      description: t`View findings from red teams`,
+    },
+    {
+      href: ROUTES.MEDIA,
+      label: t`Media Library`,
+      description: t`Browse generated images, videos, and audio`,
+    },
+  ];
+
+  const browseMenuItems: MenuItem[] = [
+    {
+      href: MODEL_AUDIT_ROUTES.ROOT,
+      label: t`Model Audit`,
+      description: t`Review model audit runs`,
+    },
+    {
+      href: ROUTES.PROMPTS,
+      label: t`Prompts`,
+      description: t`Browse saved prompts`,
+    },
+    {
+      href: ROUTES.DATASETS,
+      label: t`Datasets`,
+      description: t`Browse saved datasets`,
+    },
+    {
+      href: ROUTES.HISTORY,
+      label: t`History`,
+      description: t`View evaluation history`,
+    },
+  ];
+
   const [showInfoModal, setShowInfoModal] = useState<boolean>(false);
   const [showApiSettingsModal, setShowApiSettingsModal] = useState<boolean>(false);
 
@@ -212,7 +213,7 @@ export default function Navigation() {
             <NavigationMenu>
               <NavigationMenuList className="gap-1">
                 <NavDropdown
-                  label="New"
+                  label={t`New`}
                   items={createMenuItems}
                   isActiveCheck={(pathname) =>
                     [ROUTES.SETUP, REDTEAM_ROUTES.SETUP, MODEL_AUDIT_ROUTES.SETUP].some((route) =>
@@ -221,8 +222,8 @@ export default function Navigation() {
                   }
                 />
                 <NavDropdown
-                  label="View Results"
-                  compactLabel="Results"
+                  label={t`View Results`}
+                  compactLabel={t`Results`}
                   items={resultsMenuItems}
                   isActiveCheck={(pathname) =>
                     [EVAL_ROUTES.ROOT, EVAL_ROUTES.LIST, REDTEAM_ROUTES.REPORTS, ROUTES.MEDIA].some(
@@ -231,7 +232,7 @@ export default function Navigation() {
                   }
                 />
                 <NavDropdown
-                  label="Browse"
+                  label={t`Browse`}
                   items={browseMenuItems}
                   className="hidden md:block lg:hidden"
                   isActiveCheck={(pathname) =>
@@ -243,10 +244,10 @@ export default function Navigation() {
               </NavigationMenuList>
             </NavigationMenu>
             <nav className="hidden items-center gap-1 lg:flex">
-              <NavLink href={MODEL_AUDIT_ROUTES.ROOT} label="Model Audit" />
-              <NavLink href={ROUTES.PROMPTS} label="Prompts" />
-              <NavLink href={ROUTES.DATASETS} label="Datasets" />
-              <NavLink href={ROUTES.HISTORY} label="History" />
+              <NavLink href={MODEL_AUDIT_ROUTES.ROOT} label={t`Model Audit`} />
+              <NavLink href={ROUTES.PROMPTS} label={t`Prompts`} />
+              <NavLink href={ROUTES.DATASETS} label={t`Datasets`} />
+              <NavLink href={ROUTES.HISTORY} label={t`History`} />
             </nav>
           </div>
 
@@ -260,10 +261,10 @@ export default function Navigation() {
                   className="inline-flex size-11 items-center justify-center rounded-md text-foreground/60 transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:size-9"
                 >
                   <Info className="size-5" />
-                  <span className="sr-only">Information</span>
+                  <span className="sr-only">{t`Information`}</span>
                 </button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">Information</TooltipContent>
+              <TooltipContent side="bottom">{t`Information`}</TooltipContent>
             </Tooltip>
 
             {IS_RUNNING_LOCALLY && (
@@ -275,10 +276,10 @@ export default function Navigation() {
                     className="inline-flex size-11 items-center justify-center rounded-md text-foreground/60 transition-colors hover:bg-accent hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:size-9"
                   >
                     <Settings className="size-5" />
-                    <span className="sr-only">API and Sharing Settings</span>
+                    <span className="sr-only">{t`API and Sharing Settings`}</span>
                   </button>
                 </TooltipTrigger>
-                <TooltipContent side="bottom">API and Sharing Settings</TooltipContent>
+                <TooltipContent side="bottom">{t`API and Sharing Settings`}</TooltipContent>
               </Tooltip>
             )}
 

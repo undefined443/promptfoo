@@ -12,6 +12,7 @@ import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { useCustomPoliciesMap } from '@app/hooks/useCustomPoliciesMap';
 import { useTelemetry } from '@app/hooks/useTelemetry';
+import { t } from '@lingui/core/macro';
 import { displayNameOverrides } from '@promptfoo/redteam/constants';
 import { stringify } from 'csv-stringify/browser/esm/sync';
 import { getPluginIdFromResult, getStrategyIdFromTest } from '../components/shared';
@@ -136,7 +137,7 @@ const ReportDownloadButton = ({ evalDescription, evalData }: ReportDownloadButto
               size="icon"
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
-              aria-label="download report"
+              aria-label={t`download report`}
               disabled={isDownloading}
               className="mt-1 text-muted-foreground hover:text-foreground"
             >
@@ -144,7 +145,7 @@ const ReportDownloadButton = ({ evalDescription, evalData }: ReportDownloadButto
             </Button>
           </DropdownMenuTrigger>
         </TooltipTrigger>
-        {isHovering && !isDownloading && <TooltipContent>Download report</TooltipContent>}
+        {isHovering && !isDownloading && <TooltipContent>{t`Download report`}</TooltipContent>}
       </Tooltip>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={handlePdfDownload}>PDF</DropdownMenuItem>

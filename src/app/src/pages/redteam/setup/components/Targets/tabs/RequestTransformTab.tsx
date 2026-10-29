@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import Editor from '@app/components/ui/code-editor';
 import { highlightJS } from '@app/lib/codeHighlight';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import dedent from 'dedent';
 import { Play } from 'lucide-react';
 import TransformTestDialog from '../TransformTestDialog';
@@ -58,7 +59,7 @@ const RequestTransformTab: React.FC<RequestTransformTabProps> = ({
     });
 
     if (!response.ok) {
-      let errorMessage = 'Failed to test transform';
+      let errorMessage = t`Failed to test transform`;
       try {
         const errorData = await response.json();
         errorMessage = errorData.error || errorMessage;
@@ -89,7 +90,7 @@ const RequestTransformTab: React.FC<RequestTransformTabProps> = ({
   return (
     <>
       <p className="mb-4">
-        Transform the prompt into a specific structure required by your API before sending. See{' '}
+        {t`Transform the prompt into a specific structure required by your API before sending. See`}{' '}
         <a
           href="https://www.promptfoo.dev/docs/providers/http/#request-transform"
           target="_blank"
@@ -98,7 +99,7 @@ const RequestTransformTab: React.FC<RequestTransformTabProps> = ({
         >
           docs
         </a>{' '}
-        for more information.
+        {t`for more information.`}
       </p>
       <div className="relative">
         <div className="rounded-md border border-border bg-white dark:bg-zinc-900">
@@ -128,14 +129,14 @@ const RequestTransformTab: React.FC<RequestTransformTabProps> = ({
           className="absolute right-2 top-2 z-10"
         >
           <Play className="mr-1 size-4" />
-          Test
+          {t`Test`}
         </Button>
       </div>
 
       <TransformTestDialog
         open={testOpen}
         onClose={() => setTestOpen(false)}
-        title="Test Request Transform"
+        title={t`Test Request Transform`}
         transformCode={editableTransform}
         onTransformCodeChange={setEditableTransform}
         testInput={testInput}
@@ -150,10 +151,12 @@ const RequestTransformTab: React.FC<RequestTransformTabProps> = ({
             '(prompt: string, vars: Record<string, any>, context: CallApiContextParams) => string | object',
           description: (
             <>
-              • <strong>prompt</strong>: string - The test prompt input
-              <br />• <strong>vars</strong>: Record&lt;string, any&gt; - Variables available for
-              substitution
-              <br />• <strong>context</strong>: CallApiContextParams - Additional context (optional)
+              • <strong>prompt</strong>
+              {t`: string - The test prompt input`}
+              <br />• <strong>vars</strong>
+              {t`: Record<string, any> - Variables available for substitution`}
+              <br />• <strong>context</strong>
+              {t`: CallApiContextParams - Additional context (optional)`}
             </>
           ),
           successMessage: 'Transform executed successfully!',

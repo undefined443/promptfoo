@@ -1,4 +1,5 @@
 import { Alert, AlertContent, AlertDescription } from '@app/components/ui/alert';
+import { t } from '@lingui/core/macro';
 import { AlertCircle } from 'lucide-react';
 import { ErrorBoundary } from 'react-error-boundary';
 import TraceView, { type Trace } from '../../../components/traces/TraceView';
@@ -22,15 +23,13 @@ export function DebuggingPanel({
     <div>
       {evaluationId && (
         <div className="mb-4">
-          <h4 className="mb-2 font-medium" aria-label="Trace Timeline">
-            Trace Timeline
-          </h4>
+          <h4 className="mb-2 font-medium" aria-label={t`Trace Timeline`}>{t`Trace Timeline`}</h4>
           <ErrorBoundary
             fallback={
               <Alert variant="destructive">
                 <AlertCircle className="size-4" />
                 <AlertContent>
-                  <AlertDescription>Error loading traces</AlertDescription>
+                  <AlertDescription>{t`Error loading traces`}</AlertDescription>
                 </AlertContent>
               </Alert>
             }

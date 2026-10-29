@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { t } from '@lingui/core/macro';
+
 // Helper type to access children from React element props
 interface ReactElementWithChildren extends React.ReactElement {
   props: { children?: React.ReactNode } & Record<string, unknown>;
@@ -132,7 +134,7 @@ function TruncatedText({ text: rawText, maxLength }: TruncatedTextProps) {
             {isTruncated ? (
               <span style={{ letterSpacing: '0.1rem' }}>...</span>
             ) : (
-              <span>Show less</span>
+              <span>{t`Show less`}</span>
             )}
             <svg
               width="12"

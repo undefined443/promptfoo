@@ -11,6 +11,7 @@ import {
 } from '@app/components/ui/dialog';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Columns3, Eye, EyeOff } from 'lucide-react';
 
 interface ColumnData {
@@ -83,7 +84,7 @@ export const ColumnSelector = ({ columnData, selectedColumns, onChange }: Column
     <>
       <Button onClick={handleOpen} variant="outline" size="sm">
         <Columns3 className="size-4 mr-2" />
-        Columns ({selectedColumns.length}
+        {t`Columns`} ({selectedColumns.length}
         {selectedColumns.length < columnData.length && `/${columnData.length}`})
       </Button>
 
@@ -91,10 +92,10 @@ export const ColumnSelector = ({ columnData, selectedColumns, onChange }: Column
         <DialogContent className="max-w-lg max-h-[80vh] overflow-hidden flex flex-col">
           <DialogHeader>
             <div className="flex flex-col items-start gap-3 pr-8 sm:flex-row sm:items-center sm:justify-between">
-              <DialogTitle>Select Columns</DialogTitle>
+              <DialogTitle>{t`Select Columns`}</DialogTitle>
               <div className="flex flex-wrap gap-2">
                 <Button size="sm" onClick={handleShowAll} variant="outline">
-                  Show All
+                  {t`Show All`}
                 </Button>
                 {variableColumns.length > 0 && (
                   <Tooltip>
@@ -109,11 +110,13 @@ export const ColumnSelector = ({ columnData, selectedColumns, onChange }: Column
                         ) : (
                           <Eye className="size-4 mr-1" />
                         )}
-                        Variables
+                        {t`Variables`}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      {variablesVisible ? 'Hide all variable columns' : 'Show all variable columns'}
+                      {variablesVisible
+                        ? t`Hide all variable columns`
+                        : t`Show all variable columns`}
                     </TooltipContent>
                   </Tooltip>
                 )}
@@ -158,7 +161,7 @@ export const ColumnSelector = ({ columnData, selectedColumns, onChange }: Column
           </div>
           <DialogFooter>
             <Button onClick={handleClose} variant="outline">
-              Close
+              {t`Close`}
             </Button>
           </DialogFooter>
         </DialogContent>

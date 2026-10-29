@@ -21,6 +21,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
 import { useStore } from '@app/stores/evalConfig';
+import { t } from '@lingui/core/macro';
 import { testCaseFromCsvRow } from '@promptfoo/csv';
 import TestCaseDialog from './TestCaseDialog';
 import type { CsvRow, TestCase, TestGeneratorConfig } from '@promptfoo/types';
@@ -117,7 +118,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
     if (file) {
       const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
       if (file.size > MAX_FILE_SIZE) {
-        showToast('File size exceeds 50MB limit. Please use a smaller file.', 'error');
+        showToast(t`File size exceeds 50MB limit. Please use a smaller file.`, 'error');
         event.target.value = ''; // Reset file input
         return;
       }
@@ -127,7 +128,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
       reader.onload = async (e) => {
         const text = e.target?.result?.toString();
         if (!text || text.trim() === '') {
-          showToast('The file appears to be empty. Please select a file with content.', 'error');
+          showToast(t`The file appears to be empty. Please select a file with content.`, 'error');
           event.target.value = ''; // Reset file input
           return;
         }
@@ -170,7 +171,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
             }
           } else {
             showToast(
-              'Unsupported file type. Please upload a CSV (.csv) or YAML (.yaml, .yml) file.',
+              t`Unsupported file type. Please upload a CSV (.csv) or YAML (.yaml, .yml) file.`,
               'error',
             );
             event.target.value = ''; // Reset file input
@@ -178,7 +179,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
           }
 
           if (newTestCases.length === 0) {
-            showToast('No test cases found in the file.', 'warning');
+            showToast(t`No test cases found in the file.`, 'warning');
             event.target.value = ''; // Reset file input
             return;
           }
@@ -198,11 +199,11 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
           );
         } catch (error) {
           console.error('Error parsing file:', error);
-          const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+          const errorMessage = error instanceof Error ? error.message : t`Unknown error`;
 
           if (fileName.endsWith('.csv')) {
             showToast(
-              'Failed to parse CSV file. Please ensure it has valid CSV format with headers.',
+              t`Failed to parse CSV file. Please ensure it has valid CSV format with headers.`,
               'error',
             );
           } else if (fileName.endsWith('.yaml') || fileName.endsWith('.yml')) {
@@ -252,32 +253,33 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
       {!canEditInlineTests && (
         <Alert variant="info" className="flex-col items-start sm:flex-row sm:items-center">
           <AlertContent>
-            <AlertTitle>Managed in YAML</AlertTitle>
+            <AlertTitle>{t`Managed in YAML`}</AlertTitle>
             <AlertDescription>
-              This test configuration is loaded from{' '}
+              {t`This test configuration is loaded from`}{' '}
               <code className="rounded bg-background/80 px-1 py-0.5 text-xs">
                 {getManagedTestsLabel(rawTests)}
               </code>
-              . Use the YAML editor to update it.
+              {t`. Use the YAML editor to update it.`}
             </AlertDescription>
           </AlertContent>
           {onOpenYamlEditor && (
-            <Button variant="outline" size="sm" onClick={onOpenYamlEditor}>
-              Edit YAML
-            </Button>
+            <Button variant="outline" size="sm" onClick={onOpenYamlEditor}>{t`Edit YAML`}</Button>
           )}
         </Alert>
       )}
 
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h3 className="text-xl font-semibold">Test Cases</h3>
+        <h3 className="text-xl font-semibold">{t`Test Cases`}</h3>
         <div className="flex flex-wrap items-center gap-2">
           {canEditInlineTests && (
             <>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <label className="cursor-pointer" aria-label="Upload test cases from CSV or YAML">
+                  <label
+                    className="cursor-pointer"
+                    aria-label={t`Upload test cases from CSV or YAML`}
+                  >
                     <Button variant="ghost" size="icon" asChild>
                       <span>
                         <UploadIcon className="size-4" />
@@ -291,15 +293,13 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
                     />
                   </label>
                 </TooltipTrigger>
-                <TooltipContent>Upload test cases from CSV or YAML</TooltipContent>
+                <TooltipContent>{t`Upload test cases from CSV or YAML`}</TooltipContent>
               </Tooltip>
 
               <Button
                 onClick={() => setTestCaseDialogOpen(true)}
                 className="dark:bg-blue-600 dark:hover:bg-blue-500"
-              >
-                Add Test Case
-              </Button>
+              >{t`Add Test Case`}</Button>
 
               {testCases.length === 0 && (
                 <Button
@@ -325,9 +325,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
                     };
                     setTestCases([...testCases, exampleTestCase]);
                   }}
-                >
-                  Add Example
-                </Button>
+                >{t`Add Example`}</Button>
               )}
             </>
           )}
@@ -339,11 +337,11 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
         <table className="w-full min-w-[640px]">
           <thead className="bg-muted/50">
             <tr className="border-b border-border">
-              <th className="px-4 py-3 text-left text-sm font-semibold">Description</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold">Assertions</th>
-              <th className="px-4 py-3 text-left text-sm font-semibold">Variables</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold">{t`Description`}</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold">{t`Assertions`}</th>
+              <th className="px-4 py-3 text-left text-sm font-semibold">{t`Variables`}</th>
               <th className="w-[120px] px-4 py-3 text-right text-sm font-semibold">
-                <span className="sr-only">Actions</span>
+                <span className="sr-only">{t`Actions`}</span>
               </th>
             </tr>
           </thead>
@@ -351,9 +349,10 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
             {canEditInlineTests ? (
               testCases.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="p-8 text-center text-muted-foreground">
-                    No test cases added yet.
-                  </td>
+                  <td
+                    colSpan={4}
+                    className="p-8 text-center text-muted-foreground"
+                  >{t`No test cases added yet.`}</td>
                 </tr>
               ) : (
                 testCases.map((testCase, index) => {
@@ -391,18 +390,19 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
                                 <AlertTriangleIcon className="size-4 text-amber-500 shrink-0" />
                               </TooltipTrigger>
                               <TooltipContent>
-                                Missing variables: {missingVars.join(', ')}
+                                {t`Missing variables:`} {missingVars.join(', ')}
                               </TooltipContent>
                             </Tooltip>
                           )}
                           {hasMissingVars && (
                             <span className="sr-only">
-                              Missing variables: {missingVars.join(', ')}.
+                              {t`Missing variables:`} {missingVars.join(', ')}.
                             </span>
                           )}
                           {testCase.description || (
                             <span className="text-muted-foreground italic">
-                              Test Case #{index + 1}
+                              {t`Test Case #`}
+                              {index + 1}
                             </span>
                           )}
                         </button>
@@ -440,7 +440,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
                                 <EditIcon className="size-4" />
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Edit</TooltipContent>
+                            <TooltipContent>{t`Edit`}</TooltipContent>
                           </Tooltip>
 
                           <Tooltip>
@@ -454,7 +454,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
                                 <ContentCopyIcon className="size-4" />
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Duplicate</TooltipContent>
+                            <TooltipContent>{t`Duplicate`}</TooltipContent>
                           </Tooltip>
 
                           <Tooltip>
@@ -468,7 +468,7 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
                                 <DeleteIcon className="size-4" />
                               </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Delete</TooltipContent>
+                            <TooltipContent>{t`Delete`}</TooltipContent>
                           </Tooltip>
                         </div>
                       </td>
@@ -478,9 +478,10 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
               )
             ) : (
               <tr>
-                <td colSpan={4} className="p-8 text-center text-muted-foreground">
-                  Test entries from YAML are not editable in the UI editor.
-                </td>
+                <td
+                  colSpan={4}
+                  className="p-8 text-center text-muted-foreground"
+                >{t`Test entries from YAML are not editable in the UI editor.`}</td>
               </tr>
             )}
           </tbody>
@@ -507,17 +508,15 @@ const TestCasesSection = ({ varsList, onOpenYamlEditor }: TestCasesSectionProps)
       <Dialog open={deleteDialogOpen} onOpenChange={(open) => !open && cancelDeleteTestCase()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete test case?</DialogTitle>
-            <DialogDescription>
-              This removes the test case from this evaluation. This action cannot be undone.
-            </DialogDescription>
+            <DialogTitle>{t`Delete test case?`}</DialogTitle>
+            <DialogDescription>{t`This removes the test case from this evaluation. This action cannot be undone.`}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={cancelDeleteTestCase}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={confirmDeleteTestCase}>
-              Delete
+              {t`Delete`}
             </Button>
           </DialogFooter>
         </DialogContent>

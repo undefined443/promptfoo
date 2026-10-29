@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { ChevronRight } from 'lucide-react';
 
 export type NavigationItemStatus = 'error' | 'warning' | 'success' | 'info';
@@ -355,7 +356,7 @@ export function NavigationSidebar({
       >
         {!isCollapsed && header && <div className="mb-4">{header}</div>}
 
-        <nav role="tree" aria-label="Navigation" className="flex-1 space-y-1">
+        <nav role="tree" aria-label={t`Navigation`} className="flex-1 space-y-1">
           {renderItems(items, 0)}
         </nav>
 

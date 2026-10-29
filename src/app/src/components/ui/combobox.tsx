@@ -4,6 +4,7 @@ import type { ChangeEvent, FocusEvent, KeyboardEvent, MouseEvent } from 'react';
 
 import { Popover, PopoverAnchor, PopoverContent } from '@app/components/ui/popover';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Check, ChevronDown, X } from 'lucide-react';
 
 export interface ComboboxOption {
@@ -289,7 +290,7 @@ function Combobox({
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={handleClear}
                   className="p-1 rounded hover:bg-muted transition-colors"
-                  aria-label="Clear selection"
+                  aria-label={t`Clear selection`}
                 >
                   <X className="h-4 w-4 text-muted-foreground hover:text-foreground" />
                 </button>
@@ -301,7 +302,7 @@ function Combobox({
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={handleChevronClick}
                 className="p-1 rounded hover:bg-muted transition-colors"
-                aria-label={open ? 'Close dropdown' : 'Open dropdown'}
+                aria-label={open ? t`Close dropdown` : t`Open dropdown`}
                 tabIndex={-1}
               >
                 <ChevronDown

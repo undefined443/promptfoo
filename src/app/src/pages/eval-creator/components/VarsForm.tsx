@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
+import { t } from '@lingui/core/macro';
 
 interface VarsFormProps {
   onAdd: (vars: Record<string, string>) => void;
@@ -22,7 +23,7 @@ const VarsForm = ({ onAdd, varsList, initialValues }: VarsFormProps) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Variables</h3>
+      <h3 className="text-lg font-semibold">{t`Variables`}</h3>
       {varsList.length > 0 ? (
         <div className="space-y-3">
           {Object.keys(vars).map((varName) => (
@@ -52,7 +53,7 @@ const VarsForm = ({ onAdd, varsList, initialValues }: VarsFormProps) => {
         </div>
       ) : (
         <p className="text-sm text-muted-foreground">
-          Add variables to your prompt using the {'{{varname}}'} syntax.
+          {t`Add variables to your prompt using the`} {'{{varname}}'} syntax.
         </p>
       )}
     </div>

@@ -6,6 +6,7 @@ import { Card, CardContent } from '@app/components/ui/card';
 import { AddIcon, HistoryIcon, SecurityIcon } from '@app/components/ui/icons';
 import { MODEL_AUDIT_ROUTES } from '@app/constants/routes';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { Link as RouterLink } from 'react-router';
 import { LatestScanSkeleton } from '../model-audit/components/ModelAuditSkeleton';
 import ResultsTab from '../model-audit/components/ResultsTab';
@@ -58,7 +59,7 @@ export default function ModelAuditResultLatestPage() {
       if (abortController.signal.aborted || (err instanceof Error && err.name === 'AbortError')) {
         return;
       }
-      const errorMessage = err instanceof Error ? err.message : 'Failed to load latest scan';
+      const errorMessage = err instanceof Error ? err.message : t`Failed to load latest scan`;
       setError(errorMessage);
     } finally {
       if (!abortController.signal.aborted) {
@@ -95,10 +96,8 @@ export default function ModelAuditResultLatestPage() {
       <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 py-8">
         <div className="container max-w-2xl mx-auto px-4">
           <div className="mb-4">
-            <h1 className="text-xl font-semibold">Unable to load latest scan</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              We could not fetch the most recent result. Try again, or start a new scan from setup.
-            </p>
+            <h1 className="text-xl font-semibold">{t`Unable to load latest scan`}</h1>
+            <p className="mt-1 text-sm text-muted-foreground">{t`We could not fetch the most recent result. Try again, or start a new scan from setup.`}</p>
           </div>
           <Alert variant="destructive" className="mb-6">
             <AlertContent>
@@ -106,16 +105,15 @@ export default function ModelAuditResultLatestPage() {
             </AlertContent>
           </Alert>
           <div className="flex flex-wrap gap-3">
-            <Button type="button" onClick={fetchLatestScan}>
-              Try Again
-            </Button>
+            <Button type="button" onClick={fetchLatestScan}>{t`Try Again`}</Button>
             <Button asChild>
-              <RouterLink to={MODEL_AUDIT_ROUTES.SETUP} onClick={startNewScan}>
-                Go to Setup
-              </RouterLink>
+              <RouterLink
+                to={MODEL_AUDIT_ROUTES.SETUP}
+                onClick={startNewScan}
+              >{t`Go to Setup`}</RouterLink>
             </Button>
             <Button variant="outline" asChild>
-              <RouterLink to={MODEL_AUDIT_ROUTES.LIST}>View History</RouterLink>
+              <RouterLink to={MODEL_AUDIT_ROUTES.LIST}>{t`View History`}</RouterLink>
             </Button>
           </div>
         </div>
@@ -131,26 +129,23 @@ export default function ModelAuditResultLatestPage() {
           <Card className="text-center bg-white dark:bg-zinc-900">
             <CardContent className="py-12">
               <SecurityIcon className="size-16 text-primary mx-auto mb-6" />
-              <h1 className="text-2xl font-bold mb-2">No Model Scans Yet</h1>
-              <p className="text-muted-foreground mb-4">
-                Run your first security scan to detect vulnerabilities in ML models.
-              </p>
+              <h1 className="text-2xl font-bold mb-2">{t`No Model Scans Yet`}</h1>
+              <p className="text-muted-foreground mb-4">{t`Run your first security scan to detect vulnerabilities in ML models.`}</p>
               <p className="text-sm text-muted-foreground mb-8">
-                Model Audit scans models for security issues like pickle exploits, unsafe
-                deserialization, and malicious code injection.{' '}
+                {t`Model Audit scans models for security issues like pickle exploits, unsafe deserialization, and malicious code injection.`}{' '}
                 <a
                   href="https://www.promptfoo.dev/docs/model-audit/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary underline underline-offset-2 hover:no-underline"
                 >
-                  Learn more
+                  {t`Learn more`}
                 </a>
               </p>
               <Button size="lg" asChild>
                 <RouterLink to={MODEL_AUDIT_ROUTES.SETUP} onClick={startNewScan}>
                   <AddIcon className="size-4 mr-2" />
-                  Run Your First Scan
+                  {t`Run Your First Scan`}
                 </RouterLink>
               </Button>
             </CardContent>
@@ -178,13 +173,13 @@ export default function ModelAuditResultLatestPage() {
           <Button variant="outline" size="sm" asChild>
             <RouterLink to={MODEL_AUDIT_ROUTES.LIST}>
               <HistoryIcon className="size-4 mr-2" />
-              History
+              {t`History`}
             </RouterLink>
           </Button>
           <Button size="sm" asChild>
             <RouterLink to={MODEL_AUDIT_ROUTES.SETUP} onClick={startNewScan}>
               <AddIcon className="size-4 mr-2" />
-              New Scan
+              {t`New Scan`}
             </RouterLink>
           </Button>
         </div>

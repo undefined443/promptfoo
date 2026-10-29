@@ -2,6 +2,7 @@ import { Button } from '@app/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { type ThemePreference, useThemePreference } from '@app/hooks/useThemePreference';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Monitor, Moon, Sun } from 'lucide-react';
 
 const THEME_ORDER = ['light', 'system', 'dark'] as const satisfies readonly ThemePreference[];
@@ -15,15 +16,15 @@ const NEXT_THEME_PREFERENCE = {
 const THEME_OPTIONS = {
   dark: {
     icon: Moon,
-    label: 'Dark theme',
+    label: t`Dark theme`,
   },
   light: {
     icon: Sun,
-    label: 'Light theme',
+    label: t`Light theme`,
   },
   system: {
     icon: Monitor,
-    label: 'System theme',
+    label: t`System theme`,
   },
 } satisfies Record<
   ThemePreference,

@@ -7,6 +7,7 @@ import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { MODEL_AUDIT_ROUTES } from '@app/constants/routes';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { useNavigate } from 'react-router';
 import AdvancedOptionsDialog from '../model-audit/components/AdvancedOptionsDialog';
 import ConfigurationTab from '../model-audit/components/ConfigurationTab';
@@ -132,7 +133,7 @@ export default function ModelAuditSetupPage() {
         }
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+      const errorMessage = err instanceof Error ? err.message : t`An unexpected error occurred`;
       setError(errorMessage);
     } finally {
       setIsScanning(false);
@@ -172,16 +173,16 @@ export default function ModelAuditSetupPage() {
                 <SettingsIcon className="size-7 text-primary" />
               </div>
               <div className="min-w-0 flex-1">
-                <h1 className="text-2xl font-bold tracking-tight">Model Audit Setup</h1>
+                <h1 className="text-2xl font-bold tracking-tight">{t`Model Audit Setup`}</h1>
                 <p className="text-sm text-muted-foreground mt-1.5">
-                  Configure and run a security scan on ML models.{' '}
+                  {t`Configure and run a security scan on ML models.`}{' '}
                   <a
                     href="https://www.promptfoo.dev/docs/model-audit/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary underline underline-offset-2 hover:no-underline"
                   >
-                    Learn more
+                    {t`Learn more`}
                   </a>
                 </p>
               </div>
@@ -194,31 +195,31 @@ export default function ModelAuditSetupPage() {
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-2 text-muted-foreground">
                       <Spinner size="sm" />
-                      <span className="text-sm">Checking...</span>
+                      <span className="text-sm">{t`Checking...`}</span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>Checking ModelAudit installation...</TooltipContent>
+                  <TooltipContent>{t`Checking ModelAudit installation...`}</TooltipContent>
                 </Tooltip>
               ) : installationStatus.installed === true ? (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400">
                       <CheckCircleIcon className="size-4" />
-                      <span className="text-sm font-medium">Ready</span>
+                      <span className="text-sm font-medium">{t`Ready`}</span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>ModelAudit is installed and ready</TooltipContent>
+                  <TooltipContent>{t`ModelAudit is installed and ready`}</TooltipContent>
                 </Tooltip>
               ) : installationStatus.installed === false ? (
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-1.5">
                       <ErrorIcon className="size-4 text-destructive" />
-                      <span className="text-sm font-medium text-destructive">Not Installed</span>
+                      <span className="text-sm font-medium text-destructive">{t`Not Installed`}</span>
                       <button
                         type="button"
                         onClick={() => checkInstallation()}
-                        aria-label="Check installation again"
+                        aria-label={t`Check installation again`}
                         className="p-1 hover:bg-muted rounded"
                       >
                         <RefreshIcon className="size-4 text-muted-foreground" />
@@ -226,7 +227,7 @@ export default function ModelAuditSetupPage() {
                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    {installationStatus.error || 'ModelAudit is not installed'}
+                    {installationStatus.error || t`ModelAudit is not installed`}
                   </TooltipContent>
                 </Tooltip>
               ) : null}
@@ -248,9 +249,7 @@ export default function ModelAuditSetupPage() {
                       type="button"
                       onClick={() => setError(null)}
                       className="text-sm underline hover:no-underline"
-                    >
-                      Dismiss
-                    </button>
+                    >{t`Dismiss`}</button>
                   </AlertDescription>
                 </AlertContent>
               </Alert>
@@ -273,7 +272,7 @@ export default function ModelAuditSetupPage() {
             {/* Inline Results */}
             {scanResults && (
               <div className="mt-10 pt-8 border-t border-border">
-                <h2 className="text-2xl font-semibold tracking-tight mb-6">Scan Results</h2>
+                <h2 className="text-2xl font-semibold tracking-tight mb-6">{t`Scan Results`}</h2>
                 <ResultsTab
                   scanResults={scanResults}
                   onShowFilesDialog={() => setShowFilesDialog(true)}

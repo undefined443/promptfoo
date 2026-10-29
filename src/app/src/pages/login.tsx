@@ -17,6 +17,7 @@ import { usePageMeta } from '@app/hooks/usePageMeta';
 import { cn } from '@app/lib/utils';
 import { useUserStore } from '@app/stores/userStore';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { useLocation, useNavigate } from 'react-router';
 
 interface LoginState {
@@ -77,8 +78,8 @@ export default function LoginPage() {
   const { email, isLoading, setEmail, fetchEmail } = useUserStore();
 
   usePageMeta({
-    title: 'Login to Promptfoo',
-    description: 'Sign in to access your Promptfoo workspace',
+    title: t`Login to Promptfoo`,
+    description: t`Sign in to access your Promptfoo workspace`,
   });
 
   useEffect(() => {
@@ -136,30 +137,28 @@ export default function LoginPage() {
           {/* Logo and Header */}
           <div className="mb-8 flex flex-col items-center space-y-4 text-center">
             <div className="flex items-center gap-2">
-              <img src={logoPanda} alt="Promptfoo" className="size-10" />
+              <img src={logoPanda} alt={t`Promptfoo`} className="size-10" />
               <h1 className="text-2xl font-semibold tracking-tight">promptfoo</h1>
             </div>
 
             <h2 className="text-xl text-foreground">
               {new URLSearchParams(location.search).get('type') === 'report'
-                ? 'View Report'
-                : 'Welcome to Promptfoo'}
+                ? t`View Report`
+                : t`Welcome to Promptfoo`}
             </h2>
 
             <p className="max-w-sm text-sm text-muted-foreground">
-              Enter your API token to authenticate.
+              {t`Enter your API token to authenticate.`}
               {!new URLSearchParams(location.search).get('type') && (
                 <>
                   {' '}
-                  Don't have one?{' '}
+                  {t`Don't have one?`}{' '}
                   <a
                     href="https://promptfoo.app/welcome"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary underline underline-offset-2 hover:no-underline"
-                  >
-                    Generate your token here
-                  </a>
+                  >{t`Generate your token here`}</a>
                 </>
               )}
             </p>
@@ -170,7 +169,7 @@ export default function LoginPage() {
             <div className="space-y-4">
               {/* API Key Field */}
               <div className="space-y-2">
-                <Label htmlFor="apiKey">API Key</Label>
+                <Label htmlFor="apiKey">{t`API Key`}</Label>
                 <div className="relative">
                   <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
                     <KeyIcon className="size-4" />
@@ -192,7 +191,7 @@ export default function LoginPage() {
                     type="button"
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                     onClick={() => setShowApiKey(!showApiKey)}
-                    aria-label="toggle API key visibility"
+                    aria-label={t`toggle API key visibility`}
                   >
                     {showApiKey ? (
                       <VisibilityOffIcon className="size-4" />
@@ -206,7 +205,7 @@ export default function LoginPage() {
 
               {/* API Host Field */}
               <div className="space-y-2">
-                <Label htmlFor="customUrl">API Host</Label>
+                <Label htmlFor="customUrl">{t`API Host`}</Label>
                 <Input
                   id="customUrl"
                   name="customUrl"
@@ -214,9 +213,7 @@ export default function LoginPage() {
                   defaultValue="https://www.promptfoo.app"
                   disabled={isPending}
                 />
-                <p className="text-xs text-muted-foreground">
-                  Change this for private cloud or on-premise deployments
-                </p>
+                <p className="text-xs text-muted-foreground">{t`Change this for private cloud or on-premise deployments`}</p>
               </div>
 
               {/* Submit Button */}
@@ -224,10 +221,10 @@ export default function LoginPage() {
                 {isPending ? (
                   <>
                     <Spinner size="sm" />
-                    <span className="sr-only">Signing in...</span>
+                    <span className="sr-only">{t`Signing in...`}</span>
                   </>
                 ) : (
-                  'Sign In'
+                  t`Sign In`
                 )}
               </Button>
             </div>
@@ -236,7 +233,7 @@ export default function LoginPage() {
           {/* Help Section */}
           <div className="mt-8 border-t border-border pt-6">
             <div className="flex flex-col items-center space-y-2 text-center">
-              <p className="text-sm text-muted-foreground">Don't have an API key?</p>
+              <p className="text-sm text-muted-foreground">{t`Don't have an API key?`}</p>
 
               <a
                 href="https://promptfoo.app/welcome"
@@ -244,7 +241,7 @@ export default function LoginPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
               >
-                Get your API key
+                {t`Get your API key`}
                 <OpenInNewIcon className="size-4" />
               </a>
             </div>

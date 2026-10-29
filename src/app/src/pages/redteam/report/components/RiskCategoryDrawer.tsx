@@ -11,6 +11,7 @@ import { Sheet, SheetContent, SheetTitle } from '@app/components/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@app/components/ui/tabs';
 import { cn } from '@app/lib/utils';
 import { getRedteamHistoryMessages } from '@app/utils/redteamHistory';
+import { t } from '@lingui/core/macro';
 import { categoryAliases, displayNameOverrides } from '@promptfoo/redteam/constants';
 import { getActualPrompt } from '@promptfoo/util/providerResponse';
 import { ChevronDown, Lightbulb } from 'lucide-react';
@@ -148,7 +149,7 @@ const RiskCategoryDrawer = ({
           <SheetTitle className="sr-only">{displayName}</SheetTitle>
           <div className="risk-category-drawer">
             <h2 className="mb-4 text-lg font-semibold">{displayName}</h2>
-            <p className="mt-4 text-center">No tests have been run for this category.</p>
+            <p className="mt-4 text-center">{t`No tests have been run for this category.`}</p>
           </div>
         </SheetContent>
       </Sheet>
@@ -202,7 +203,7 @@ const RiskCategoryDrawer = ({
                   {hasSuggestions && (
                     <button
                       type="button"
-                      aria-label="View suggestions"
+                      aria-label={t`View suggestions`}
                       className="rounded-md p-1 hover:bg-muted"
                       onClick={(e) => {
                         e.stopPropagation();
@@ -223,15 +224,13 @@ const RiskCategoryDrawer = ({
                       setDetailsDialogOpen(true);
                     }}
                   >
-                    Details
+                    {t`Details`}
                   </Button>
                 </div>
               </div>
               {isFailed && test.gradingResult?.reason && (
                 <div className="ml-7">
-                  <div className="text-[10px] font-semibold uppercase tracking-wider text-red-600 dark:text-red-400">
-                    Failure Reason
-                  </div>
+                  <div className="text-[10px] font-semibold uppercase tracking-wider text-red-600 dark:text-red-400">{t`Failure Reason`}</div>
                   <p className="text-xs text-red-600 dark:text-red-400">
                     {test.gradingResult.reason}
                   </p>
@@ -269,17 +268,17 @@ const RiskCategoryDrawer = ({
           <div className="mb-4 flex items-center justify-between">
             <div className="flex-1 text-center">
               <p className="text-3xl font-bold text-primary">{numPassed}</p>
-              <p className="text-sm text-muted-foreground">Passed</p>
+              <p className="text-sm text-muted-foreground">{t`Passed`}</p>
             </div>
             <div className="flex-1 text-center">
               <p className="text-3xl font-bold">{totalTests}</p>
-              <p className="text-sm text-muted-foreground">Total</p>
+              <p className="text-sm text-muted-foreground">{t`Total`}</p>
             </div>
             <div className="flex-1 text-center">
               <p className={cn('text-3xl font-bold', getPassRateStyles(passPercentage / 100).text)}>
                 {passPercentage}%
               </p>
-              <p className="text-sm text-muted-foreground">Pass Rate</p>
+              <p className="text-sm text-muted-foreground">{t`Pass Rate`}</p>
             </div>
           </div>
 
@@ -309,9 +308,7 @@ const RiskCategoryDrawer = ({
                 navigate(url);
               }
             }}
-          >
-            View All Logs
-          </Button>
+          >{t`View All Logs`}</Button>
 
           <Tabs
             defaultValue="flagged"
@@ -323,14 +320,14 @@ const RiskCategoryDrawer = ({
           >
             <TabsList className="grid !h-auto w-full grid-cols-1 gap-1 sm:grid-cols-3 sm:!h-10 sm:gap-0">
               <TabsTrigger value="flagged" className="flex-1">
-                Failed Tests ({failures.length})
+                {t`Failed Tests (`}
+                {failures.length})
               </TabsTrigger>
               <TabsTrigger value="passed" className="flex-1">
-                Passed Tests ({passes.length})
+                {t`Passed Tests (`}
+                {passes.length})
               </TabsTrigger>
-              <TabsTrigger value="flow" className="flex-1">
-                Flow Diagram
-              </TabsTrigger>
+              <TabsTrigger value="flow" className="flex-1">{t`Flow Diagram`}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="flagged">
@@ -339,7 +336,7 @@ const RiskCategoryDrawer = ({
                   {sortedFailures.map((failure, i) => renderTestItem(failure, i, true))}
                 </div>
               ) : (
-                <p className="mt-4 text-center text-muted-foreground">No failed tests</p>
+                <p className="mt-4 text-center text-muted-foreground">{t`No failed tests`}</p>
               )}
             </TabsContent>
 
@@ -349,15 +346,13 @@ const RiskCategoryDrawer = ({
                   {passes.map((pass, i) => renderTestItem(pass, i, false))}
                 </div>
               ) : (
-                <p className="mt-4 text-center text-muted-foreground">No passed tests</p>
+                <p className="mt-4 text-center text-muted-foreground">{t`No passed tests`}</p>
               )}
             </TabsContent>
 
             <TabsContent value="flow">
               <div className="mt-4">
-                <h3 className="mb-3 text-center text-lg font-semibold">
-                  Simulated User - Attack Performance
-                </h3>
+                <h3 className="mb-3 text-center text-lg font-semibold">{t`Simulated User - Attack Performance`}</h3>
                 <PluginStrategyFlow failuresByPlugin={failures} passesByPlugin={passes} />
               </div>
             </TabsContent>

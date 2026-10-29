@@ -9,6 +9,7 @@ import { Label } from '@app/components/ui/label';
 import { NumberInput } from '@app/components/ui/number-input';
 import { Textarea } from '@app/components/ui/textarea';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { ChevronDown } from 'lucide-react';
 import ExtensionEditor from './ExtensionEditor';
 import InputsEditor from './InputsEditor';
@@ -96,10 +97,8 @@ const CommonConfigurationOptions = ({
         <Collapsible open={isTestGenExpanded} onOpenChange={setIsTestGenExpanded}>
           <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border bg-card p-4 transition-colors hover:bg-accent/50">
             <div className="text-left">
-              <h3 className="font-semibold">Test Generation</h3>
-              <p className="text-sm text-muted-foreground">
-                Configure how red team test cases are generated for this target
-              </p>
+              <h3 className="font-semibold">{t`Test Generation`}</h3>
+              <p className="text-sm text-muted-foreground">{t`Configure how red team test cases are generated for this target`}</p>
             </div>
             <ChevronDown
               className={cn(
@@ -111,30 +110,25 @@ const CommonConfigurationOptions = ({
           <CollapsibleContent className="space-y-6 px-4 pb-4 pt-4">
             {/* Instructions */}
             <div>
-              <Label className="mb-1.5 block">Instructions</Label>
-              <p className="mb-2 text-sm text-muted-foreground">
-                Additional guidance for generating red team attacks. Useful if you need to tweak
-                anything from structure to specific scenarios for your application.
-              </p>
+              <Label className="mb-1.5 block">{t`Instructions`}</Label>
+              <p className="mb-2 text-sm text-muted-foreground">{t`Additional guidance for generating red team attacks. Useful if you need to tweak anything from structure to specific scenarios for your application.`}</p>
               <Textarea
                 value={testGenerationInstructions}
                 onChange={(e) => onTestGenerationInstructionsChange?.(e.target.value)}
-                placeholder="Generate the attack as a news article"
+                placeholder={t`Generate the attack as a news article`}
                 rows={3}
                 className="min-h-18 resize-y"
                 disabled={hasInputs}
               />
               <details className="mt-2">
-                <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">
-                  View examples
-                </summary>
+                <summary className="cursor-pointer text-sm text-muted-foreground hover:text-foreground">{t`View examples`}</summary>
                 <ul className="mt-2 space-y-1.5 text-sm text-muted-foreground">
-                  <li>• Generate the attack as a news article</li>
-                  <li>• Generate the attack as a receipt or invoice</li>
-                  <li>• Limit the attack to 300 characters</li>
-                  <li>• Adopt a frustrated customer persona when attacking</li>
+                  <li>{t`• Generate the attack as a news article`}</li>
+                  <li>{t`• Generate the attack as a receipt or invoice`}</li>
+                  <li>{t`• Limit the attack to 300 characters`}</li>
+                  <li>{t`• Adopt a frustrated customer persona when attacking`}</li>
                   <li>
-                    • Format the attack as a JSON object:{' '}
+                    {t`• Format the attack as a JSON object:`}{' '}
                     <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
                       {`{"message": "..."}`}
                     </code>
@@ -145,13 +139,13 @@ const CommonConfigurationOptions = ({
 
             {/* Multi-Variable Inputs */}
             <div>
-              <Label className="mb-1.5 block">Generate Multiple Variables</Label>
+              <Label className="mb-1.5 block">{t`Generate Multiple Variables`}</Label>
               <p className="mb-2 text-sm text-muted-foreground">
-                Define variables that will be generated alongside adversarial prompts. Use{' '}
+                {t`Define variables that will be generated alongside adversarial prompts. Use`}{' '}
                 <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
                   {'{{variable_name}}'}
                 </code>{' '}
-                in your request body, headers, or URL.
+                {t`in your request body, headers, or URL.`}
               </p>
               <InputsEditor
                 inputs={inputs}
@@ -168,8 +162,8 @@ const CommonConfigurationOptions = ({
       <Collapsible open={isDelayExpanded} onOpenChange={setIsDelayExpanded}>
         <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border bg-card p-4 transition-colors hover:bg-accent/50">
           <div className="text-left">
-            <h3 className="font-semibold">Delay</h3>
-            <p className="text-sm text-muted-foreground">Configure the delay between requests</p>
+            <h3 className="font-semibold">{t`Delay`}</h3>
+            <p className="text-sm text-muted-foreground">{t`Configure the delay between requests`}</p>
           </div>
           <ChevronDown
             className={cn('size-5 shrink-0 transition-transform', isDelayExpanded && 'rotate-180')}
@@ -177,7 +171,7 @@ const CommonConfigurationOptions = ({
         </CollapsibleTrigger>
         <CollapsibleContent className="px-4 pb-4 pt-2">
           <p className="mb-4">
-            Add a delay (ms) between requests to simulate a real user. See{' '}
+            {t`Add a delay (ms) between requests to simulate a real user. See`}{' '}
             <a
               href="https://www.promptfoo.dev/docs/providers/http/#delay"
               target="_blank"
@@ -186,13 +180,13 @@ const CommonConfigurationOptions = ({
             >
               docs
             </a>{' '}
-            for more details.
+            {t`for more details.`}
           </p>
           <NumberInput
             min={0}
             value={selectedTarget.delay ?? undefined}
             onChange={(v) => updateCustomTarget('delay', v)}
-            helperText="Delay in milliseconds (default: 0)"
+            helperText={t`Delay in milliseconds (default: 0)`}
             placeholder="0"
           />
         </CollapsibleContent>

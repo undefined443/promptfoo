@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
 import { NumberInput } from '@app/components/ui/number-input';
+import { t } from '@lingui/core/macro';
 import {
   type BedrockApiMode,
   getBedrockTextRoute,
@@ -364,22 +365,22 @@ const FoundationModelConfiguration = ({
 
   if (isBedrock && !bedrockApiMode) {
     return (
-      <p className="mt-4 text-sm text-muted-foreground">
-        This Bedrock provider uses a specialized API. Edit its configuration in the YAML editor.
-      </p>
+      <p className="mt-4 text-sm text-muted-foreground">{t`This Bedrock provider uses a specialized API. Edit its configuration in the YAML editor.`}</p>
     );
   }
 
   return (
     <div className="mt-4">
-      <h3 className="mb-4 text-lg font-semibold">{providerInfo.name} Configuration</h3>
+      <h3 className="mb-4 text-lg font-semibold">
+        {providerInfo.name} {t`Configuration`}
+      </h3>
 
       <div className="rounded-lg border border-border p-4">
         <div className="space-y-2">
           {isBedrock && (
             <div className="mb-4 space-y-2">
               <Label htmlFor="bedrock-api-mode">
-                Bedrock API <span className="text-destructive">*</span>
+                {t`Bedrock API`} <span className="text-destructive">*</span>
               </Label>
               <select
                 id="bedrock-api-mode"
@@ -398,16 +399,16 @@ const FoundationModelConfiguration = ({
                 {bedrockApiMode && BEDROCK_API_HELP[bedrockApiMode]}{' '}
                 {isBedrockHttpApi &&
                   (selectedTarget.config?.apiBaseUrl
-                    ? 'Uses your custom endpoint from Advanced Configuration.'
+                    ? t`Uses your custom endpoint from Advanced Configuration.`
                     : bedrockApiMode === 'messages'
-                      ? 'Promptfoo selects Bedrock Mantle or Runtime based on the model ID. You can configure a custom endpoint under Advanced Configuration.'
-                      : 'Promptfoo defaults to the Bedrock Mantle endpoint. You can configure a custom endpoint under Advanced Configuration.')}
+                      ? t`Promptfoo selects Bedrock Mantle or Runtime based on the model ID. You can configure a custom endpoint under Advanced Configuration.`
+                      : t`Promptfoo defaults to the Bedrock Mantle endpoint. You can configure a custom endpoint under Advanced Configuration.`)}
               </p>
             </div>
           )}
 
           <Label htmlFor="model-id">
-            Model ID <span className="text-destructive">*</span>
+            {t`Model ID`} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="model-id"
@@ -425,9 +426,9 @@ const FoundationModelConfiguration = ({
           />
           {isBedrock && (
             <p id="bedrock-model-help" className="text-sm text-muted-foreground">
-              Choose an API, then enter its model ID. GPT names such as <code>gpt-5.6-sol</code> are
-              saved with Bedrock's <code>openai.</code> prefix. Full Bedrock model IDs are also
-              accepted.
+              {t`Choose an API, then enter its model ID. GPT names such as`}{' '}
+              <code>gpt-5.6-sol</code> {t`are saved with Bedrock's`} <code>openai.</code>{' '}
+              {t`prefix. Full Bedrock model IDs are also accepted.`}
             </p>
           )}
           {bedrockApiError && (
@@ -438,8 +439,8 @@ const FoundationModelConfiguration = ({
           <p className="text-sm text-muted-foreground">
             {isBedrock
               ? `Provider ID: ${selectedTarget.id || 'bedrock:<model>'}. `
-              : 'Specify the model to use. '}
-            See{' '}
+              : t`Specify the model to use. `}
+            {t`See`}{' '}
             <a
               href={providerInfo.docUrl}
               target="_blank"
@@ -448,45 +449,49 @@ const FoundationModelConfiguration = ({
             >
               {providerInfo.name} documentation
             </a>{' '}
-            for available models.
+            {t`for available models.`}
           </p>
         </div>
 
         {isBedrock && bedrockApiMode === 'converse' && (
           <SetupSection
-            title="MCP Servers"
-            description="Configure Model Context Protocol servers for Bedrock Converse tool calling"
+            title={t`MCP Servers`}
+            description={t`Configure Model Context Protocol servers for Bedrock Converse tool calling`}
             isExpanded={isMcpOpen}
             onExpandedChange={setIsMcpOpen}
             className="mt-4"
           >
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
-                Servers are saved under <code>config.mcp</code> and enabled when at least one server
-                is configured.
+                {t`Servers are saved under`} <code>config.mcp</code>{' '}
+                {t`and enabled when at least one server is configured.`}
               </p>
-              <Button type="button" variant="outline" onClick={addMCPServer}>
-                Add MCP Server
-              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={addMCPServer}
+              >{t`Add MCP Server`}</Button>
 
               {(selectedTarget.config?.mcp?.servers || []).map(
                 (server: MCPServerConfig, index: number) => (
                   <div key={index} className="space-y-3 rounded-md border border-border p-4">
                     <div className="flex items-center justify-between gap-3">
-                      <h4 className="font-medium">Server {index + 1}</h4>
+                      <h4 className="font-medium">
+                        {t`Server`} {index + 1}
+                      </h4>
                       <Button
                         type="button"
                         variant="ghost"
                         size="sm"
                         onClick={() => removeMCPServer(index)}
                       >
-                        Remove
+                        {t`Remove`}
                       </Button>
                     </div>
 
                     <div className="grid gap-3 md:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor={`mcp-server-${index}-name`}>Name</Label>
+                        <Label htmlFor={`mcp-server-${index}-name`}>{t`Name`}</Label>
                         <Input
                           id={`mcp-server-${index}-name`}
                           value={server.name || ''}
@@ -495,7 +500,7 @@ const FoundationModelConfiguration = ({
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor={`mcp-server-${index}-command`}>Command</Label>
+                        <Label htmlFor={`mcp-server-${index}-command`}>{t`Command`}</Label>
                         <Input
                           id={`mcp-server-${index}-command`}
                           value={server.command || ''}
@@ -507,7 +512,7 @@ const FoundationModelConfiguration = ({
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor={`mcp-server-${index}-args`}>Args</Label>
+                        <Label htmlFor={`mcp-server-${index}-args`}>{t`Args`}</Label>
                         <Input
                           id={`mcp-server-${index}-args`}
                           value={(server.args || []).join(', ')}
@@ -521,7 +526,7 @@ const FoundationModelConfiguration = ({
                                 .filter(Boolean),
                             )
                           }
-                          placeholder="-y, @modelcontextprotocol/server-filesystem"
+                          placeholder={t`-y, @modelcontextprotocol/server-filesystem`}
                         />
                       </div>
 
@@ -538,7 +543,7 @@ const FoundationModelConfiguration = ({
                       </div>
 
                       <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor={`mcp-server-${index}-path`}>Path</Label>
+                        <Label htmlFor={`mcp-server-${index}-path`}>{t`Path`}</Label>
                         <Input
                           id={`mcp-server-${index}-path`}
                           value={server.path || ''}
@@ -558,33 +563,33 @@ const FoundationModelConfiguration = ({
 
         {isBedrock && (
           <SetupSection
-            title="Bedrock Settings"
-            description="Configure the AWS region and authentication"
+            title={t`Bedrock Settings`}
+            description={t`Configure the AWS region and authentication`}
             isExpanded={isBedrockSettingsOpen}
             onExpandedChange={setIsBedrockSettingsOpen}
             className="mt-4"
           >
             <div className="grid gap-4">
               <div className="space-y-2">
-                <Label htmlFor="bedrock-region">AWS Region</Label>
+                <Label htmlFor="bedrock-region">{t`AWS Region`}</Label>
                 <Input
                   id="bedrock-region"
                   value={selectedTarget.config?.region ?? ''}
                   onChange={(e) => updateCustomTarget('region', e.target.value || undefined)}
-                  placeholder="Use environment or provider default"
+                  placeholder={t`Use environment or provider default`}
                 />
                 <p className="text-sm text-muted-foreground">
                   {isBedrockHttpApi ? (
                     <>
-                      Overrides <code>AWS_BEDROCK_REGION</code>, <code>AWS_REGION</code>, and{' '}
-                      <code>AWS_DEFAULT_REGION</code>. When none is set, the provider uses its
-                      model-specific default. Choose a region that supports your model and API.
+                      {t`Overrides`} <code>AWS_BEDROCK_REGION</code>, <code>AWS_REGION</code>
+                      {t`, and`} <code>AWS_DEFAULT_REGION</code>
+                      {t`. When none is set, the provider uses its model-specific default. Choose a region that supports your model and API.`}
                     </>
                   ) : (
                     <>
-                      Overrides <code>AWS_BEDROCK_REGION</code>; otherwise defaults to{' '}
-                      <code>us-east-1</code>. Choose a region that supports your model or inference
-                      profile.
+                      {t`Overrides`} <code>AWS_BEDROCK_REGION</code>
+                      {t`; otherwise defaults to`} <code>us-east-1</code>
+                      {t`. Choose a region that supports your model or inference profile.`}
                     </>
                   )}
                 </p>
@@ -598,19 +603,16 @@ const FoundationModelConfiguration = ({
 
               {isBedrockNativeApi && (
                 <div className="space-y-2">
-                  <Label htmlFor="bedrock-inference-model-type">Inference Model Type</Label>
+                  <Label htmlFor="bedrock-inference-model-type">{t`Inference Model Type`}</Label>
                   <Input
                     id="bedrock-inference-model-type"
                     value={selectedTarget.config?.inferenceModelType ?? ''}
                     onChange={(e) =>
                       updateCustomTarget('inferenceModelType', e.target.value || undefined)
                     }
-                    placeholder="claude, nova, llama, mistral, ..."
+                    placeholder={t`claude, nova, llama, mistral, ...`}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    Required when the model ID is an Application Inference Profile ARN. Otherwise
-                    inferred from the model ID.
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t`Required when the model ID is an Application Inference Profile ARN. Otherwise inferred from the model ID.`}</p>
                 </div>
               )}
             </div>
@@ -618,15 +620,15 @@ const FoundationModelConfiguration = ({
         )}
 
         <SetupSection
-          title="Advanced Configuration"
-          description="Model parameters and API settings"
+          title={t`Advanced Configuration`}
+          description={t`Model parameters and API settings`}
           isExpanded={isAdvancedOpen}
           onExpandedChange={setIsAdvancedOpen}
           className="mt-4"
         >
           <div className="grid gap-4">
             <div className="space-y-2">
-              <Label htmlFor="temperature">Temperature</Label>
+              <Label htmlFor="temperature">{t`Temperature`}</Label>
               <NumberInput
                 id="temperature"
                 min={0}
@@ -636,12 +638,12 @@ const FoundationModelConfiguration = ({
                 value={selectedTarget.config?.temperature}
                 onChange={(v) => updateCustomTarget('temperature', v)}
               />
-              <p className="text-sm text-muted-foreground">Controls randomness (0.0 to 2.0)</p>
+              <p className="text-sm text-muted-foreground">{t`Controls randomness (0.0 to 2.0)`}</p>
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="max-tokens">
-                {bedrockApiMode === 'responses' ? 'Max Output Tokens' : 'Max Tokens'}
+                {bedrockApiMode === 'responses' ? t`Max Output Tokens` : t`Max Tokens`}
               </Label>
               <Input
                 id="max-tokens"
@@ -659,11 +661,11 @@ const FoundationModelConfiguration = ({
                   )
                 }
               />
-              <p className="text-sm text-muted-foreground">Maximum number of tokens to generate</p>
+              <p className="text-sm text-muted-foreground">{t`Maximum number of tokens to generate`}</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="top-p">Top P</Label>
+              <Label htmlFor="top-p">{t`Top P`}</Label>
               <NumberInput
                 id="top-p"
                 min={0}
@@ -673,14 +675,12 @@ const FoundationModelConfiguration = ({
                 value={selectedTarget.config?.top_p}
                 onChange={(v) => updateCustomTarget('top_p', v)}
               />
-              <p className="text-sm text-muted-foreground">
-                Nucleus sampling parameter (0.0 to 1.0)
-              </p>
+              <p className="text-sm text-muted-foreground">{t`Nucleus sampling parameter (0.0 to 1.0)`}</p>
             </div>
 
             {!isBedrock && (
               <div className="space-y-2">
-                <Label htmlFor="api-key">API Key</Label>
+                <Label htmlFor="api-key">{t`API Key`}</Label>
                 <Input
                   id="api-key"
                   type="password"
@@ -688,14 +688,14 @@ const FoundationModelConfiguration = ({
                   onChange={(e) => updateCustomTarget('apiKey', e.target.value || undefined)}
                 />
                 <p className="text-sm text-muted-foreground">
-                  Optional - defaults to {providerInfo.envVar} environment variable
+                  {t`Optional - defaults to`} {providerInfo.envVar} {t`environment variable`}
                 </p>
               </div>
             )}
 
             {(!isBedrock || isBedrockHttpApi) && (
               <div className="space-y-2">
-                <Label htmlFor="api-base-url">API Base URL</Label>
+                <Label htmlFor="api-base-url">{t`API Base URL`}</Label>
                 <Input
                   id="api-base-url"
                   type="url"
@@ -703,14 +703,14 @@ const FoundationModelConfiguration = ({
                   onChange={(e) => updateCustomTarget('apiBaseUrl', e.target.value || undefined)}
                   placeholder={
                     isBedrock
-                      ? 'Use the provider-selected Bedrock endpoint'
+                      ? t`Use the provider-selected Bedrock endpoint`
                       : 'https://api.openai.com/v1'
                   }
                 />
                 <p className="text-sm text-muted-foreground">
                   {isBedrock
-                    ? 'Optional override for a trusted proxy or custom endpoint supporting the selected API. Bedrock credentials are sent to this URL.'
-                    : 'For proxies, local models (Ollama, LMStudio), or custom API endpoints'}
+                    ? t`Optional override for a trusted proxy or custom endpoint supporting the selected API. Bedrock credentials are sent to this URL.`
+                    : t`For proxies, local models (Ollama, LMStudio), or custom API endpoints`}
                 </p>
               </div>
             )}

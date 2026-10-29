@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { Input } from '@app/components/ui/input';
+import { t } from '@lingui/core/macro';
 
 interface SetScoreDialogProps {
   open: boolean;
@@ -29,7 +30,7 @@ export default function SetScoreDialog({
   const handleSave = () => {
     const parsed = Number.parseFloat(scoreValue);
     if (Number.isNaN(parsed) || parsed < 0.0 || parsed > 1.0) {
-      setError('Please enter a value between 0.0 and 1.0.');
+      setError(t`Please enter a value between 0.0 and 1.0.`);
       return;
     }
     onSave(parsed);
@@ -45,11 +46,11 @@ export default function SetScoreDialog({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle>Set test score</DialogTitle>
+          <DialogTitle>{t`Set test score`}</DialogTitle>
         </DialogHeader>
         <div className="space-y-2 py-2">
           <label htmlFor="score-input" className="text-sm text-muted-foreground">
-            Score (0.0 - 1.0)
+            {t`Score (0.0 - 1.0)`}
           </label>
           <Input
             id="score-input"
@@ -69,9 +70,9 @@ export default function SetScoreDialog({
         </div>
         <DialogFooter>
           <Button onClick={onClose} variant="outline">
-            Cancel
+            {t`Cancel`}
           </Button>
-          <Button onClick={handleSave}>Save</Button>
+          <Button onClick={handleSave}>{t`Save`}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

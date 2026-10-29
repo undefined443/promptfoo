@@ -34,32 +34,24 @@ jobs:
         env:
           EVENT_NAME: ${{ github.event_name }}
         run: |
-          # Shared entries: all Linux versions + one Windows Node version (sharded)
+          # Shared entries: Linux Node versions + Windows Node 24 shards.
           base_entries='
-            {"node":"22.22","os":"ubuntu-latest","shard":""},
             {"node":"24.x","os":"ubuntu-latest","shard":""},
             {"node":"26.x","os":"ubuntu-latest","shard":""},
-            {"node":"22.22","os":"windows-2025-vs2026","shard":1},
-            {"node":"22.22","os":"windows-2025-vs2026","shard":2},
-            {"node":"22.22","os":"windows-2025-vs2026","shard":3}
+            {"node":"24.x","os":"windows-2025-vs2026","shard":1},
+            {"node":"24.x","os":"windows-2025-vs2026","shard":2},
+            {"node":"24.x","os":"windows-2025-vs2026","shard":3}
           '
           # Node 24 builds the shared package in package-build below.
-          build_matrix='{"node":["22.22","26.x"]}'
+          build_matrix='{"node":["26.x"]}'
 
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
-            # PRs: include the Node 24 Windows shard that runs Python process tests.
             extra_entries='
-              ,{"node":"22.22","os":"macOS-latest","shard":""},
-              {"node":"24.x","os":"windows-2025-vs2026","shard":1}
+              ,{"node":"24.x","os":"macOS-latest","shard":""}
             '
           else
-            # Main/dispatch: add all macOS versions + remaining Windows shards
             extra_entries='
-              ,{"node":"22.22","os":"macOS-latest","shard":""},
-              {"node":"24.x","os":"macOS-latest","shard":""},
-              {"node":"24.x","os":"windows-2025-vs2026","shard":1},
-              {"node":"24.x","os":"windows-2025-vs2026","shard":2},
-              {"node":"24.x","os":"windows-2025-vs2026","shard":3},
+              ,{"node":"24.x","os":"macOS-latest","shard":""},
               {"node":"26.x","os":"windows-2025-vs2026","shard":1},
               {"node":"26.x","os":"windows-2025-vs2026","shard":2},
               {"node":"26.x","os":"windows-2025-vs2026","shard":3}
@@ -97,9 +89,7 @@ jobs:
       - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          # Keep the matrix label at 22.22 for stable check names, but install exactly
-          # 22.22.0 so this lane tests the engines floor itself rather than latest 22.22.x.
-          node-version: ${{ matrix.node == '22.22' && '22.22.0' || matrix.node }}
+          node-version: ${{ matrix.node }}
           # Windows already caches node_modules below; compressing npm's download cache
           # again can stall post-job cleanup long after the tests finish.
           cache: ${{ runner.os != 'Windows' && 'npm' || '' }}
@@ -144,7 +134,7 @@ jobs:
         # CI. Real test/assertion failures still fail; see vitest.config.ts.
         env:
           PROMPTFOO_IGNORE_UNHANDLED_TEST_ERRORS: 'true'
-        run: npm run test${{ matrix.shard && format(' -- --shard={0}/3', matrix.shard) || '' }}${{ matrix.os == 'ubuntu-latest' && matrix.node == '22.22' && !matrix.shard && ' -- --coverage' || '' }}${{ startsWith(matrix.os, 'windows-') && ' --exclude=test/release-artifact.test.ts --exclude=test/examples/integrationCrewai.test.ts --exclude=test/python/python-subprocess-cancellation.test.ts --exclude=test/python/worker.lifecycle.test.ts' || '' }}
+        run: npm run test${{ matrix.shard && format(' -- --shard={0}/3', matrix.shard) || '' }}${{ matrix.os == 'ubuntu-latest' && matrix.node == '24.x' && !matrix.shard && ' -- --coverage' || '' }}${{ startsWith(matrix.os, 'windows-') && ' --exclude=test/release-artifact.test.ts --exclude=test/examples/integrationCrewai.test.ts --exclude=test/python/python-subprocess-cancellation.test.ts --exclude=test/python/worker.lifecycle.test.ts' || '' }}
 
       - name: Test process fixtures without parallel workers
         # Cold npm and Python processes can miss deadlines when competing
@@ -160,7 +150,7 @@ jobs:
           npm run test:smoke -- test/smoke/agent-skill-examples.test.ts
 
       - name: Check Backend Coverage Ratchets
-        if: matrix.os == 'ubuntu-latest' && matrix.node == '22.22' && !matrix.shard
+        if: matrix.os == 'ubuntu-latest' && matrix.node == '24.x' && !matrix.shard
         env:
           COVERAGE_BASE: ${{ inputs.coverage_base }}
         run: |
@@ -171,7 +161,7 @@ jobs:
           npm run test:coverage:ratchet -- "${args[@]}"
 
       - name: Upload Backend Coverage to Codecov
-        if: matrix.os == 'ubuntu-latest' && matrix.node == '22.22' && !matrix.shard
+        if: matrix.os == 'ubuntu-latest' && matrix.node == '24.x' && !matrix.shard
         # Authentication can fail before fail_ci_if_error applies; uploads are informational.
         continue-on-error: true
         uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7.0.0
@@ -209,9 +199,7 @@ jobs:
         name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          # Keep the matrix label at 22.22 for stable check names, but install exactly
-          # 22.22.0 so this lane tests the engines floor itself rather than latest 22.22.x.
-          node-version: ${{ matrix.node == '22.22' && '22.22.0' || matrix.node }}
+          node-version: ${{ matrix.node }}
           cache: 'npm'
 
       - *use-npm-11
@@ -263,7 +251,7 @@ jobs:
           PACKAGE_TARBALL: ${{ steps.package-artifact.outputs.tarball }}
           PROMPTFOO_DISABLE_TELEMETRY: 1
           RUNTIME_ASSETS: ${{ matrix.node == '24.x' && 'all' || 'none' }}
-          npm_config_install_strategy: ${{ matrix.node == '22.22' && 'shallow' || 'hoisted' }}
+          npm_config_install_strategy: hoisted
         run: |
           browser_args=()
           if [ "$RUNTIME_ASSETS" = all ]; then
@@ -287,7 +275,8 @@ jobs:
       contents: read
     strategy:
       fail-fast: false
-      matrix: ${{ fromJSON(needs.ci-config.outputs.build-matrix) }}
+      matrix:
+        node: ['24.x', '26.x']
     steps:
       - name: Checkout repo
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -297,7 +286,7 @@ jobs:
       - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node == '22.22' && '22.22.0' || matrix.node }}
+          node-version: ${{ matrix.node }}
 
       - name: Test Isolated Contracts
         # The script uses only Node builtins; no root dependency install or build secrets needed.
@@ -427,7 +416,7 @@ jobs:
         with: *no-persisted-credentials
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '22.22.0'
+          node-version: '24.22.1'
       - *use-npm-11
       - *download-platform-package
       - name: Prepare isolated artifact tooling
@@ -879,7 +868,7 @@ jobs:
     steps:
       - *checkout-repo
 
-      # Keep real unsupported and minimum-supported runtimes available while
+      # Keep a real unsupported runtime and the minimum-supported runtime available while
       # installing dependencies, building, and running Vitest on the repo Node.
       - name: Set up unsupported Node 20
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -892,7 +881,7 @@ jobs:
       - name: Set up minimum supported Node
         uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '22.22.0'
+          node-version: '24.11.0'
 
       - name: Record minimum supported Node executable
         run: echo "PROMPTFOO_MIN_NODE_BIN=$(node -p process.execPath)" >> "$GITHUB_ENV"

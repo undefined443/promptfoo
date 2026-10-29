@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Label } from '@app/components/ui/label';
 import { Switch } from '@app/components/ui/switch';
+import { t } from '@lingui/core/macro';
 
 import type { HttpProviderOptions } from '../../../types';
 
@@ -17,7 +18,7 @@ const TokenEstimationTab: React.FC<TokenEstimationTabProps> = ({
   return (
     <>
       <p className="mb-4">
-        Enable word-based token estimation for APIs that don't return token usage information. See{' '}
+        {t`Enable word-based token estimation for APIs that don't return token usage information. See`}{' '}
         <a
           href="https://www.promptfoo.dev/docs/providers/http/#token-estimation"
           target="_blank"
@@ -26,7 +27,7 @@ const TokenEstimationTab: React.FC<TokenEstimationTabProps> = ({
         >
           docs
         </a>{' '}
-        for more information.
+        {t`for more information.`}
       </p>
 
       <div className="flex items-center gap-2">
@@ -44,7 +45,7 @@ const TokenEstimationTab: React.FC<TokenEstimationTabProps> = ({
             }
           }}
         />
-        <Label htmlFor="token-estimation">Enable token estimation</Label>
+        <Label htmlFor="token-estimation">{t`Enable token estimation`}</Label>
       </div>
     </>
   );

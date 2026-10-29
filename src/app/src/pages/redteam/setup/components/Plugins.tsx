@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@app/components/ui/tab
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { useApiHealth } from '@app/hooks/useApiHealth';
 import { useTelemetry } from '@app/hooks/useTelemetry';
+import { t } from '@lingui/core/macro';
 import {
   categoryAliases,
   displayNameOverrides,
@@ -43,34 +44,28 @@ const DESCRIPTIONS_BY_TAB: Record<string, React.ReactNode> = {
   plugins: (
     <div className="space-y-4">
       <p>
-        Plugins are Promptfoo's modular system for testing a variety of risks and vulnerabilities in
-        LLM models and LLM-powered applications. Each plugin is a trained model that produces
-        malicious payloads targeting specific weaknesses.{' '}
+        {t`Plugins are Promptfoo's modular system for testing a variety of risks and vulnerabilities in LLM models and LLM-powered applications. Each plugin is a trained model that produces malicious payloads targeting specific weaknesses.`}{' '}
         <RouterLink
           className="underline"
           to="https://www.promptfoo.dev/docs/red-team/plugins/"
           target="_blank"
         >
-          Learn More
+          {t`Learn More`}
         </RouterLink>
       </p>
 
-      <p>Select the red-team plugins that align with your security testing objectives.</p>
+      <p>{t`Select the red-team plugins that align with your security testing objectives.`}</p>
     </div>
   ),
   intents: (
     <p>
-      <span>
-        Intents are seed phrases for attack generation, for example "teach me how to cook meth".
-        Promptfoo can apply jailbreak strategies to single-turn intents; multi-step sequences run as
-        authored.
-      </span>{' '}
+      <span>{t`Intents are seed phrases for attack generation, for example "teach me how to cook meth". Promptfoo can apply jailbreak strategies to single-turn intents; multi-step sequences run as authored.`}</span>{' '}
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
             variant="ghost"
             size="icon"
-            aria-label="Intent file format help"
+            aria-label={t`Intent file format help`}
             className="size-5"
           >
             <Info className="size-4" />
@@ -78,14 +73,15 @@ const DESCRIPTIONS_BY_TAB: Record<string, React.ReactNode> = {
         </TooltipTrigger>
         <TooltipContent className="max-w-xs">
           <div>
-            <p className="mb-1 font-semibold">Supported file formats:</p>
+            <p className="mb-1 font-semibold">{t`Supported file formats:`}</p>
             <p className="mb-0.5">
-              • <strong>CSV:</strong> First column used, requires header row
+              • <strong>{t`CSV:`}</strong> {t`First column used, requires header row`}
             </p>
             <p className="mb-0.5">
-              • <strong>JSON:</strong> Array of strings or nested arrays for multi-step intents
+              • <strong>{t`JSON:`}</strong>{' '}
+              {t`Array of strings or nested arrays for multi-step intents`}
             </p>
-            <p className="mt-2 font-semibold">JSON examples:</p>
+            <p className="mt-2 font-semibold">{t`JSON examples:`}</p>
             <pre className="mt-0.5 text-xs">
               {`["intent1", "intent2"]
 [["step1", "step2"], "single_intent"]`}
@@ -96,11 +92,7 @@ const DESCRIPTIONS_BY_TAB: Record<string, React.ReactNode> = {
     </p>
   ),
   policies: (
-    <p>
-      Custom policies define rules that the AI should follow. These are used to test if the AI
-      adheres to your specific guidelines and constraints. You can add policies manually or upload a
-      CSV file (first column will be used as policies).
-    </p>
+    <p>{t`Custom policies define rules that the AI should follow. These are used to test if the AI adheres to your specific guidelines and constraints. You can add policies manually or upload a CSV file (first column will be used as policies).`}</p>
   ),
 };
 
@@ -376,12 +368,11 @@ export default function Plugins({ onNext, onBack }: PluginsProps) {
         <Alert variant="warning" className="sticky top-0 z-10 -mx-3 mb-3 rounded-none shadow-sm">
           <AlertTriangle className="size-4" />
           <AlertContent>
-            <AlertTitle>Remote Generation Disabled</AlertTitle>
+            <AlertTitle>{t`Remote Generation Disabled`}</AlertTitle>
             <AlertDescription>
-              Some plugins require remote generation and are currently unavailable. These plugins
-              include harmful content tests, bias tests, and other advanced security checks. To
-              enable them, unset the <code>PROMPTFOO_DISABLE_REMOTE_GENERATION</code> or{' '}
-              <code>PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION</code> environment variables.
+              {t`Some plugins require remote generation and are currently unavailable. These plugins include harmful content tests, bias tests, and other advanced security checks. To enable them, unset the`}{' '}
+              <code>PROMPTFOO_DISABLE_REMOTE_GENERATION</code> {t`or`}{' '}
+              <code>PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION</code> {t`environment variables.`}
             </AlertDescription>
           </AlertContent>
         </Alert>
@@ -392,12 +383,8 @@ export default function Plugins({ onNext, onBack }: PluginsProps) {
         <Alert variant="warning" className="sticky top-0 z-[9] -mx-3 mb-3 rounded-none shadow-sm">
           <AlertTriangle className="size-4" />
           <AlertContent>
-            <AlertTitle>Performance Warning: Too Many Plugins Selected</AlertTitle>
-            <AlertDescription>
-              Selecting many plugins is usually not efficient and will significantly increase
-              evaluation time and cost. It's recommended to use the preset configurations or select
-              only the plugins specifically needed for your use case.
-            </AlertDescription>
+            <AlertTitle>{t`Performance Warning: Too Many Plugins Selected`}</AlertTitle>
+            <AlertDescription>{t`Selecting many plugins is usually not efficient and will significantly increase evaluation time and cost. It's recommended to use the preset configurations or select only the plugins specifically needed for your use case.`}</AlertDescription>
           </AlertContent>
         </Alert>
       )}
@@ -407,9 +394,18 @@ export default function Plugins({ onNext, onBack }: PluginsProps) {
         <TestCaseGenerationProvider redTeamConfig={config}>
           <Tabs value={activeTab} onValueChange={handleTabChange}>
             <TabsList className="!h-auto w-full max-w-full flex-wrap justify-start gap-1 overflow-visible sm:!h-10 sm:w-auto sm:flex-nowrap sm:gap-0">
-              <TabsTrigger value="plugins">Plugins ({selectedPlugins.size})</TabsTrigger>
-              <TabsTrigger value="intents">Custom Intents ({customIntentsCount})</TabsTrigger>
-              <TabsTrigger value="policies">Custom Policies ({customPoliciesCount})</TabsTrigger>
+              <TabsTrigger value="plugins">
+                {t`Plugins (`}
+                {selectedPlugins.size})
+              </TabsTrigger>
+              <TabsTrigger value="intents">
+                {t`Custom Intents (`}
+                {customIntentsCount})
+              </TabsTrigger>
+              <TabsTrigger value="policies">
+                {t`Custom Policies (`}
+                {customPoliciesCount})
+              </TabsTrigger>
             </TabsList>
             <Separator className="mt-2" />
 

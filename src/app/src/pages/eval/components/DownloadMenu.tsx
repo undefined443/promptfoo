@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import { Card, CardContent } from '@app/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@app/components/ui/dialog';
 import { DropdownMenuItem, DropdownMenuItemIcon } from '@app/components/ui/dropdown-menu';
+import { t } from '@lingui/core/macro';
 import invariant from '@promptfoo/util/invariant';
 import { removeEmpty } from '@promptfoo/util/objectUtils';
 import * as yaml from 'js-yaml';
@@ -27,7 +28,7 @@ export function DownloadMenuItem({ onClick }: DownloadMenuItemProps) {
       <DropdownMenuItemIcon>
         <Download className="size-4" />
       </DropdownMenuItemIcon>
-      Download
+      {t`Download`}
     </DropdownMenuItem>
   );
 }
@@ -50,7 +51,7 @@ function CommandBlock({ fileName, helpText, isDownloaded, onCopy }: CommandBlock
           {isDownloaded && (
             <div className="flex items-center">
               <CheckCircle className="size-4 text-emerald-500 mr-1" />
-              <span className="text-sm font-medium text-emerald-500">Downloaded</span>
+              <span className="text-sm font-medium text-emerald-500">{t`Downloaded`}</span>
             </div>
           )}
         </div>
@@ -61,7 +62,7 @@ function CommandBlock({ fileName, helpText, isDownloaded, onCopy }: CommandBlock
           type="button"
           onClick={() => onCopy(commandText)}
           className="self-end rounded p-1 text-primary transition-colors hover:bg-primary/15 sm:ml-2 sm:self-auto"
-          aria-label="Copy command"
+          aria-label={t`Copy command`}
         >
           <Copy className="size-4" />
         </button>
@@ -105,11 +106,11 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
     navigator.clipboard
       .writeText(text)
       .then(() => {
-        showToast('Command copied to clipboard', 'success');
+        showToast(t`Command copied to clipboard`, 'success');
       })
       .catch((err) => {
         console.error('Failed to copy text: ', err);
-        showToast('Failed to copy command', 'error');
+        showToast(t`Failed to copy command`, 'error');
       });
   };
 
@@ -150,7 +151,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
 
   const downloadConfig = () => {
     if (!evalId || !config) {
-      showToast('No evaluation ID or configuration available', 'error');
+      showToast(t`No evaluation ID or configuration available`, 'error');
       return;
     }
     const fileName = getFilename('config.yaml');
@@ -159,12 +160,12 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
 
   const downloadFailedTestsConfig = () => {
     if (!config || !table) {
-      showToast('No configuration or results available', 'error');
+      showToast(t`No configuration or results available`, 'error');
       return;
     }
 
     if (!evalId) {
-      showToast('No evaluation ID', 'error');
+      showToast(t`No evaluation ID`, 'error');
       return;
     }
 
@@ -174,7 +175,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
       .map((row) => row.test);
 
     if (failedTests.length === 0) {
-      showToast('No failed tests found', 'info');
+      showToast(t`No failed tests found`, 'info');
       return;
     }
 
@@ -194,11 +195,11 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
 
   const downloadDpoJson = () => {
     if (!table) {
-      showToast('No table data', 'error');
+      showToast(t`No table data`, 'error');
       return;
     }
     if (!evalId) {
-      showToast('No evaluation ID', 'error');
+      showToast(t`No evaluation ID`, 'error');
       return;
     }
     const formattedData = table.body.map((row) => ({
@@ -215,7 +216,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
 
   const downloadResults = async (download: (evalId: string) => Promise<void>) => {
     if (!evalId) {
-      showToast('No evaluation ID', 'error');
+      showToast(t`No evaluation ID`, 'error');
       return;
     }
     try {
@@ -227,11 +228,11 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
 
   const downloadHumanEvalTestCases = () => {
     if (!table) {
-      showToast('No table data', 'error');
+      showToast(t`No table data`, 'error');
       return;
     }
     if (!evalId) {
-      showToast('No evaluation ID', 'error');
+      showToast(t`No evaluation ID`, 'error');
       return;
     }
 
@@ -265,17 +266,17 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
 
   const downloadBurpPayloads = () => {
     if (!table) {
-      showToast('No table data', 'error');
+      showToast(t`No table data`, 'error');
       return;
     }
 
     if (!config?.redteam) {
-      showToast('No redteam config', 'error');
+      showToast(t`No redteam config`, 'error');
       return;
     }
 
     if (!evalId) {
-      showToast('No evaluation ID', 'error');
+      showToast(t`No evaluation ID`, 'error');
       return;
     }
 
@@ -303,22 +304,20 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold">Download Options</DialogTitle>
+          <DialogTitle className="text-xl font-semibold">{t`Download Options`}</DialogTitle>
         </DialogHeader>
         <div className="space-y-6 py-4">
           {/* Configuration Files Section */}
           <Card className="border border-border">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-4">Configuration Files</h3>
+              <h3 className="text-lg font-semibold mb-4">{t`Configuration Files`}</h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="h-full">
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Complete configuration file for this evaluation
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-4">{t`Complete configuration file for this evaluation`}</p>
                   <Button onClick={downloadConfig} className="w-full mb-2">
                     <Download className="size-4 mr-2" />
-                    Download YAML Config
+                    {t`Download YAML Config`}
                   </Button>
                   {evalId && (
                     <CommandBlock
@@ -331,9 +330,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
                 </div>
 
                 <div className="h-full">
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Configuration with only failed tests for focused debugging
-                  </p>
+                  <p className="text-sm text-muted-foreground mb-4">{t`Configuration with only failed tests for focused debugging`}</p>
                   <Button
                     onClick={downloadFailedTestsConfig}
                     variant="outline"
@@ -345,7 +342,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
                     }
                   >
                     <Download className="size-4 mr-2" />
-                    Download Failed Tests
+                    {t`Download Failed Tests`}
                   </Button>
                   {evalId && (
                     <CommandBlock
@@ -363,10 +360,8 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
           {/* Table Data Section */}
           <Card className="border border-border">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-2">Export Results</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Export evaluation results in standard formats for further analysis or reporting.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t`Export Results`}</h3>
+              <p className="text-sm text-muted-foreground mb-6">{t`Export evaluation results in standard formats for further analysis or reporting.`}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <Button
@@ -376,7 +371,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
                   disabled={isLoadingCsv}
                 >
                   <Download className="size-4 mr-2" />
-                  {isLoadingCsv ? 'Downloading...' : 'Download Results CSV'}
+                  {isLoadingCsv ? t`Downloading...` : t`Download Results CSV`}
                 </Button>
 
                 <Button
@@ -386,7 +381,7 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
                   disabled={isLoadingJson}
                 >
                   <Download className="size-4 mr-2" />
-                  {isLoadingJson ? 'Downloading...' : 'Download Results JSON'}
+                  {isLoadingJson ? t`Downloading...` : t`Download Results JSON`}
                 </Button>
               </div>
             </CardContent>
@@ -395,26 +390,23 @@ export function DownloadDialog({ open, onClose }: DownloadDialogProps) {
           {/* Advanced Options Section */}
           <Card className="border border-border">
             <CardContent className="p-6">
-              <h3 className="text-lg font-semibold mb-2">Advanced Exports</h3>
-              <p className="text-sm text-muted-foreground mb-6">
-                Specialized formats for security testing, machine learning training, and human
-                evaluation workflows.
-              </p>
+              <h3 className="text-lg font-semibold mb-2">{t`Advanced Exports`}</h3>
+              <p className="text-sm text-muted-foreground mb-6">{t`Specialized formats for security testing, machine learning training, and human evaluation workflows.`}</p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Button onClick={downloadBurpPayloads} variant="outline" className="h-12">
                   <Download className="size-4 mr-2" />
-                  Burp Payloads
+                  {t`Burp Payloads`}
                 </Button>
 
                 <Button onClick={downloadDpoJson} variant="outline" className="h-12">
                   <Download className="size-4 mr-2" />
-                  DPO JSON
+                  {t`DPO JSON`}
                 </Button>
 
                 <Button onClick={downloadHumanEvalTestCases} variant="outline" className="h-12">
                   <Download className="size-4 mr-2" />
-                  Human Eval YAML
+                  {t`Human Eval YAML`}
                 </Button>
               </div>
             </CardContent>

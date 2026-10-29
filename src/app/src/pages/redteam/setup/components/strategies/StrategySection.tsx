@@ -1,5 +1,6 @@
 import { Button } from '@app/components/ui/button';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { StrategyItem } from './StrategyItem';
 
 import type { StrategyCardData } from './types';
@@ -63,7 +64,7 @@ export function StrategySection({
             disabled={selectedStrategiesInSection.length === 0}
             className="px-0 font-normal hover:bg-transparent"
           >
-            Reset
+            {t`Reset`}
           </Button>
         )}
       </div>

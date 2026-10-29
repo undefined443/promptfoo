@@ -18,6 +18,7 @@ import {
 } from '@app/components/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   type InputConfig,
   type InputDefinition,
@@ -194,7 +195,7 @@ export default function InputsEditor({
         <span className="inline-block w-fit">
           <Button variant="outline" size="sm" disabled className="pointer-events-none">
             <Plus className="mr-2 size-4" />
-            Add Variable
+            {t`Add Variable`}
           </Button>
         </span>
       </TooltipTrigger>
@@ -203,7 +204,7 @@ export default function InputsEditor({
   ) : (
     <Button variant="outline" size="sm" onClick={addVariable}>
       <Plus className="mr-2 size-4" />
-      Add Variable
+      {t`Add Variable`}
     </Button>
   );
 
@@ -222,32 +223,33 @@ export default function InputsEditor({
                 <div className="flex flex-1 flex-col gap-3 sm:flex-row">
                   <div className="sm:w-48">
                     <Label htmlFor={`${inputId}-name`} className="mb-1.5 block text-sm">
-                      Variable Name
+                      {t`Variable Name`}
                     </Label>
                     <Input
                       id={`${inputId}-name`}
-                      placeholder="e.g., user_id"
+                      placeholder={t`e.g., user_id`}
                       value={variable.name}
                       onChange={(e) => updateVariableName(variable.name, e.target.value)}
                       className={cn('font-mono', isDuplicate && 'border-destructive')}
                     />
-                    {isDuplicate && <HelperText error>Duplicate variable name</HelperText>}
+                    {isDuplicate && <HelperText error>{t`Duplicate variable name`}</HelperText>}
                   </div>
                   <div className="flex-1">
                     <Label htmlFor={`${inputId}-desc`} className="mb-1.5 block text-sm">
-                      Instructions
+                      {t`Instructions`}
                     </Label>
                     <Input
                       id={`${inputId}-desc`}
-                      placeholder="e.g., A realistic user ID in UUID format"
+                      placeholder={t`e.g., A realistic user ID in UUID format`}
                       value={variable.description}
                       onChange={(e) => updateVariableDescription(variable.name, e.target.value)}
                     />
                   </div>
                   <div className="sm:w-40">
-                    <Label htmlFor={`${inputId}-type`} className="mb-1.5 block text-sm">
-                      Variable Type
-                    </Label>
+                    <Label
+                      htmlFor={`${inputId}-type`}
+                      className="mb-1.5 block text-sm"
+                    >{t`Variable Type`}</Label>
                     <Select
                       value={variable.type}
                       onValueChange={(value) =>
@@ -255,7 +257,7 @@ export default function InputsEditor({
                       }
                     >
                       <SelectTrigger id={`${inputId}-type`}>
-                        <SelectValue placeholder="Select type" />
+                        <SelectValue placeholder={t`Select type`} />
                       </SelectTrigger>
                       <SelectContent>
                         {INPUT_TYPE_OPTIONS.map((option) => (
@@ -295,43 +297,34 @@ export default function InputsEditor({
     <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
       <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg border border-border bg-background p-4 hover:bg-muted/50">
         <div className="text-left">
-          <h3 className="font-semibold">Multi-Variable Inputs</h3>
+          <h3 className="font-semibold">{t`Multi-Variable Inputs`}</h3>
           <p className="text-sm text-muted-foreground">
-            Define additional input variables for test case generation
-            {variables.length > 0 && ` (${variables.length} configured)`}
+            {t`Define additional input variables for test case generation`}
+            {variables.length > 0 && t` (${variables.length} configured)`}
           </p>
         </div>
         <ChevronDown className={cn('size-5 transition-transform', isExpanded && 'rotate-180')} />
       </CollapsibleTrigger>
       <CollapsibleContent className="px-4 pb-4 pt-4">
         <div className="mb-4 space-y-3">
-          <p className="text-sm text-muted-foreground">
-            Configure additional variables that will be generated alongside adversarial prompts.
-            Each variable needs a name and a description that tells the LLM what kind of value to
-            generate.
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Configure additional variables that will be generated alongside adversarial prompts. Each variable needs a name and a description that tells the LLM what kind of value to generate.`}</p>
           <div className="rounded-md border border-border bg-muted/30 p-3">
-            <p className="mb-2 text-sm font-medium">How it works:</p>
+            <p className="mb-2 text-sm font-medium">{t`How it works:`}</p>
             <ul className="list-inside list-disc space-y-1 text-sm text-muted-foreground">
               <li>
-                Variables are available as{' '}
+                {t`Variables are available as`}{' '}
                 <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">
                   {'{{variable_name}}'}
                 </code>{' '}
-                in your request body, headers, URL, and transforms
+                {t`in your request body, headers, URL, and transforms`}
               </li>
-              <li>
-                The LLM generates contextual values based on your description (e.g., realistic user
-                IDs, session tokens, roles)
-              </li>
-              <li>PDF, DOCX, and image variables are wrapped into real file payloads at runtime</li>
-              <li>
-                Values are generated fresh for each test case alongside the adversarial prompt
-              </li>
+              <li>{t`The LLM generates contextual values based on your description (e.g., realistic user IDs, session tokens, roles)`}</li>
+              <li>{t`PDF, DOCX, and image variables are wrapped into real file payloads at runtime`}</li>
+              <li>{t`Values are generated fresh for each test case alongside the adversarial prompt`}</li>
             </ul>
           </div>
           <p className="text-sm text-muted-foreground">
-            See{' '}
+            {t`See`}{' '}
             <a
               href="https://www.promptfoo.dev/docs/red-team/configuration/multi-input/"
               target="_blank"
@@ -340,7 +333,7 @@ export default function InputsEditor({
             >
               documentation
             </a>{' '}
-            for more details and examples.
+            {t`for more details and examples.`}
           </p>
         </div>
         {variablesList}

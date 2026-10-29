@@ -8,6 +8,7 @@ import {
 } from '@app/components/ui/collapsible';
 import { Tooltip, TooltipArrow, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   categoryAliases,
   categoryDescriptions,
@@ -100,7 +101,7 @@ const PluginRow = ({ test, pluginPassRateThreshold, onPluginClick }: PluginRowPr
             <TooltipArrow className="fill-foreground" />
             <p>
               {subCategoryDescriptions[test.name as keyof typeof subCategoryDescriptions] ||
-                'Click to view details'}
+                t`Click to view details`}
             </p>
           </TooltipContent>
         </Tooltip>
@@ -164,7 +165,7 @@ const RiskCategoryRow = ({
       <CollapsibleTrigger asChild>
         <button
           type="button"
-          aria-label={`${isExpanded ? 'Collapse' : 'Expand'} ${category.name} category, ${category.totalPasses} of ${category.totalTests} passed, ${hasFailed ? 'failing' : 'passing'}`}
+          aria-label={`${isExpanded ? t`Collapse` : t`Expand`} ${category.name} category, ${category.totalPasses} of ${category.totalTests} passed, ${hasFailed ? 'failing' : 'passing'}`}
           aria-describedby={descriptionId}
           className={cn(
             'flex w-full items-center gap-2 p-4 text-left transition-colors cursor-pointer sm:gap-4',
@@ -331,13 +332,13 @@ const RiskCategories = ({
   return (
     <div className="space-y-4">
       <div className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-xl font-semibold">Risk Categories</h2>
+        <h2 className="text-xl font-semibold">{t`Risk Categories`}</h2>
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <span className={cn('font-medium', getPassRateStyles(overallPassRate).text)}>
             {Math.round(overallPassRate * 100)}%
           </span>
           <span>
-            ({overallPassed}/{overallTotal} tests defended)
+            ({overallPassed}/{overallTotal} {t`tests defended)`}
           </span>
         </div>
       </div>

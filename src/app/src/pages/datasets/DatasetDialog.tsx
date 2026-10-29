@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { EVAL_ROUTES, ROUTES } from '@app/constants/routes';
+import { t } from '@lingui/core/macro';
 import * as yaml from 'js-yaml';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router';
@@ -60,7 +61,7 @@ export default function DatasetDialog({ openDialog, handleClose, testCase }: Dat
       <DialogContent className="flex max-h-[90vh] max-w-6xl flex-col overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            Dataset Details
+            {t`Dataset Details`}
             <Badge variant="outline" className="font-mono text-xs">
               {testCase.id.slice(0, 6)}
             </Badge>
@@ -73,7 +74,7 @@ export default function DatasetDialog({ openDialog, handleClose, testCase }: Dat
         >
           {/* Test Cases YAML section */}
           <div className="space-y-2">
-            <h4 className="text-sm font-semibold">Test Cases</h4>
+            <h4 className="text-sm font-semibold">{t`Test Cases`}</h4>
             <div className="p-3 rounded-lg bg-muted/50 border border-border max-h-48 overflow-y-auto">
               <pre className="text-xs whitespace-pre-wrap font-mono">
                 {yaml.dump(testCase.testCases)}
@@ -86,7 +87,7 @@ export default function DatasetDialog({ openDialog, handleClose, testCase }: Dat
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <h4 className="text-sm font-semibold">Prompts</h4>
+                  <h4 className="text-sm font-semibold">{t`Prompts`}</h4>
                   <Badge variant="secondary" className="text-xs">
                     {sortedPrompts.length} prompts
                   </Badge>
@@ -103,7 +104,7 @@ export default function DatasetDialog({ openDialog, handleClose, testCase }: Dat
                       <ChevronLeft className="size-4" />
                     </Button>
                     <span className="text-sm text-muted-foreground">
-                      Page {page} of {totalPages}
+                      {t`Page`} {page} of {totalPages}
                     </span>
                     <Button
                       variant="outline"
@@ -121,13 +122,13 @@ export default function DatasetDialog({ openDialog, handleClose, testCase }: Dat
                 <table className="min-w-[720px] w-full text-sm">
                   <thead className="bg-muted/50">
                     <tr className="border-b border-border">
-                      <th className="px-3 py-2 text-left font-semibold w-[15%]">Prompt ID</th>
-                      <th className="px-3 py-2 text-left font-semibold w-1/4">Prompt Content</th>
-                      <th className="px-3 py-2 text-right font-semibold w-[12%]">Raw Score</th>
-                      <th className="px-3 py-2 text-right font-semibold w-[12%]">Pass Rate</th>
-                      <th className="px-3 py-2 text-right font-semibold w-[12%]">Pass Count</th>
-                      <th className="px-3 py-2 text-right font-semibold w-[12%]">Fail Count</th>
-                      <th className="px-3 py-2 text-left font-semibold w-1/5">Latest Eval</th>
+                      <th className="px-3 py-2 text-left font-semibold w-[15%]">{t`Prompt ID`}</th>
+                      <th className="px-3 py-2 text-left font-semibold w-1/4">{t`Prompt Content`}</th>
+                      <th className="px-3 py-2 text-right font-semibold w-[12%]">{t`Raw Score`}</th>
+                      <th className="px-3 py-2 text-right font-semibold w-[12%]">{t`Pass Rate`}</th>
+                      <th className="px-3 py-2 text-right font-semibold w-[12%]">{t`Pass Count`}</th>
+                      <th className="px-3 py-2 text-right font-semibold w-[12%]">{t`Fail Count`}</th>
+                      <th className="px-3 py-2 text-left font-semibold w-1/5">{t`Latest Eval`}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -186,7 +187,7 @@ export default function DatasetDialog({ openDialog, handleClose, testCase }: Dat
 
         <DialogFooter data-testid="dataset-dialog-footer" className="shrink-0">
           <Button variant="outline" onClick={handleClose}>
-            Close
+            {t`Close`}
           </Button>
         </DialogFooter>
       </DialogContent>

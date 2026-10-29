@@ -14,6 +14,7 @@ import { Label } from '@app/components/ui/label';
 import { Spinner } from '@app/components/ui/spinner';
 import { cn } from '@app/lib/utils';
 import { isInputComposing } from '@app/utils/keyboard';
+import { t } from '@lingui/core/macro';
 import { AlertTriangle } from 'lucide-react';
 
 interface ConfirmEvalNameDialogProps {
@@ -86,7 +87,7 @@ export const ConfirmEvalNameDialog = ({
       await onConfirm(name.trim());
       onClose();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Operation failed';
+      const errorMessage = err instanceof Error ? err.message : t`Operation failed`;
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -122,11 +123,11 @@ export const ConfirmEvalNameDialog = ({
               <AlertContent>
                 <AlertDescription>
                   <strong>
-                    This evaluation has {itemCount?.toLocaleString()} {itemLabel}.
+                    {t`This evaluation has`} {itemCount?.toLocaleString()} {itemLabel}.
                   </strong>{' '}
                   {isVeryLargeOperation
-                    ? 'This operation may take several minutes. Please be patient.'
-                    : 'This operation may take up to a minute.'}
+                    ? t`This operation may take several minutes. Please be patient.`
+                    : t`This operation may take up to a minute.`}
                 </AlertDescription>
               </AlertContent>
             </Alert>
@@ -153,7 +154,7 @@ export const ConfirmEvalNameDialog = ({
         </div>
         <DialogFooter>
           <Button onClick={onClose} disabled={isLoading} variant="outline">
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             onClick={handleConfirm}
@@ -162,7 +163,7 @@ export const ConfirmEvalNameDialog = ({
             }
           >
             {isLoading && <Spinner size="sm" className="mr-2" />}
-            {isLoading ? 'Processing...' : actionButtonText}
+            {isLoading ? t`Processing...` : actionButtonText}
           </Button>
         </DialogFooter>
       </DialogContent>

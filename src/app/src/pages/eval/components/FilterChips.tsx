@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { useCustomPoliciesMap } from '@app/hooks/useCustomPoliciesMap';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   deserializePolicyIdFromMetric,
   formatPolicyIdentifierAsMetric,
@@ -130,7 +131,7 @@ export function FilterChips() {
 
   return (
     <div className="flex flex-wrap items-center gap-1.5">
-      <span className="text-xs font-medium text-muted-foreground">Filter by metric:</span>
+      <span className="text-xs font-medium text-muted-foreground">{t`Filter by metric:`}</span>
       {visibleMetrics.map(({ metric, passCount, testCount }) => {
         const isActive = getActiveFilterId(metric) !== null;
         const passRate = testCount > 0 ? Math.round((passCount / testCount) * 100) : 0;
@@ -158,7 +159,7 @@ export function FilterChips() {
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              {isActive ? 'Click to remove filter' : `${passRate}% pass rate — Click to filter`}
+              {isActive ? t`Click to remove filter` : t`${passRate}% pass rate — Click to filter`}
             </TooltipContent>
           </Tooltip>
         );
@@ -175,7 +176,7 @@ export function FilterChips() {
           {isExpanded ? (
             <>
               <ChevronUp className="size-3" />
-              Show less
+              {t`Show less`}
             </>
           ) : (
             <>
