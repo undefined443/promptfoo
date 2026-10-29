@@ -8,12 +8,12 @@ import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react';
 import { configDefaults } from 'vitest/config';
 import packageJson from '../../package.json' with { type: 'json' };
-import { browserInventoryPlugin } from './vite.browser-inventory';
+import { browserInventoryPlugin } from './vite.browser-inventory.ts';
 import {
   browserModulesPlugin,
   reactCompilerPlugin,
   vendorCodeSplittingGroups,
-} from './vite.shared';
+} from './vite.shared.ts';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
