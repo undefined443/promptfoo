@@ -6,7 +6,7 @@
   "type": "module",
   "description": "Express server with WebSocket endpoint that calls OpenAI Responses API",
   "engines": {
-    "node": ">=22.22.0"
+    "node": ">=24.11.0"
   },
   "scripts": {
     "start": "node server.js",

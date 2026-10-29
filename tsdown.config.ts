@@ -11,7 +11,7 @@ const packageJson = JSON.parse(readFileSync('./package.json', 'utf8'));
 
 // Normalize the package.json engines range into comparator sets that the zero-dependency
 // CLI entrypoint can evaluate before importing any other modules.
-const enginesNode: string = packageJson.engines?.node ?? '>=22.22.0';
+const enginesNode: string = packageJson.engines?.node ?? '>=24.11.0';
 let nodeEngineComparatorSets: Array<
   Array<{ operator: '' | '=' | '>' | '>=' | '<' | '<='; version: string }>
 >;
@@ -24,9 +24,9 @@ try {
   );
 } catch {
   console.warn(
-    `[tsdown] Warning: Could not parse engines.node "${enginesNode}". Defaulting to >=22.22.0.`,
+    `[tsdown] Warning: Could not parse engines.node "${enginesNode}". Defaulting to >=24.11.0.`,
   );
-  nodeEngineComparatorSets = [[{ operator: '>=', version: '22.22.0' }]];
+  nodeEngineComparatorSets = [[{ operator: '>=', version: '24.11.0' }]];
 }
 
 // Build-time constants injected into all builds
@@ -41,7 +41,7 @@ const versionDefines = {
 
 // Use `npm run build:clean` to avoid racing concurrent builds in the shared output directory.
 const sharedBuildOptions = {
-  target: 'node22',
+  target: 'node24',
   outDir: 'dist/src',
   sourcemap: true,
   clean: false,
