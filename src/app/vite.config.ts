@@ -77,7 +77,11 @@ export default {
   },
   base: process.env.VITE_PUBLIC_BASENAME || '/',
   plugins: [
-    lingui({ macroTransform: true }),
+    lingui({
+      cwd: __dirname,
+      configPath: path.resolve(__dirname, 'lingui.config.mjs'),
+      macroTransform: true,
+    }),
     browserModulesPlugin(),
     reactCompilerPlugin(),
     ...react(),

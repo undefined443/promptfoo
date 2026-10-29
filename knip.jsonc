@@ -55,7 +55,11 @@
       }
     },
     "src/app": {
-      "entry": ["index.html"],
+      "entry": [
+        "index.html",
+        // Lingui CLI discovers this config for i18n extraction by path convention.
+        "lingui.config.mjs"
+      ],
       "project": ["src/**/*.{js,ts,tsx}"],
       "ignoreDependencies": [
         // Tailwind v4 is loaded through the CSS/PostCSS pipeline.
