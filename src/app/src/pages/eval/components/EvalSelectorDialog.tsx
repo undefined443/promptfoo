@@ -5,6 +5,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@app/components/ui/dialog';
+import { t } from '@lingui/core/macro';
 import EvalsTable from '../../evals/components/EvalsTable';
 
 type Props = {
@@ -30,7 +31,7 @@ const EvalSelectorDialog = ({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-5xl h-[80vh] p-0 gap-0 flex flex-col overflow-hidden">
         <DialogHeader className="px-6 pt-6 pb-2">
-          <DialogTitle>Select Evaluation</DialogTitle>
+          <DialogTitle>{t`Select Evaluation`}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div className="flex-1 min-h-0 flex flex-col overflow-hidden px-4 pb-2">

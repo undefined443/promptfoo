@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 
 import { Alert, AlertContent, AlertDescription, AlertTitle } from '@app/components/ui/alert';
 import { Button } from '@app/components/ui/button';
+import { t } from '@lingui/core/macro';
 import { Download } from 'lucide-react';
 import TraceTimeline from './TraceTimeline';
 import type { TraceSpan } from '@promptfoo/types/tracing';
@@ -35,7 +36,7 @@ export default function TraceView({
   if (traces.length === 0) {
     return (
       <div className="p-2">
-        <p className="text-sm text-muted-foreground">No traces available for this evaluation</p>
+        <p className="text-sm text-muted-foreground">{t`No traces available for this evaluation`}</p>
       </div>
     );
   }
@@ -105,7 +106,7 @@ export default function TraceView({
   if (filteredTraces.length === 0 && (testCaseId || testIndex !== undefined)) {
     return (
       <div className="p-2">
-        <p className="text-sm text-muted-foreground">No traces available for this test case</p>
+        <p className="text-sm text-muted-foreground">{t`No traces available for this test case`}</p>
       </div>
     );
   }
@@ -118,13 +119,13 @@ export default function TraceView({
       <div className="p-2">
         <Alert variant="info">
           <AlertContent>
-            <AlertTitle>No spans received</AlertTitle>
+            <AlertTitle>{t`No spans received`}</AlertTitle>
             <AlertDescription>
-              <p>Traces were created but no spans were received. Make sure your provider is:</p>
+              <p>{t`Traces were created but no spans were received. Make sure your provider is:`}</p>
               <ul className="mt-2 ml-4 list-disc space-y-1">
-                <li>Configured to send traces to the OTLP endpoint (http://localhost:4318)</li>
-                <li>Creating spans within the trace context</li>
-                <li>Properly exporting spans before the evaluation completes</li>
+                <li>{t`Configured to send traces to the OTLP endpoint (http://localhost:4318)`}</li>
+                <li>{t`Creating spans within the trace context`}</li>
+                <li>{t`Properly exporting spans before the evaluation completes`}</li>
               </ul>
             </AlertDescription>
           </AlertContent>
@@ -138,7 +139,7 @@ export default function TraceView({
       <div className="flex justify-end mb-4">
         <Button variant="outline" size="sm" onClick={() => handleExportTraces(filteredTraces)}>
           <Download className="size-4 mr-2" />
-          Export Traces
+          {t`Export Traces`}
         </Button>
       </div>
       {filteredTraces.map((trace, index) => (

@@ -14,6 +14,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Check, Eye, EyeOff, File, Key, Upload, X } from 'lucide-react';
 import { convertStringKeyToPem, validatePrivateKey } from '../../../utils/crypto';
 
@@ -202,7 +203,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
   return (
     <>
       <div className="space-y-2">
-        <Label htmlFor="auth-type">Authentication Type</Label>
+        <Label htmlFor="auth-type">{t`Authentication Type`}</Label>
         <Select
           value={getAuthType() ?? 'no_auth'}
           onValueChange={(value) => {
@@ -210,16 +211,16 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
           }}
         >
           <SelectTrigger id="auth-type">
-            <SelectValue placeholder="Select authentication type" />
+            <SelectValue placeholder={t`Select authentication type`} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="no_auth">No Auth</SelectItem>
-            <SelectItem value="api_key">API Key</SelectItem>
-            <SelectItem value="basic">Basic</SelectItem>
-            <SelectItem value="bearer">Bearer</SelectItem>
-            <SelectItem value="file">File</SelectItem>
-            <SelectItem value="digital_signature">Digital Signature</SelectItem>
-            <SelectItem value="oauth">OAuth 2.0</SelectItem>
+            <SelectItem value="no_auth">{t`No Auth`}</SelectItem>
+            <SelectItem value="api_key">{t`API Key`}</SelectItem>
+            <SelectItem value="basic">{t`Basic`}</SelectItem>
+            <SelectItem value="bearer">{t`Bearer`}</SelectItem>
+            <SelectItem value="file">{t`File`}</SelectItem>
+            <SelectItem value="digital_signature">{t`Digital Signature`}</SelectItem>
+            <SelectItem value="oauth">{t`OAuth 2.0`}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -241,10 +242,10 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
             | undefined;
           return (
             <div className="mt-6 space-y-4">
-              <p className="font-medium">OAuth 2.0 Configuration</p>
+              <p className="font-medium">{t`OAuth 2.0 Configuration`}</p>
 
               <div className="space-y-2">
-                <Label htmlFor="oauth-grant-type">Grant Type</Label>
+                <Label htmlFor="oauth-grant-type">{t`Grant Type`}</Label>
                 <Select
                   value={auth?.grantType || 'client_credentials'}
                   onValueChange={(value) =>
@@ -252,18 +253,18 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                   }
                 >
                   <SelectTrigger id="oauth-grant-type">
-                    <SelectValue placeholder="Select grant type" />
+                    <SelectValue placeholder={t`Select grant type`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="client_credentials">Client Credentials</SelectItem>
-                    <SelectItem value="password">Username & Password</SelectItem>
+                    <SelectItem value="client_credentials">{t`Client Credentials`}</SelectItem>
+                    <SelectItem value="password">{t`Username & Password`}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="token-url">
-                  Token URL <span className="text-destructive">*</span>
+                  {t`Token URL`} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="token-url"
@@ -275,7 +276,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
 
               <div className="space-y-2">
                 <Label htmlFor="client-id">
-                  Client ID
+                  {t`Client ID`}
                   {auth?.grantType !== 'password' && <span className="text-destructive"> *</span>}
                 </Label>
                 <Input
@@ -284,18 +285,18 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                   onChange={(e) => updateAuthField('clientId', e.target.value)}
                 />
                 {auth?.grantType === 'password' && (
-                  <p className="text-sm text-muted-foreground">Optional for password grant</p>
+                  <p className="text-sm text-muted-foreground">{t`Optional for password grant`}</p>
                 )}
               </div>
 
               <PasswordField
                 id="client-secret"
-                label="Client Secret"
+                label={t`Client Secret`}
                 value={auth?.clientSecret || ''}
                 onChange={(value) => updateAuthField('clientSecret', value)}
                 required={auth?.grantType !== 'password'}
                 helperText={
-                  auth?.grantType === 'password' ? 'Optional for password grant' : undefined
+                  auth?.grantType === 'password' ? t`Optional for password grant` : undefined
                 }
                 showValue={showClientSecret}
                 onToggleVisibility={() => setShowClientSecret(!showClientSecret)}
@@ -306,7 +307,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                 <>
                   <div className="space-y-2">
                     <Label htmlFor="oauth-username">
-                      Username <span className="text-destructive">*</span>
+                      {t`Username`} <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="oauth-username"
@@ -317,7 +318,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
 
                   <PasswordField
                     id="oauth-password"
-                    label="Password"
+                    label={t`Password`}
                     value={auth?.password || ''}
                     onChange={(value) => updateAuthField('password', value)}
                     required
@@ -328,7 +329,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="scopes">Scopes (comma-separated)</Label>
+                <Label htmlFor="scopes">{t`Scopes (comma-separated)`}</Label>
                 <Input
                   id="scopes"
                   value={Array.isArray(auth?.scopes) ? auth?.scopes.join(', ') : auth?.scopes || ''}
@@ -339,11 +340,9 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                       .filter((s) => s.length > 0);
                     updateAuthField('scopes', scopes);
                   }}
-                  placeholder="read, write, admin"
+                  placeholder={t`read, write, admin`}
                 />
-                <p className="text-sm text-muted-foreground">
-                  Enter scopes separated by commas (optional)
-                </p>
+                <p className="text-sm text-muted-foreground">{t`Enter scopes separated by commas (optional)`}</p>
               </div>
             </div>
           );
@@ -357,11 +356,11 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
             | undefined;
           return (
             <div className="mt-6 space-y-4">
-              <p className="font-medium">Basic Authentication Configuration</p>
+              <p className="font-medium">{t`Basic Authentication Configuration`}</p>
 
               <div className="space-y-2">
                 <Label htmlFor="basic-username">
-                  Username <span className="text-destructive">*</span>
+                  {t`Username`} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="basic-username"
@@ -372,7 +371,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
 
               <PasswordField
                 id="basic-password"
-                label="Password"
+                label={t`Password`}
                 value={auth?.password || ''}
                 onChange={(value) => updateAuthField('password', value)}
                 required
@@ -391,15 +390,15 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
             | undefined;
           return (
             <div className="mt-6 space-y-4">
-              <p className="font-medium">Bearer Token Authentication Configuration</p>
+              <p className="font-medium">{t`Bearer Token Authentication Configuration`}</p>
 
               <PasswordField
                 id="bearer-token"
-                label="Token"
+                label={t`Token`}
                 value={auth?.token || ''}
                 onChange={(value) => updateAuthField('token', value)}
-                placeholder="Enter your Bearer token"
-                helperText="This token will be sent in the Authorization header as: Bearer {token}"
+                placeholder={t`Enter your Bearer token`}
+                helperText={t`This token will be sent in the Authorization header as: Bearer {token}`}
                 required
                 showValue={showBearerToken}
                 onToggleVisibility={() => setShowBearerToken(!showBearerToken)}
@@ -416,47 +415,47 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
             | undefined;
           return (
             <div className="mt-6 space-y-4">
-              <p className="font-medium">API Key Authentication Configuration</p>
+              <p className="font-medium">{t`API Key Authentication Configuration`}</p>
 
               <div className="space-y-2">
-                <Label htmlFor="api-key-placement">Placement</Label>
+                <Label htmlFor="api-key-placement">{t`Placement`}</Label>
                 <Select
                   value={auth?.placement || 'header'}
                   onValueChange={(value) => updateAuthField('placement', value)}
                 >
                   <SelectTrigger id="api-key-placement">
-                    <SelectValue placeholder="Select placement" />
+                    <SelectValue placeholder={t`Select placement`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="header">Header</SelectItem>
-                    <SelectItem value="query">Query Parameter</SelectItem>
+                    <SelectItem value="header">{t`Header`}</SelectItem>
+                    <SelectItem value="query">{t`Query Parameter`}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="key-name">
-                  Key Name <span className="text-destructive">*</span>
+                  {t`Key Name`} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="key-name"
                   value={auth?.keyName || 'X-API-Key'}
                   onChange={(e) => updateAuthField('keyName', e.target.value)}
-                  placeholder="X-API-Key"
+                  placeholder={t`X-API-Key`}
                 />
                 <p className="text-sm text-muted-foreground">
                   {auth?.placement === 'header'
-                    ? 'Header name where the API key will be placed (e.g., X-API-Key, Authorization)'
-                    : 'Query parameter name where the API key will be placed (e.g., api_key, key)'}
+                    ? t`Header name where the API key will be placed (e.g., X-API-Key, Authorization)`
+                    : t`Query parameter name where the API key will be placed (e.g., api_key, key)`}
                 </p>
               </div>
 
               <PasswordField
                 id="api-key-value"
-                label="API Key Value"
+                label={t`API Key Value`}
                 value={auth?.value || ''}
                 onChange={(value) => updateAuthField('value', value)}
-                placeholder="Enter your API key"
+                placeholder={t`Enter your API key`}
                 required
                 showValue={showApiKey}
                 onToggleVisibility={() => setShowApiKey(!showApiKey)}
@@ -471,11 +470,11 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
           const auth = selectedTarget.config?.auth as { type: 'file'; path?: string } | undefined;
           return (
             <div className="mt-6 space-y-4">
-              <p className="font-medium">File-Based Authentication Configuration</p>
+              <p className="font-medium">{t`File-Based Authentication Configuration`}</p>
 
               <div className="space-y-2">
                 <Label htmlFor="file-auth-path">
-                  Auth File Path <span className="text-destructive">*</span>
+                  {t`Auth File Path`} <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="file-auth-path"
@@ -484,7 +483,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                   placeholder="./auth/get-token.ts"
                 />
                 <p className="text-sm text-muted-foreground">
-                  Load a token from a JavaScript, TypeScript, or Python auth file. See{' '}
+                  {t`Load a token from a JavaScript, TypeScript, or Python auth file. See`}{' '}
                   <a
                     href="https://www.promptfoo.dev/docs/providers/http/#file-based-authentication"
                     target="_blank"
@@ -493,7 +492,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                   >
                     docs
                   </a>{' '}
-                  for details.
+                  {t`for details.`}
                 </p>
               </div>
             </div>
@@ -504,8 +503,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
       {getAuthType() === 'digital_signature' && (
         <div className="mt-6 space-y-6">
           <p className="text-sm">
-            Configure signature-based authentication for secure API calls. Your private key is never
-            sent to Promptfoo and will always be stored locally on your system. See{' '}
+            {t`Configure signature-based authentication for secure API calls. Your private key is never sent to Promptfoo and will always be stored locally on your system. See`}{' '}
             <a
               href="https://www.promptfoo.dev/docs/providers/http/#digital-signature-authentication"
               target="_blank"
@@ -514,11 +512,11 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
             >
               docs
             </a>{' '}
-            for more information.
+            {t`for more information.`}
           </p>
 
           <div className="space-y-2">
-            <Label htmlFor="certificate-type">Certificate Type</Label>
+            <Label htmlFor="certificate-type">{t`Certificate Type`}</Label>
             <Select
               value={selectedTarget.config?.signatureAuth?.certificateType || 'pem'}
               onValueChange={(certType) => {
@@ -542,7 +540,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
               }}
             >
               <SelectTrigger id="certificate-type">
-                <SelectValue placeholder="Select certificate type" />
+                <SelectValue placeholder={t`Select certificate type`} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="pem">PEM</SelectItem>
@@ -554,7 +552,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
 
           {selectedTarget.config?.signatureAuth?.certificateType === 'pem' && (
             <div>
-              <p className="mb-3 font-medium">PEM Key Input Method</p>
+              <p className="mb-3 font-medium">{t`PEM Key Input Method`}</p>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {[
                   { value: 'upload', icon: Upload, label: 'Upload Key', desc: 'Upload PEM file' },
@@ -627,7 +625,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                             pfxPassword: undefined,
                           });
                           await validatePrivateKey(content);
-                          showToast('Private key validated successfully', 'success');
+                          showToast(t`Private key validated successfully`, 'success');
                         } catch (error) {
                           console.warn(
                             'Key was loaded but could not be successfully validated:',
@@ -645,9 +643,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                 />
                 {selectedTarget.config?.signatureAuth?.privateKey ? (
                   <>
-                    <p className="mb-2 text-green-600 dark:text-green-400">
-                      Key file loaded successfully
-                    </p>
+                    <p className="mb-2 text-green-600 dark:text-green-400">{t`Key file loaded successfully`}</p>
                     <Button
                       variant="outline"
                       onClick={() =>
@@ -659,17 +655,17 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                       }
                     >
                       <X className="mr-2 size-4" />
-                      Remove Key
+                      {t`Remove Key`}
                     </Button>
                   </>
                 ) : (
                   <>
-                    <p className="mb-2 text-muted-foreground">Upload your PEM format private key</p>
+                    <p className="mb-2 text-muted-foreground">{t`Upload your PEM format private key`}</p>
                     <label htmlFor="private-key-upload">
                       <Button variant="outline" asChild>
                         <span className="cursor-pointer">
                           <Key className="mr-2 size-4" />
-                          Choose File
+                          {t`Choose File`}
                         </span>
                       </Button>
                     </label>
@@ -682,7 +678,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
             selectedTarget.config?.signatureAuth?.keyInputType === 'path' && (
               <div className="rounded-lg border border-border p-6">
                 <div className="space-y-2">
-                  <Label htmlFor="private-key-path">Private Key File Path</Label>
+                  <Label htmlFor="private-key-path">{t`Private Key File Path`}</Label>
                   <Input
                     id="private-key-path"
                     placeholder="/path/to/private_key.pem"
@@ -701,9 +697,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                       });
                     }}
                   />
-                  <p className="text-sm text-muted-foreground">
-                    Specify the path on disk to your PEM format private key file
-                  </p>
+                  <p className="text-sm text-muted-foreground">{t`Specify the path on disk to your PEM format private key file`}</p>
                 </div>
               </div>
             )}
@@ -748,7 +742,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                           pfxPassword: undefined,
                         });
                         await validatePrivateKey(formattedKey);
-                        showToast('Private key validated successfully', 'success');
+                        showToast(t`Private key validated successfully`, 'success');
                       } catch (error) {
                         console.warn(
                           'Key was loaded but could not be successfully validated:',
@@ -762,7 +756,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                     }}
                   >
                     <Check className="mr-2 size-4" />
-                    Format & Validate
+                    {t`Format & Validate`}
                   </Button>
                 </div>
               </div>
@@ -770,12 +764,10 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
 
           {selectedTarget.config?.signatureAuth?.certificateType === 'jks' && (
             <div className="space-y-4 rounded-lg border border-border p-6">
-              <p className="text-muted-foreground">
-                Configure Java KeyStore (JKS) settings for signature authentication
-              </p>
+              <p className="text-muted-foreground">{t`Configure Java KeyStore (JKS) settings for signature authentication`}</p>
 
               <div className="space-y-2">
-                <Label htmlFor="keystore-path">Keystore Path</Label>
+                <Label htmlFor="keystore-path">{t`Keystore Path`}</Label>
                 <Input
                   id="keystore-path"
                   placeholder="/path/to/keystore.jks"
@@ -792,14 +784,12 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                     });
                   }}
                 />
-                <p className="text-sm text-muted-foreground">
-                  Enter full path to your JKS keystore file
-                </p>
+                <p className="text-sm text-muted-foreground">{t`Enter full path to your JKS keystore file`}</p>
               </div>
 
               <PasswordField
                 id="keystore-password"
-                label="Keystore Password"
+                label={t`Keystore Password`}
                 value={selectedTarget.config?.signatureAuth?.keystorePassword || ''}
                 onChange={(value) => {
                   updateCustomTarget('signatureAuth', {
@@ -807,14 +797,14 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                     keystorePassword: value,
                   });
                 }}
-                placeholder="Enter keystore password"
-                helperText="Password for the JKS keystore. Can also be set via PROMPTFOO_JKS_PASSWORD environment variable."
+                placeholder={t`Enter keystore password`}
+                helperText={t`Password for the JKS keystore. Can also be set via PROMPTFOO_JKS_PASSWORD environment variable.`}
                 showValue={showKeystorePassword}
                 onToggleVisibility={() => setShowKeystorePassword(!showKeystorePassword)}
               />
 
               <div className="space-y-2">
-                <Label htmlFor="key-alias">Key Alias</Label>
+                <Label htmlFor="key-alias">{t`Key Alias`}</Label>
                 <Input
                   id="key-alias"
                   placeholder="client"
@@ -826,22 +816,17 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                     });
                   }}
                 />
-                <p className="text-sm text-muted-foreground">
-                  Alias of the key to use from the keystore. If not specified, the first available
-                  key will be used.
-                </p>
+                <p className="text-sm text-muted-foreground">{t`Alias of the key to use from the keystore. If not specified, the first available key will be used.`}</p>
               </div>
             </div>
           )}
 
           {selectedTarget.config?.signatureAuth?.certificateType === 'pfx' && (
             <div className="space-y-4 rounded-lg border border-border p-6">
-              <p className="text-muted-foreground">
-                Configure PFX (PKCS#12) certificate settings for signature authentication
-              </p>
+              <p className="text-muted-foreground">{t`Configure PFX (PKCS#12) certificate settings for signature authentication`}</p>
 
               <div>
-                <p className="mb-2 font-medium">Certificate Format</p>
+                <p className="mb-2 font-medium">{t`Certificate Format`}</p>
                 <div className="flex gap-4">
                   {['pfx', 'separate'].map((mode) => (
                     <label key={mode} className="flex cursor-pointer items-center gap-2">
@@ -868,7 +853,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                         }}
                         className="size-4"
                       />
-                      <span>{mode === 'pfx' ? 'PFX/P12 File' : 'Separate CRT/KEY Files'}</span>
+                      <span>{mode === 'pfx' ? t`PFX/P12 File` : t`Separate CRT/KEY Files`}</span>
                     </label>
                   ))}
                 </div>
@@ -878,7 +863,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                 selectedTarget.config?.signatureAuth?.pfxMode === 'pfx') && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="pfx-path">PFX File Path</Label>
+                    <Label htmlFor="pfx-path">{t`PFX File Path`}</Label>
                     <Input
                       id="pfx-path"
                       placeholder="/path/to/certificate.pfx"
@@ -898,14 +883,12 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                         });
                       }}
                     />
-                    <p className="text-sm text-muted-foreground">
-                      Enter full path to your PFX/P12 certificate file
-                    </p>
+                    <p className="text-sm text-muted-foreground">{t`Enter full path to your PFX/P12 certificate file`}</p>
                   </div>
 
                   <PasswordField
                     id="pfx-password"
-                    label="PFX Password"
+                    label={t`PFX Password`}
                     value={selectedTarget.config?.signatureAuth?.pfxPassword || ''}
                     onChange={(value) => {
                       updateCustomTarget('signatureAuth', {
@@ -913,8 +896,8 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                         pfxPassword: value,
                       });
                     }}
-                    placeholder="Enter PFX password"
-                    helperText="Password for the PFX certificate file. Can also be set via PROMPTFOO_PFX_PASSWORD environment variable."
+                    placeholder={t`Enter PFX password`}
+                    helperText={t`Password for the PFX certificate file. Can also be set via PROMPTFOO_PFX_PASSWORD environment variable.`}
                     showValue={showPfxPassword}
                     onToggleVisibility={() => setShowPfxPassword(!showPfxPassword)}
                   />
@@ -924,7 +907,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
               {selectedTarget.config?.signatureAuth?.pfxMode === 'separate' && (
                 <>
                   <div className="space-y-2">
-                    <Label htmlFor="cert-path">Certificate File Path</Label>
+                    <Label htmlFor="cert-path">{t`Certificate File Path`}</Label>
                     <Input
                       id="cert-path"
                       placeholder="/path/to/certificate.crt"
@@ -944,13 +927,11 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                         });
                       }}
                     />
-                    <p className="text-sm text-muted-foreground">
-                      Enter full path to your certificate file
-                    </p>
+                    <p className="text-sm text-muted-foreground">{t`Enter full path to your certificate file`}</p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="key-path">Private Key File Path</Label>
+                    <Label htmlFor="key-path">{t`Private Key File Path`}</Label>
                     <Input
                       id="key-path"
                       placeholder="/path/to/private.key"
@@ -962,9 +943,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                         });
                       }}
                     />
-                    <p className="text-sm text-muted-foreground">
-                      Enter full path to your private key file
-                    </p>
+                    <p className="text-sm text-muted-foreground">{t`Enter full path to your private key file`}</p>
                   </div>
                 </>
               )}
@@ -972,7 +951,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="signature-data-template">Signature Data Template</Label>
+            <Label htmlFor="signature-data-template">{t`Signature Data Template`}</Label>
             <Input
               id="signature-data-template"
               value={
@@ -985,16 +964,17 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                   signatureDataTemplate: e.target.value,
                 })
               }
-              placeholder="Template for generating signature data"
+              placeholder={t`Template for generating signature data`}
             />
             <p className="text-sm text-muted-foreground">
-              Supported variables: {'{{signatureTimestamp}}'}. Use \n for newlines
+              {t`Supported variables:`} {'{{signatureTimestamp}}'}
+              {t`. Use \\n for newlines`}
             </p>
           </div>
 
           <NumberInput
             fullWidth
-            label="Signature Validity (ms)"
+            label={t`Signature Validity (ms)`}
             value={selectedTarget.config?.signatureAuth?.signatureValidityMs}
             onChange={(v) =>
               updateCustomTarget('signatureAuth', {
@@ -1013,12 +993,12 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                 });
               }
             }}
-            placeholder="How long the signature remains valid"
+            placeholder={t`How long the signature remains valid`}
           />
 
           <NumberInput
             fullWidth
-            label="Signature Refresh Buffer (ms)"
+            label={t`Signature Refresh Buffer (ms)`}
             value={selectedTarget.config?.signatureAuth?.signatureRefreshBufferMs}
             onChange={(v) =>
               updateCustomTarget('signatureAuth', {
@@ -1026,11 +1006,11 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                 signatureRefreshBufferMs: v,
               })
             }
-            placeholder="Buffer time before signature expiry to refresh - defaults to 10% of signature validity"
+            placeholder={t`Buffer time before signature expiry to refresh - defaults to 10% of signature validity`}
           />
 
           <div className="space-y-2">
-            <Label htmlFor="signature-algorithm">Signature Algorithm</Label>
+            <Label htmlFor="signature-algorithm">{t`Signature Algorithm`}</Label>
             <Input
               id="signature-algorithm"
               value={selectedTarget.config?.signatureAuth?.signatureAlgorithm || 'SHA256'}
@@ -1040,7 +1020,7 @@ const AuthorizationTab: React.FC<AuthorizationTabProps> = ({
                   signatureAlgorithm: e.target.value,
                 })
               }
-              placeholder="Signature algorithm (default: SHA256)"
+              placeholder={t`Signature algorithm (default: SHA256)`}
             />
           </div>
         </div>

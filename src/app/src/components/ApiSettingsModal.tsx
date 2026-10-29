@@ -16,6 +16,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { type ApiHealthStatus, useApiHealth } from '@app/hooks/useApiHealth';
 import { cn } from '@app/lib/utils';
 import useApiConfig from '@app/stores/apiConfig';
+import { t } from '@lingui/core/macro';
 import { AlertCircle, CheckCircle, Circle, RefreshCw } from 'lucide-react';
 
 const StatusIndicator = ({ status }: { status: ApiHealthStatus | 'loading' }) => {
@@ -25,17 +26,17 @@ const StatusIndicator = ({ status }: { status: ApiHealthStatus | 'loading' }) =>
   > = {
     connected: {
       colorClass: 'text-emerald-500',
-      text: 'Connected to promptfoo API',
+      text: t`Connected to promptfoo API`,
       Icon: CheckCircle,
     },
     blocked: {
       colorClass: 'text-red-500',
-      text: 'Cannot connect to promptfoo API',
+      text: t`Cannot connect to promptfoo API`,
       Icon: AlertCircle,
     },
-    loading: { colorClass: 'text-blue-500', text: 'Checking connection...', Icon: Circle },
-    unknown: { colorClass: 'text-gray-400', text: 'Checking connection status...', Icon: Circle },
-    disabled: { colorClass: 'text-gray-400', text: 'Remote generation is disabled', Icon: Circle },
+    loading: { colorClass: 'text-blue-500', text: t`Checking connection...`, Icon: Circle },
+    unknown: { colorClass: 'text-gray-400', text: t`Checking connection status...`, Icon: Circle },
+    disabled: { colorClass: 'text-gray-400', text: t`Remote generation is disabled`, Icon: Circle },
   };
 
   const config = statusConfig[status];
@@ -94,7 +95,7 @@ export default function ApiSettingsModal<T extends { open: boolean; onClose: () 
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-sm">
         <DialogHeader>
-          <DialogTitle className="pr-8">API and Sharing Settings</DialogTitle>
+          <DialogTitle className="pr-8">{t`API and Sharing Settings`}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -108,12 +109,12 @@ export default function ApiSettingsModal<T extends { open: boolean; onClose: () 
                   onClick={() => checkHealth()}
                   disabled={isChecking}
                   className="size-8"
-                  aria-label="Check connection"
+                  aria-label={t`Check connection`}
                 >
                   {isChecking ? <Spinner size="sm" /> : <RefreshCw className="size-4" />}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent side="bottom">Check connection</TooltipContent>
+              <TooltipContent side="bottom">{t`Check connection`}</TooltipContent>
             </Tooltip>
           </div>
 
@@ -133,28 +134,26 @@ export default function ApiSettingsModal<T extends { open: boolean; onClose: () 
           <div className="space-y-2">
             <h3 className="text-base font-semibold">API</h3>
             <div className="space-y-1.5">
-              <Label htmlFor="api-base-url">API Base URL</Label>
+              <Label htmlFor="api-base-url">{t`API Base URL`}</Label>
               <Input
                 id="api-base-url"
                 value={tempApiBaseUrl}
                 onChange={handleApiBaseUrlChange}
                 disabled={isFormDisabled}
-                placeholder="Enter API base URL"
+                placeholder={t`Enter API base URL`}
               />
-              <p className="text-xs text-muted-foreground">
-                The promptfoo API the webview will connect to
-              </p>
+              <p className="text-xs text-muted-foreground">{t`The promptfoo API the webview will connect to`}</p>
             </div>
           </div>
         </div>
 
         <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={isFormDisabled}>
-            Close
+            {t`Close`}
           </Button>
           <Button onClick={handleSave} disabled={isFormDisabled}>
             {isSaving && <Spinner size="sm" className="mr-2" />}
-            Save
+            {t`Save`}
           </Button>
         </DialogFooter>
       </DialogContent>

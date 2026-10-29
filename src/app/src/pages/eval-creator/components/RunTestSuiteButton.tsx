@@ -8,6 +8,7 @@ import { useToast } from '@app/hooks/useToast';
 import { normalizeLocalProviders } from '@app/pages/redteam/setup/components/Targets/helpers';
 import { useStore } from '@app/stores/evalConfig';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { useLocation, useNavigate } from 'react-router';
 import {
   countTests,
@@ -104,7 +105,7 @@ const RunTestSuiteButton = () => {
         return;
       }
 
-      const message = error instanceof Error ? error.message : 'An unknown error occurred';
+      const message = error instanceof Error ? error.message : t`An unknown error occurred`;
       setIsRunning(false);
       setRunError(message);
       showToast(`An error occurred: ${message}`, 'error');
@@ -202,10 +203,11 @@ const RunTestSuiteButton = () => {
         {isRunning ? (
           <span className="flex items-center gap-2" role="status" aria-live="polite">
             <Spinner className="size-4" />
-            {progressPercent.toFixed(0)}% complete
+            {progressPercent.toFixed(0)}
+            {t`% complete`}
           </span>
         ) : (
-          'Run Eval'
+          t`Run Eval`
         )}
       </Button>
       {runError && (

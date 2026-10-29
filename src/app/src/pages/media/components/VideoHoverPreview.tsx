@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Pause, Play } from 'lucide-react';
 import { useHoverIntent } from '../hooks/useHoverIntent';
 import { VideoThumbnail } from './VideoThumbnail';
@@ -155,7 +156,7 @@ export function VideoHoverPreview({
             // Make clickable on touch devices
             isTouchDevice ? 'pointer-events-auto cursor-pointer hover:bg-black/60' : '',
           )}
-          aria-label={isVideoPlaying ? 'Pause video preview' : 'Play video preview'}
+          aria-label={isVideoPlaying ? t`Pause video preview` : t`Play video preview`}
         >
           <Play className="h-6 w-6 text-white ml-0.5" fill="currentColor" />
         </button>
@@ -169,10 +170,10 @@ export function VideoHoverPreview({
               type="button"
               onClick={handlePlayButtonClick}
               className="flex items-center gap-1 px-2 py-1 bg-black/60 rounded text-white text-xs hover:bg-black/70 transition-colors"
-              aria-label="Pause video preview"
+              aria-label={t`Pause video preview`}
             >
               <Pause className="h-3 w-3" fill="currentColor" />
-              <span>Tap to pause</span>
+              <span>{t`Tap to pause`}</span>
             </button>
           ) : (
             <div className="flex items-center gap-1 px-2 py-1 bg-black/60 rounded text-white text-xs">
@@ -180,7 +181,7 @@ export function VideoHoverPreview({
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
               </span>
-              <span>Playing</span>
+              <span>{t`Playing`}</span>
             </div>
           )}
         </div>

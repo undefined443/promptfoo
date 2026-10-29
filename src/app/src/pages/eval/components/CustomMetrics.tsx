@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import {
   deserializePolicyIdFromMetric,
   determinePolicyTypeFromId,
@@ -113,7 +114,7 @@ const CustomMetrics = ({
                       rel="noopener noreferrer"
                       className="flex items-center gap-1 text-primary hover:underline"
                     >
-                      <span>View policy in Promptfoo Cloud</span>
+                      <span>{t`View policy in Promptfoo Cloud`}</span>
                       <ExternalLink className="size-3.5" />
                     </a>
                   </p>
@@ -168,7 +169,7 @@ const CustomMetrics = ({
           onClick={onShowMore ?? (() => setShowAllMetrics(!showAllMetrics))}
           aria-expanded={showAllMetrics}
         >
-          {showAllMetrics ? 'Show less...' : 'Show more...'}
+          {showAllMetrics ? t`Show less...` : t`Show more...`}
         </button>
       )}
     </div>

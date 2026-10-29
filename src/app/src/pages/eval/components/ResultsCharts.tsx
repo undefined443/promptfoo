@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@app/components/ui/select';
+import { t } from '@lingui/core/macro';
 import {
   BarController,
   BarElement,
@@ -122,7 +123,7 @@ function HistogramChart({ table }: ChartProps) {
         plugins: {
           title: {
             display: true,
-            text: 'Score Distribution',
+            text: t`Score Distribution`,
           },
           legend: {
             display: false,
@@ -149,13 +150,13 @@ function HistogramChart({ table }: ChartProps) {
           y: {
             title: {
               display: true,
-              text: 'Frequency',
+              text: t`Frequency`,
             },
           },
           x: {
             title: {
               display: true,
-              text: 'Score',
+              text: t`Score`,
             },
           },
         },
@@ -198,7 +199,7 @@ function PassRateChart({ table }: ChartProps) {
         plugins: {
           title: {
             display: true,
-            text: 'Pass Rate',
+            text: t`Pass Rate`,
           },
           legend: {
             display: true,
@@ -317,8 +318,8 @@ function ScatterChart({ table }: ChartProps) {
                   return '';
                 }
 
-                let prompt1Text = row.outputs[xAxisPrompt]?.text || 'No output';
-                let prompt2Text = row.outputs[yAxisPrompt]?.text || 'No output';
+                let prompt1Text = row.outputs[xAxisPrompt]?.text || t`No output`;
+                let prompt2Text = row.outputs[yAxisPrompt]?.text || t`No output`;
                 if (prompt1Text.length > 30) {
                   prompt1Text = prompt1Text.substring(0, 30) + '...';
                 }
@@ -371,7 +372,7 @@ function ScatterChart({ table }: ChartProps) {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Compare prompt outputs</DialogTitle>
+            <DialogTitle>{t`Compare prompt outputs`}</DialogTitle>
           </DialogHeader>
           <div className="flex gap-4 py-4">
             <Select
@@ -384,7 +385,7 @@ function ScatterChart({ table }: ChartProps) {
               <SelectContent>
                 {table.head.prompts.map((_prompt, idx) => (
                   <SelectItem key={idx} value={String(idx)}>
-                    Prompt {idx + 1}
+                    {t`Prompt`} {idx + 1}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -399,7 +400,7 @@ function ScatterChart({ table }: ChartProps) {
               <SelectContent>
                 {table.head.prompts.map((_prompt, idx) => (
                   <SelectItem key={idx} value={String(idx)}>
-                    Prompt {idx + 1}
+                    {t`Prompt`} {idx + 1}
                   </SelectItem>
                 ))}
               </SelectContent>

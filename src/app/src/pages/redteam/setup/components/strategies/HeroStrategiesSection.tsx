@@ -5,6 +5,7 @@ import { Card } from '@app/components/ui/card';
 import { Checkbox } from '@app/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { CONFIGURABLE_STRATEGIES_SET } from '@promptfoo/redteam/constants';
 import { Settings } from 'lucide-react';
 import { TestCaseGenerateButton } from '../TestCaseDialog';
@@ -31,15 +32,13 @@ const HERO_STRATEGIES: HeroStrategyData[] = [
     id: 'jailbreak:meta',
     name: 'Meta Agent',
     subtitle: 'Best for single-turn',
-    description:
-      'Dynamically builds an attack taxonomy and learns from attack history to optimize bypass attempts.',
+    description: t`Dynamically builds an attack taxonomy and learns from attack history to optimize bypass attempts.`,
   },
   {
     id: 'jailbreak:hydra',
     name: 'Hydra Multi-Turn',
     subtitle: 'Best for multi-turn',
-    description:
-      'Conversational attacks with meta-learning that adapts strategy based on full conversation history.',
+    description: t`Conversational attacks with meta-learning that adapts strategy based on full conversation history.`,
   },
 ];
 
@@ -81,11 +80,11 @@ function HeroStrategyCard({
     requiresConfig || (isSelected && CONFIGURABLE_STRATEGIES_SET.has(strategy.id));
 
   const tooltipTitle = requiresConfig
-    ? 'Configuration required. Click the settings icon to configure.'
+    ? t`Configuration required. Click the settings icon to configure.`
     : `Generate an example test case using the ${strategy.name} Strategy.`;
 
   const settingsTooltipTitle = requiresConfig
-    ? 'Configuration required. Click the settings icon to configure.'
+    ? t`Configuration required. Click the settings icon to configure.`
     : `Configure ${strategy.name}`;
 
   const handleToggle = useCallback(() => {
@@ -149,9 +148,7 @@ function HeroStrategyCard({
 
         {/* Remote generation warning */}
         {isDisabled && isRemoteGenerationDisabled && (
-          <div className="rounded border border-destructive/30 bg-destructive/10 px-2 py-1.5 text-xs text-destructive">
-            Requires remote generation. Unset PROMPTFOO_DISABLE_REMOTE_GENERATION to enable.
-          </div>
+          <div className="rounded border border-destructive/30 bg-destructive/10 px-2 py-1.5 text-xs text-destructive">{t`Requires remote generation. Unset PROMPTFOO_DISABLE_REMOTE_GENERATION to enable.`}</div>
         )}
       </div>
 
@@ -205,11 +202,8 @@ export function HeroStrategiesSection({
   return (
     <div className="mb-8">
       <div className="mb-4">
-        <h3 className="text-lg font-semibold">Recommended Strategies</h3>
-        <p className="mt-1 text-sm text-muted-foreground">
-          These agentic methods provide the highest attack success rates for most use cases. Most
-          users only need these two strategies for comprehensive coverage.
-        </p>
+        <h3 className="text-lg font-semibold">{t`Recommended Strategies`}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">{t`These agentic methods provide the highest attack success rates for most use cases. Most users only need these two strategies for comprehensive coverage.`}</p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

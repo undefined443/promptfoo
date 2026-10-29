@@ -8,6 +8,7 @@ import { Collapsible, CollapsibleContent } from '@app/components/ui/collapsible'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { useApiHealth } from '@app/hooks/useApiHealth';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   displayNameOverrides,
   riskCategorySeverityMap,
@@ -184,9 +185,7 @@ export default function VerticalSuiteCard({
                       ENTERPRISE
                     </Badge>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    This feature is only available in Promptfoo Enterprise
-                  </TooltipContent>
+                  <TooltipContent>{t`This feature is only available in Promptfoo Enterprise`}</TooltipContent>
                 </Tooltip>
               )}
               <Badge
@@ -224,11 +223,11 @@ export default function VerticalSuiteCard({
                     <div className="flex items-center gap-1.5">
                       <div className="size-1.5 rounded-full bg-red-500" />
                       <span className="text-xs font-medium">
-                        {severityCounts[Severity.Critical]} Critical
+                        {severityCounts[Severity.Critical]} {t`Critical`}
                       </span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>Critical severity</TooltipContent>
+                  <TooltipContent>{t`Critical severity`}</TooltipContent>
                 </Tooltip>
               )}
               {severityCounts[Severity.High] > 0 && (
@@ -237,11 +236,11 @@ export default function VerticalSuiteCard({
                     <div className="flex items-center gap-1.5">
                       <div className="size-1.5 rounded-full bg-amber-500" />
                       <span className="text-xs font-medium">
-                        {severityCounts[Severity.High]} High
+                        {severityCounts[Severity.High]} {t`High`}
                       </span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>High severity</TooltipContent>
+                  <TooltipContent>{t`High severity`}</TooltipContent>
                 </Tooltip>
               )}
               {severityCounts[Severity.Medium] > 0 && (
@@ -250,11 +249,11 @@ export default function VerticalSuiteCard({
                     <div className="flex items-center gap-1.5">
                       <div className="size-1.5 rounded-full bg-blue-500" />
                       <span className="text-xs font-medium">
-                        {severityCounts[Severity.Medium]} Medium
+                        {severityCounts[Severity.Medium]} {t`Medium`}
                       </span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>Medium severity</TooltipContent>
+                  <TooltipContent>{t`Medium severity`}</TooltipContent>
                 </Tooltip>
               )}
               {severityCounts[Severity.Low] > 0 && (
@@ -263,11 +262,11 @@ export default function VerticalSuiteCard({
                     <div className="flex items-center gap-1.5">
                       <div className="size-1.5 rounded-full bg-green-500" />
                       <span className="text-xs font-medium">
-                        {severityCounts[Severity.Low]} Low
+                        {severityCounts[Severity.Low]} {t`Low`}
                       </span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>Low severity</TooltipContent>
+                  <TooltipContent>{t`Low severity`}</TooltipContent>
                 </Tooltip>
               )}
               {severityCounts[Severity.Informational] > 0 && (
@@ -276,11 +275,11 @@ export default function VerticalSuiteCard({
                     <div className="flex items-center gap-1.5">
                       <div className="size-1.5 rounded-full bg-blue-400" />
                       <span className="text-xs font-medium">
-                        {severityCounts[Severity.Informational]} Info
+                        {severityCounts[Severity.Informational]} {t`Info`}
                       </span>
                     </div>
                   </TooltipTrigger>
-                  <TooltipContent>Informational</TooltipContent>
+                  <TooltipContent>{t`Informational`}</TooltipContent>
                 </Tooltip>
               )}
             </div>
@@ -296,10 +295,10 @@ export default function VerticalSuiteCard({
                         className="gap-2 bg-gradient-to-r from-amber-500 to-amber-600 px-4 py-2 font-semibold text-white shadow-md hover:from-amber-600 hover:to-amber-700 hover:shadow-lg"
                       >
                         <Lock className="size-4" />
-                        Upgrade to Enterprise
+                        {t`Upgrade to Enterprise`}
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>View pricing and features</TooltipContent>
+                    <TooltipContent>{t`View pricing and features`}</TooltipContent>
                   </Tooltip>
                   <Button
                     variant="ghost"
@@ -307,7 +306,7 @@ export default function VerticalSuiteCard({
                     onClick={handleExpandClick}
                     className="gap-1 font-medium text-muted-foreground"
                   >
-                    {expanded ? 'Collapse' : 'View Details'}
+                    {expanded ? t`Collapse` : t`View Details`}
                     <ChevronDown
                       className={cn('size-5 transition-transform', expanded && 'rotate-180')}
                     />
@@ -321,7 +320,7 @@ export default function VerticalSuiteCard({
                     onClick={handleToggleAll}
                     className="px-4 font-medium"
                   >
-                    {allSelected ? 'Deselect All' : `Select All ${suite.plugins.length} Tests`}
+                    {allSelected ? t`Deselect All` : t`Select All ${suite.plugins.length} Tests`}
                   </Button>
                   <Button
                     variant="ghost"
@@ -329,7 +328,7 @@ export default function VerticalSuiteCard({
                     onClick={handleExpandClick}
                     className="gap-1 font-medium text-muted-foreground"
                   >
-                    {expanded ? 'Collapse' : 'Expand'}
+                    {expanded ? t`Collapse` : t`Expand`}
                     <ChevronDown
                       className={cn('size-5 transition-transform', expanded && 'rotate-180')}
                     />
@@ -439,7 +438,7 @@ export default function VerticalSuiteCard({
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                  Configure {displayNameOverrides[plugin] || plugin}
+                                  {t`Configure`} {displayNameOverrides[plugin] || plugin}
                                 </TooltipContent>
                               </Tooltip>
                             )}
@@ -500,7 +499,7 @@ export default function VerticalSuiteCard({
                                     <HelpCircle className="size-4" />
                                   </Button>
                                 </TooltipTrigger>
-                                <TooltipContent>View documentation</TooltipContent>
+                                <TooltipContent>{t`View documentation`}</TooltipContent>
                               </Tooltip>
                             )}
                           </div>

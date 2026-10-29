@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Search, X } from 'lucide-react';
 import { Input } from './input';
 
@@ -42,7 +43,7 @@ function SearchInput({
           type="button"
           onClick={handleClear}
           className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-muted transition-colors"
-          aria-label="Clear search"
+          aria-label={t`Clear search`}
         >
           <X className="size-3.5 text-muted-foreground" />
         </button>

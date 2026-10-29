@@ -4,6 +4,7 @@ import { Alert } from '@app/components/ui/alert';
 import { Button } from '@app/components/ui/button';
 import { useVersionCheck } from '@app/hooks/useVersionCheck';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Check, Copy, ExternalLink, RefreshCw, X } from 'lucide-react';
 
 const COPY_COMMAND_LABELS = {
@@ -16,7 +17,7 @@ export default function UpdateBanner() {
   const { versionInfo, loading, error, dismissed, dismiss } = useVersionCheck();
   const [copied, setCopied] = useState(false);
   const bannerRef = useRef<HTMLDivElement | null>(null);
-  const dismissLabel = "Don't remind me of this version";
+  const dismissLabel = t`Don't remind me of this version`;
   const shouldShowBanner = !loading && !error && !!versionInfo?.updateAvailable && !dismissed;
 
   useEffect(() => {
@@ -119,7 +120,7 @@ export default function UpdateBanner() {
       // which is an assertive live region and interrupts screen readers; role="group" keeps
       // the banner passive and lets the inner polite live region own announcements.
       role="group"
-      aria-label="Update available"
+      aria-label={t`Update available`}
       className={cn(
         'relative z-(--z-banner) rounded-none px-4 py-2',
         'flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4',
@@ -136,17 +137,16 @@ export default function UpdateBanner() {
         <RefreshCw className="size-4 shrink-0" />
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="text-sm font-medium">
-            Update available: v{versionInfo.latestVersion}
+            {t`Update available: v`}
+            {versionInfo.latestVersion}
           </span>
           <span className="text-sm text-muted-foreground">
-            (current: v{versionInfo.currentVersion})
+            {t`(current: v`}
+            {versionInfo.currentVersion})
           </span>
           {versionInfo.commandType === 'docker' &&
             !versionInfo.updateCommands?.isCustomContainer && (
-              <span className="text-sm text-muted-foreground">
-                If this is a derived image, update its Promptfoo base and rebuild before
-                redeploying.
-              </span>
+              <span className="text-sm text-muted-foreground">{t`If this is a derived image, update its Promptfoo base and rebuild before redeploying.`}</span>
             )}
         </div>
       </div>
@@ -157,7 +157,7 @@ export default function UpdateBanner() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Release Notes
+            {t`Release Notes`}
             <ExternalLink className="size-3" />
           </a>
         </Button>
@@ -165,10 +165,7 @@ export default function UpdateBanner() {
             Promptfoo source or parent image and rebuild. Without this branch the banner would
             render version numbers and no instruction at all. */}
         {versionInfo?.updateCommands?.isCustomContainer ? (
-          <span className="text-xs text-muted-foreground">
-            Update the Promptfoo source, dependency, or parent image, then rebuild and redeploy the
-            container.
-          </span>
+          <span className="text-xs text-muted-foreground">{t`Update the Promptfoo source, dependency, or parent image, then rebuild and redeploy the container.`}</span>
         ) : (
           versionInfo?.updateCommands?.primary && (
             <Button
@@ -183,14 +180,14 @@ export default function UpdateBanner() {
               ) : (
                 <Copy className="size-3" />
               )}
-              {copied ? 'Copied' : COPY_COMMAND_LABELS[versionInfo.commandType ?? 'npm']}
+              {copied ? t`Copied` : COPY_COMMAND_LABELS[versionInfo.commandType ?? 'npm']}
             </Button>
           )
         )}
         {/* Polite live region so screen readers get the copy confirmation the icon swap alone
             does not convey. */}
         <span aria-live="polite" aria-atomic="true" className="sr-only">
-          {copied ? 'Update command copied to clipboard' : ''}
+          {copied ? t`Update command copied to clipboard` : ''}
         </span>
         <button
           type="button"

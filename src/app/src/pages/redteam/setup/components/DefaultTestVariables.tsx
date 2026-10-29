@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import { HelperText } from '@app/components/ui/helper-text';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
+import { t } from '@lingui/core/macro';
 import { Plus, Trash2 } from 'lucide-react';
 import { useRedTeamConfig } from '../hooks/useRedTeamConfig';
 
@@ -130,15 +131,12 @@ export default function DefaultTestVariables() {
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="flex-1 sm:mr-4">
-          <h3 className="mb-1 font-medium">Test Variables</h3>
-          <p className="text-sm leading-relaxed text-muted-foreground">
-            Set default variables that will be available across all test cases. Useful for
-            parameterizing endpoints, API keys, language codes, etc.
-          </p>
+          <h3 className="mb-1 font-medium">{t`Test Variables`}</h3>
+          <p className="text-sm leading-relaxed text-muted-foreground">{t`Set default variables that will be available across all test cases. Useful for parameterizing endpoints, API keys, language codes, etc.`}</p>
         </div>
         <Button variant="outline" size="sm" onClick={addVariable} className="shrink-0 self-start">
           <Plus className="mr-2 size-4" />
-          Add Variable
+          {t`Add Variable`}
         </Button>
       </div>
 
@@ -147,9 +145,9 @@ export default function DefaultTestVariables() {
           {variables.map((variable) => (
             <div key={variable.id} className="flex flex-col gap-3 sm:flex-row sm:items-start">
               <div className="w-full sm:min-w-[200px] sm:w-auto">
-                <Label className="sr-only">Variable name</Label>
+                <Label className="sr-only">{t`Variable name`}</Label>
                 <Input
-                  placeholder="Variable name"
+                  placeholder={t`Variable name`}
                   value={variable.name}
                   onChange={(e) => updateVariableName(variable.id, e.target.value)}
                   className={variable.nameError ? 'border-destructive' : ''}
@@ -157,9 +155,9 @@ export default function DefaultTestVariables() {
                 {variable.nameError && <HelperText error>{variable.nameError}</HelperText>}
               </div>
               <div className="w-full sm:grow">
-                <Label className="sr-only">Value</Label>
+                <Label className="sr-only">{t`Value`}</Label>
                 <Input
-                  placeholder="Value"
+                  placeholder={t`Value`}
                   value={variable.value}
                   onChange={(e) => updateVariableValue(variable.id, e.target.value)}
                 />
@@ -178,8 +176,8 @@ export default function DefaultTestVariables() {
         </div>
       ) : (
         <div className="rounded-lg border border-border border-dashed px-6 py-8 text-center">
-          <p className="mb-1 text-sm text-muted-foreground">No test variables configured</p>
-          <p className="text-xs text-muted-foreground">Click "Add Variable" to get started</p>
+          <p className="mb-1 text-sm text-muted-foreground">{t`No test variables configured`}</p>
+          <p className="text-xs text-muted-foreground">{t`Click "Add Variable" to get started`}</p>
         </div>
       )}
     </div>

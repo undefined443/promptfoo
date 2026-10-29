@@ -10,6 +10,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@app/components/ui/tooltip';
+import { t } from '@lingui/core/macro';
 import { Pencil, Play } from 'lucide-react';
 
 interface CodeDisplayProps {
@@ -68,7 +69,7 @@ export function PromptEditor({
     <TooltipProvider>
       <div className="mb-4">
         <div className="flex items-center justify-between mb-2">
-          <h4 className={subtitleTypographyClassName}>Prompt</h4>
+          <h4 className={subtitleTypographyClassName}>{t`Prompt`}</h4>
           <div className="flex gap-2">
             {!readOnly && !editMode && (
               <Tooltip>
@@ -78,12 +79,12 @@ export function PromptEditor({
                     size="icon"
                     onClick={() => onEditModeChange(true)}
                     className="size-8 text-muted-foreground hover:text-primary"
-                    aria-label="Edit & Replay"
+                    aria-label={t`Edit & Replay`}
                   >
                     <Pencil className="size-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent>Edit & Replay</TooltipContent>
+                <TooltipContent>{t`Edit & Replay`}</TooltipContent>
               </Tooltip>
             )}
             {!readOnly && editMode && (
@@ -98,7 +99,7 @@ export function PromptEditor({
                   ) : (
                     <Play className="size-4 mr-2" />
                   )}
-                  Replay
+                  {t`Replay`}
                 </Button>
                 <Button
                   variant="outline"
@@ -109,7 +110,7 @@ export function PromptEditor({
                     onPromptChange(prompt);
                   }}
                 >
-                  Cancel
+                  {t`Cancel`}
                 </Button>
               </>
             )}

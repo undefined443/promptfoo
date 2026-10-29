@@ -1,4 +1,5 @@
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 
 import type { SeverityCounts } from '../hooks';
 
@@ -68,9 +69,9 @@ function MetricCard({ count, label, colorScheme, size }: MetricCardProps) {
 export default function SeverityScorecard({ counts, size = 'default' }: SeverityScorecardProps) {
   return (
     <div className={cn('flex', size === 'sm' ? 'gap-3' : 'gap-3 lg:gap-4')}>
-      <MetricCard count={counts.critical} label="Critical" colorScheme="red" size={size} />
-      <MetricCard count={counts.warning} label="Warning" colorScheme="amber" size={size} />
-      <MetricCard count={counts.info} label="Info" colorScheme="blue" size={size} />
+      <MetricCard count={counts.critical} label={t`Critical`} colorScheme="red" size={size} />
+      <MetricCard count={counts.warning} label={t`Warning`} colorScheme="amber" size={size} />
+      <MetricCard count={counts.info} label={t`Info`} colorScheme="blue" size={size} />
     </div>
   );
 }

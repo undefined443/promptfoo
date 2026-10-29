@@ -13,6 +13,7 @@ import { Label } from '@app/components/ui/label';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { highlightJSON } from '@app/lib/codeHighlight';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import deepEqual from 'fast-deep-equal';
 import {
   AlertCircle,
@@ -153,10 +154,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         targetIdLabel: 'Python File Path',
         targetIdPlaceholder: './my_provider.py or ./my_provider.py:call_api',
         helpText: (
-          <>
-            Path to your Python file that implements the provider. Optionally specify a function
-            name after a colon.
-          </>
+          <>{t`Path to your Python file that implements the provider. Optionally specify a function name after a colon.`}</>
         ),
         docUrl: 'https://www.promptfoo.dev/docs/providers/python/',
         examples: {
@@ -181,10 +179,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         targetIdLabel: 'JavaScript File Path',
         targetIdPlaceholder: './my_provider.js or ./my_provider.js:callApi',
         helpText: (
-          <>
-            Path to your JavaScript/TypeScript file that exports a provider function. Optionally
-            specify an export name after a colon.
-          </>
+          <>{t`Path to your JavaScript/TypeScript file that exports a provider function. Optionally specify an export name after a colon.`}</>
         ),
         docUrl: 'https://www.promptfoo.dev/docs/providers/custom-api/',
         examples: {
@@ -211,10 +206,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         targetIdLabel: 'Go Executable Path',
         targetIdPlaceholder: './my_provider (compiled Go binary)',
         helpText: (
-          <>
-            Path to your compiled Go binary that implements the provider interface. The binary
-            should accept prompts via stdin and output responses to stdout.
-          </>
+          <>{t`Path to your compiled Go binary that implements the provider interface. The binary should accept prompts via stdin and output responses to stdout.`}</>
         ),
         docUrl: 'https://www.promptfoo.dev/docs/providers/custom-api/',
         examples: {
@@ -238,10 +230,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         targetIdLabel: 'Command',
         targetIdPlaceholder: 'exec:./my_script.sh or exec:python script.py',
         helpText: (
-          <>
-            Execute any command as a provider. The command receives the prompt via stdin and should
-            output the response to stdout.
-          </>
+          <>{t`Execute any command as a provider. The command receives the prompt via stdin and should output the response to stdout.`}</>
         ),
         docUrl: 'https://www.promptfoo.dev/docs/providers/custom-script/',
         examples: {
@@ -268,10 +257,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         targetIdLabel: 'MCP Server Configuration',
         targetIdPlaceholder: 'mcp:server-name',
         helpText: (
-          <>
-            Model Context Protocol (MCP) server configuration. Connect to MCP-compatible servers for
-            tool use and context management.
-          </>
+          <>{t`Model Context Protocol (MCP) server configuration. Connect to MCP-compatible servers for tool use and context management.`}</>
         ),
         docUrl: 'https://www.promptfoo.dev/docs/providers/mcp/',
         examples: {
@@ -295,7 +281,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         icon: <Cloud className="size-5 text-primary" />,
         targetIdLabel: 'Model ID',
         targetIdPlaceholder: 'bedrock:global.anthropic.claude-sonnet-5',
-        helpText: <>AWS Bedrock model identifier. Requires AWS credentials configured.</>,
+        helpText: <>{t`AWS Bedrock model identifier. Requires AWS credentials configured.`}</>,
         docUrl: 'https://www.promptfoo.dev/docs/providers/aws-bedrock/',
         examples: {
           title: 'Bedrock Model Examples',
@@ -322,7 +308,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         icon: <Cloud className="size-5 text-primary" />,
         targetIdLabel: 'Endpoint Name',
         targetIdPlaceholder: 'sagemaker:my-endpoint-name',
-        helpText: <>SageMaker endpoint name. Requires AWS credentials configured.</>,
+        helpText: <>{t`SageMaker endpoint name. Requires AWS credentials configured.`}</>,
         docUrl: 'https://www.promptfoo.dev/docs/providers/aws-bedrock/#sagemaker',
         examples: {
           title: 'SageMaker Examples',
@@ -347,7 +333,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         icon: <Server className="size-5 text-primary" />,
         targetIdLabel: 'Model Name',
         targetIdPlaceholder: 'localai:gpt4all-j',
-        helpText: <>LocalAI model name. Ensure LocalAI server is running.</>,
+        helpText: <>{t`LocalAI model name. Ensure LocalAI server is running.`}</>,
         docUrl: 'https://www.promptfoo.dev/docs/providers/localai/',
         examples: {
           title: 'LocalAI Model Examples',
@@ -370,7 +356,7 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         icon: <Terminal className="size-5 text-primary" />,
         targetIdLabel: 'Target ID',
         targetIdPlaceholder: 'openinterpreter',
-        helpText: <>Run coding-agent evaluations against an Open Interpreter app-server.</>,
+        helpText: <>{t`Run coding-agent evaluations against an Open Interpreter app-server.`}</>,
         docUrl: 'https://www.promptfoo.dev/docs/providers/openinterpreter/',
         examples: {
           title: 'Open Interpreter Target Example',
@@ -395,16 +381,14 @@ const getProviderConfig = (providerType?: string): ProviderConfig => {
         targetIdPlaceholder: 'e.g., openai:chat:gpt-4o or ./my-provider.py',
         helpText: (
           <>
-            The configuration string for your custom target. See{' '}
+            {t`The configuration string for your custom target. See`}{' '}
             <a
               href="https://www.promptfoo.dev/docs/red-team/configuration/#custom-providerstargets"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline"
-            >
-              Custom target documentation
-            </a>{' '}
-            for more information.
+            >{t`Custom target documentation`}</a>{' '}
+            {t`for more information.`}
           </>
         ),
         docUrl: 'https://www.promptfoo.dev/docs/red-team/configuration/#custom-providerstargets',
@@ -529,7 +513,7 @@ const CustomTargetConfiguration = ({
             {config.helpText}{' '}
             {providerType && providerType !== 'custom' && (
               <>
-                See{' '}
+                {t`See`}{' '}
                 <a
                   href={config.docUrl}
                   target="_blank"
@@ -547,7 +531,7 @@ const CustomTargetConfiguration = ({
         {/* Custom Configuration Section */}
         <div className="mt-6 space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="config-json">Configuration (JSON)</Label>
+            <Label htmlFor="config-json">{t`Configuration (JSON)`}</Label>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -558,10 +542,12 @@ const CustomTargetConfiguration = ({
                   className="h-7 px-2"
                 >
                   <AlignLeft className="size-4" />
-                  <span className="ml-1 text-xs">Format</span>
+                  <span className="ml-1 text-xs">{t`Format`}</span>
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>{bodyError ? 'Fix JSON errors first' : 'Format JSON'}</TooltipContent>
+              <TooltipContent>
+                {bodyError ? t`Fix JSON errors first` : t`Format JSON`}
+              </TooltipContent>
             </Tooltip>
           </div>
 
@@ -574,7 +560,7 @@ const CustomTargetConfiguration = ({
             <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-muted/50 px-3 py-2 text-left transition-colors hover:bg-muted data-[state=open]:rounded-b-none">
               <span className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Code2 className="size-4" />
-                Examples
+                {t`Examples`}
               </span>
               <ChevronDown
                 className={cn(
@@ -599,9 +585,7 @@ const CustomTargetConfiguration = ({
                   </ul>
                 </div>
                 <div>
-                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    JSON Config Example
-                  </p>
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t`JSON Config Example`}</p>
                   <pre className="rounded bg-muted p-2 text-xs">
                     {JSON.stringify(config.configExample, null, 2)}
                   </pre>

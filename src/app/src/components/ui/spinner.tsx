@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Loader2 } from 'lucide-react';
 
 interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -19,7 +20,7 @@ function Spinner({ className, size = 'md', ref, ...props }: SpinnerProps) {
     <div
       ref={ref}
       role="progressbar"
-      aria-label="Loading"
+      aria-label={t`Loading`}
       className={cn('flex items-center justify-center', className)}
       {...props}
     >

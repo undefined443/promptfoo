@@ -16,6 +16,7 @@ import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
 import { useStore } from '@app/stores/evalConfig';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { loadYaml } from '@promptfoo/util/yamlLoad';
 import { Check, Upload } from 'lucide-react';
 import { ErrorBoundary } from 'react-error-boundary';
@@ -68,11 +69,14 @@ function ErrorFallback({
       role="alert"
       className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-destructive"
     >
-      <p className="font-medium">Something went wrong:</p>
+      <p className="font-medium">{t`Something went wrong:`}</p>
       <pre className="mt-2 text-sm">{error instanceof Error ? error.message : String(error)}</pre>
-      <Button variant="outline" size="sm" onClick={resetErrorBoundary} className="mt-3">
-        Try again
-      </Button>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={resetErrorBoundary}
+        className="mt-3"
+      >{t`Try again`}</Button>
     </div>
   );
 }
@@ -111,7 +115,7 @@ const EvaluateTestSuiteCreator = () => {
         }
       } catch (err) {
         console.error('Failed to fetch provider config status:', err);
-        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        const errorMessage = err instanceof Error ? err.message : t`Unknown error occurred`;
         showToast(`Failed to load configuration status: ${errorMessage}`, 'error');
         if (isMounted) {
           setHasCustomConfig(false);
@@ -141,32 +145,32 @@ const EvaluateTestSuiteCreator = () => {
   const setupSteps: SetupStep[] = [
     {
       id: 1,
-      label: 'Providers',
-      title: 'Choose Providers',
+      label: t`Providers`,
+      title: t`Choose Providers`,
       isComplete: normalizedProviders.length > 0,
       count: normalizedProviders.length,
       required: true,
     },
     {
       id: 2,
-      label: 'Prompts',
-      title: 'Write Prompts',
+      label: t`Prompts`,
+      title: t`Write Prompts`,
       isComplete: normalizedPrompts.length > 0,
       count: normalizedPrompts.length,
       required: true,
     },
     {
       id: 3,
-      label: 'Test Cases',
-      title: 'Add Test Cases',
+      label: t`Test Cases`,
+      title: t`Add Test Cases`,
       isComplete: testCount > 0,
       count: testCount,
       required: true,
     },
     {
       id: 4,
-      label: 'Run Options',
-      title: 'Run Options',
+      label: t`Run Options`,
+      title: t`Run Options`,
       isComplete: Boolean(config.evaluateOptions?.delay || config.evaluateOptions?.maxConcurrency),
       required: false,
     },
@@ -192,7 +196,7 @@ const EvaluateTestSuiteCreator = () => {
         const content = e.target?.result as string;
         if (content.trim() === '') {
           showToast(
-            'The file appears to be empty. Please select a YAML file with content.',
+            t`The file appears to be empty. Please select a YAML file with content.`,
             'error',
           );
         } else {
@@ -201,7 +205,7 @@ const EvaluateTestSuiteCreator = () => {
             if (validation.success) {
               updateConfig(validation.config);
               setResetKey((k) => k + 1);
-              showToast('Configuration loaded successfully', 'success');
+              showToast(t`Configuration loaded successfully`, 'success');
             } else {
               showToast(validation.error, 'error');
             }
@@ -214,7 +218,7 @@ const EvaluateTestSuiteCreator = () => {
         }
       };
       reader.onerror = () => {
-        showToast('Failed to read file', 'error');
+        showToast(t`Failed to read file`, 'error');
       };
       reader.readAsText(file);
     }
@@ -234,17 +238,15 @@ const EvaluateTestSuiteCreator = () => {
           <div className="container max-w-7xl mx-auto px-4 py-6 lg:py-10">
             <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
               <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tight">Create Evaluation</h1>
-                <p className="text-muted-foreground">
-                  Choose what to evaluate, write prompts, and add test cases.
-                </p>
+                <h1 className="text-3xl font-bold tracking-tight">{t`Create Evaluation`}</h1>
+                <p className="text-muted-foreground">{t`Choose what to evaluate, write prompts, and add test cases.`}</p>
               </div>
 
               <div className="flex flex-wrap items-center gap-2">
                 {!hasCustomConfig && <ConfigureEnvButton />}
                 <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
                   <Upload className="size-4 mr-2" />
-                  Upload YAML
+                  {t`Upload YAML`}
                 </Button>
                 <input
                   ref={fileInputRef}
@@ -252,23 +254,25 @@ const EvaluateTestSuiteCreator = () => {
                   accept=".yaml,.yml"
                   onChange={handleFileUpload}
                   className="hidden"
-                  aria-label="Upload YAML configuration"
+                  aria-label={t`Upload YAML configuration`}
                 />
                 <Button variant="outline" onClick={() => setResetDialogOpen(true)}>
-                  Reset
+                  {t`Reset`}
                 </Button>
               </div>
             </div>
 
             {/* Tabs Toggle */}
             <div className="mt-4 lg:mt-6">
-              <TabsList aria-label="Editor mode">
-                <TabsTrigger value="ui" className="dark:text-foreground/80">
-                  UI Editor
-                </TabsTrigger>
-                <TabsTrigger value="yaml" className="dark:text-foreground/80">
-                  YAML Editor
-                </TabsTrigger>
+              <TabsList aria-label={t`Editor mode`}>
+                <TabsTrigger
+                  value="ui"
+                  className="dark:text-foreground/80"
+                >{t`UI Editor`}</TabsTrigger>
+                <TabsTrigger
+                  value="yaml"
+                  className="dark:text-foreground/80"
+                >{t`YAML Editor`}</TabsTrigger>
               </TabsList>
             </div>
           </div>
@@ -280,16 +284,16 @@ const EvaluateTestSuiteCreator = () => {
             <Card className="mb-4 shadow-sm lg:mb-6">
               <CardContent className="flex flex-col gap-4 p-4 lg:flex-row lg:items-center lg:justify-between lg:p-5">
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-muted-foreground">Evaluation setup</p>
+                  <p className="text-sm font-medium text-muted-foreground">{t`Evaluation setup`}</p>
                   <h2 className="text-xl font-semibold">
                     {isReadyToRun
-                      ? 'Ready to run'
-                      : `${completedRequiredStepCount} of ${requiredSteps.length} required steps complete`}
+                      ? t`Ready to run`
+                      : t`${completedRequiredStepCount} of ${requiredSteps.length} required steps complete`}
                   </h2>
                   <p className="text-sm text-muted-foreground">
                     {isReadyToRun
-                      ? 'Providers, prompts, and test cases are ready. Review run options or start the evaluation.'
-                      : `Next up: ${nextRecommendedStep.title}.`}
+                      ? t`Providers, prompts, and test cases are ready. Review run options or start the evaluation.`
+                      : t`Next up: ${nextRecommendedStep.title}.`}
                   </p>
                 </div>
 
@@ -298,11 +302,11 @@ const EvaluateTestSuiteCreator = () => {
                     {setupSteps.map((step) => {
                       const summaryStatus = step.required
                         ? step.isComplete
-                          ? `${step.count} ready`
-                          : 'Missing'
+                          ? t`${step.count ?? 0} ready`
+                          : t`Missing`
                         : step.isComplete
-                          ? 'Configured'
-                          : 'Optional';
+                          ? t`Configured`
+                          : t`Optional`;
 
                       return (
                         <button
@@ -338,7 +342,7 @@ const EvaluateTestSuiteCreator = () => {
                       )}
                     >
                       {isReadyToRun
-                        ? 'Review run options'
+                        ? t`Review run options`
                         : `Continue to ${nextRecommendedStep.label}`}
                     </Button>
                   )}
@@ -348,11 +352,9 @@ const EvaluateTestSuiteCreator = () => {
 
             <div className="grid gap-6 lg:grid-cols-[16rem_minmax(0,1fr)] xl:gap-8">
               {/* Left Sidebar - Step Navigation */}
-              <nav aria-label="Setup steps" className="hidden lg:block">
+              <nav aria-label={t`Setup steps`} className="hidden lg:block">
                 <div className="space-y-2 lg:sticky lg:top-8">
-                  <h3 className="mb-4 px-3 text-sm font-semibold text-muted-foreground">
-                    SETUP STEPS
-                  </h3>
+                  <h3 className="mb-4 px-3 text-sm font-semibold text-muted-foreground">{t`SETUP STEPS`}</h3>
 
                   <div className="grid gap-2 sm:grid-cols-2 lg:block lg:space-y-2">
                     {setupSteps.map((step) => {
@@ -407,8 +409,8 @@ const EvaluateTestSuiteCreator = () => {
                                 {step.required
                                   ? step.isComplete
                                     ? `${step.count} configured`
-                                    : 'Required'
-                                  : 'Optional'}
+                                    : t`Required`
+                                  : t`Optional`}
                               </div>
                             </div>
                           </div>
@@ -425,45 +427,43 @@ const EvaluateTestSuiteCreator = () => {
                 {activeStep === 1 && (
                   <StepSection
                     stepNumber={1}
-                    title="Choose Providers"
-                    description="Select what to evaluate: AI models, HTTP/WebSocket APIs, Python scripts, or custom code."
+                    title={t`Choose Providers`}
+                    description={t`Select what to evaluate: AI models, HTTP/WebSocket APIs, Python scripts, or custom code.`}
                     isComplete={normalizedProviders.length > 0}
                     isRequired
                     count={normalizedProviders.length}
                     guidance={
                       normalizedProviders.length === 0 ? (
                         <InfoBox variant="help">
-                          <strong>What are providers?</strong>
-                          <p className="mt-1">
-                            Providers are the systems you want to test. This can be:
-                          </p>
+                          <strong>{t`What are providers?`}</strong>
+                          <p className="mt-1">{t`Providers are the systems you want to test. This can be:`}</p>
                           <ul className="mt-2 space-y-1 list-disc list-inside ml-2">
                             <li>
-                              <strong>AI Models</strong> - OpenAI GPT, Anthropic Claude, Google
-                              Gemini, etc.
+                              <strong>{t`AI Models`}</strong>{' '}
+                              {t`- OpenAI GPT, Anthropic Claude, Google Gemini, etc.`}
                             </li>
                             <li>
-                              <strong>HTTP/WebSocket APIs</strong> - Your own API endpoints or
-                              third-party services
+                              <strong>{t`HTTP/WebSocket APIs`}</strong>{' '}
+                              {t`- Your own API endpoints or third-party services`}
                             </li>
                             <li>
-                              <strong>Python Scripts</strong> - Custom Python code or agent
-                              frameworks (LangChain, CrewAI, etc.)
+                              <strong>{t`Python Scripts`}</strong>{' '}
+                              {t`- Custom Python code or agent frameworks (LangChain, CrewAI, etc.)`}
                             </li>
                             <li>
-                              <strong>JavaScript/Local Providers</strong> - Custom implementations
+                              <strong>{t`JavaScript/Local Providers`}</strong>{' '}
+                              {t`- Custom implementations`}
                             </li>
                           </ul>
                           <p className="mt-2">
-                            <strong>Getting started:</strong> Select at least one provider below.
-                            You can compare multiple providers side-by-side.
+                            <strong>{t`Getting started:`}</strong>{' '}
+                            {t`Select at least one provider below. You can compare multiple providers side-by-side.`}
                           </p>
                         </InfoBox>
                       ) : (
                         <InfoBox variant="subtle">
-                          <strong>Pro tip:</strong> Testing multiple providers helps you find the
-                          best option for your use case. Compare different models, API versions, or
-                          custom implementations to optimize for quality, cost, and latency.
+                          <strong>{t`Pro tip:`}</strong>{' '}
+                          {t`Testing multiple providers helps you find the best option for your use case. Compare different models, API versions, or custom implementations to optimize for quality, cost, and latency.`}
                         </InfoBox>
                       )
                     }
@@ -486,38 +486,31 @@ const EvaluateTestSuiteCreator = () => {
                 {activeStep === 2 && (
                   <StepSection
                     stepNumber={2}
-                    title="Write Prompts"
-                    description="Create the prompts or inputs that will be sent to your providers. Use variables for dynamic content."
+                    title={t`Write Prompts`}
+                    description={t`Create the prompts or inputs that will be sent to your providers. Use variables for dynamic content.`}
                     isComplete={normalizedPrompts.length > 0}
                     isRequired
                     count={normalizedPrompts.length}
                     guidance={
                       normalizedPrompts.length === 0 ? (
                         <InfoBox variant="help">
-                          <strong>What are prompts?</strong>
-                          <p className="mt-1">
-                            Prompts are the inputs you send to your providers - whether that's
-                            instructions for AI models, API request bodies, or parameters for custom
-                            code.
-                          </p>
+                          <strong>{t`What are prompts?`}</strong>
+                          <p className="mt-1">{t`Prompts are the inputs you send to your providers - whether that's instructions for AI models, API request bodies, or parameters for custom code.`}</p>
                           <p className="mt-2">
-                            <strong>Using variables:</strong> Use{' '}
+                            <strong>{t`Using variables:`}</strong> {t`Use`}{' '}
                             <code className="bg-muted px-1 py-0.5 rounded text-xs">
                               {'{{variable_name}}'}
                             </code>{' '}
-                            to create dynamic prompts. For example:{' '}
+                            {t`to create dynamic prompts. For example:`}{' '}
                             <code className="bg-muted px-1 py-0.5 rounded text-xs">
                               "Summarize this article: {'{{article}}'}"
                             </code>
                           </p>
-                          <p className="mt-2">
-                            Variables are filled in with test case data, allowing you to test the
-                            same prompt with different inputs.
-                          </p>
+                          <p className="mt-2">{t`Variables are filled in with test case data, allowing you to test the same prompt with different inputs.`}</p>
                         </InfoBox>
                       ) : varsList.length > 0 ? (
                         <InfoBox variant="info">
-                          <strong>Variables detected:</strong>{' '}
+                          <strong>{t`Variables detected:`}</strong>{' '}
                           {varsList.map((v, i) => (
                             <span key={v}>
                               <code className="rounded border border-primary/20 bg-primary/10 px-1.5 py-0.5 text-xs text-foreground">
@@ -526,18 +519,16 @@ const EvaluateTestSuiteCreator = () => {
                               {i < varsList.length - 1 ? ', ' : ''}
                             </span>
                           ))}
-                          <p className="mt-2">
-                            These variables will need values in your test cases below. Each test
-                            case should provide data for all variables.
-                          </p>
+                          <p className="mt-2">{t`These variables will need values in your test cases below. Each test case should provide data for all variables.`}</p>
                         </InfoBox>
                       ) : (
                         <InfoBox variant="subtle">
-                          <strong>Add variables</strong> to make your prompts more flexible. Use{' '}
+                          <strong>{t`Add variables`}</strong>{' '}
+                          {t`to make your prompts more flexible. Use`}{' '}
                           <code className="bg-muted px-1 py-0.5 rounded text-xs">
                             {'{{variable_name}}'}
                           </code>{' '}
-                          syntax to create placeholders that will be filled with test data.
+                          {t`syntax to create placeholders that will be filled with test data.`}
                         </InfoBox>
                       )
                     }
@@ -557,27 +548,24 @@ const EvaluateTestSuiteCreator = () => {
                 {activeStep === 3 && (
                   <StepSection
                     stepNumber={3}
-                    title="Add Test Cases"
-                    description="Define test scenarios with input data and expected outcomes. Each case tests your prompts with different inputs."
+                    title={t`Add Test Cases`}
+                    description={t`Define test scenarios with input data and expected outcomes. Each case tests your prompts with different inputs.`}
                     isComplete={testCount > 0}
                     isRequired
                     count={testCount}
                     guidance={
                       testCount === 0 ? (
                         <InfoBox variant="help">
-                          <strong>What are test cases?</strong>
-                          <p className="mt-1">
-                            Test cases are specific examples that evaluate how well your prompts
-                            work. Each test case includes:
-                          </p>
+                          <strong>{t`What are test cases?`}</strong>
+                          <p className="mt-1">{t`Test cases are specific examples that evaluate how well your prompts work. Each test case includes:`}</p>
                           <ul className="mt-2 space-y-1 list-disc list-inside">
                             <li>
-                              <strong>Variables:</strong> Input data that fills in your prompt
-                              variables
+                              <strong>{t`Variables:`}</strong>{' '}
+                              {t`Input data that fills in your prompt variables`}
                               {varsList.length > 0 && (
                                 <>
                                   {' '}
-                                  (like{' '}
+                                  {t`(like`}{' '}
                                   <code className="bg-muted px-1 py-0.5 rounded text-xs">
                                     {varsList[0]}
                                   </code>
@@ -586,22 +574,22 @@ const EvaluateTestSuiteCreator = () => {
                               )}
                             </li>
                             <li>
-                              <strong>Assertions:</strong> Checks to verify the AI's response
-                              (optional but recommended)
+                              <strong>{t`Assertions:`}</strong>{' '}
+                              {t`Checks to verify the AI's response (optional but recommended)`}
                             </li>
                           </ul>
                           <p className="mt-2">
-                            <strong>Example:</strong> If your prompt has a{' '}
+                            <strong>{t`Example:`}</strong> {t`If your prompt has a`}{' '}
                             <code className="bg-muted px-1 py-0.5 rounded text-xs">
                               {'{{topic}}'}
                             </code>{' '}
-                            variable, each test case should provide a different topic value to test.
+                            {t`variable, each test case should provide a different topic value to test.`}
                           </p>
                         </InfoBox>
                       ) : varsList.length > 0 ? (
                         <InfoBox variant="info">
-                          <strong>Required variables:</strong> Each test case must provide values
-                          for{' '}
+                          <strong>{t`Required variables:`}</strong>{' '}
+                          {t`Each test case must provide values for`}{' '}
                           {varsList.map((v, i) => (
                             <span key={v}>
                               <code className="rounded border border-primary/20 bg-primary/10 px-1.5 py-0.5 text-xs text-foreground">
@@ -610,16 +598,12 @@ const EvaluateTestSuiteCreator = () => {
                               {i < varsList.length - 1 ? ', ' : ''}
                             </span>
                           ))}
-                          <p className="mt-2">
-                            Add assertions to automatically check if responses meet your quality
-                            standards (e.g., "contains", "matches regex", "is-json").
-                          </p>
+                          <p className="mt-2">{t`Add assertions to automatically check if responses meet your quality standards (e.g., "contains", "matches regex", "is-json").`}</p>
                         </InfoBox>
                       ) : (
                         <InfoBox variant="subtle">
-                          <strong>Add assertions</strong> to automatically verify response quality.
-                          Common checks include: contains specific text, matches expected format,
-                          stays within length limits, or passes custom validation.
+                          <strong>{t`Add assertions`}</strong>{' '}
+                          {t`to automatically verify response quality. Common checks include: contains specific text, matches expected format, stays within length limits, or passes custom validation.`}
                         </InfoBox>
                       )
                     }
@@ -642,8 +626,8 @@ const EvaluateTestSuiteCreator = () => {
                 {activeStep === 4 && (
                   <StepSection
                     stepNumber={4}
-                    title="Run Options"
-                    description="Configure how your evaluation will run (optional but recommended for rate limiting)."
+                    title={t`Run Options`}
+                    description={t`Configure how your evaluation will run (optional but recommended for rate limiting).`}
                     isComplete={
                       !!(config.evaluateOptions?.delay || config.evaluateOptions?.maxConcurrency)
                     }
@@ -683,18 +667,15 @@ const EvaluateTestSuiteCreator = () => {
       <Dialog open={resetDialogOpen} onOpenChange={setResetDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Reset evaluation setup?</DialogTitle>
-            <DialogDescription>
-              This clears providers, prompts, test cases, and run options. This action cannot be
-              undone.
-            </DialogDescription>
+            <DialogTitle>{t`Reset evaluation setup?`}</DialogTitle>
+            <DialogDescription>{t`This clears providers, prompts, test cases, and run options. This action cannot be undone.`}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setResetDialogOpen(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={handleReset}>
-              Reset
+              {t`Reset`}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -1,6 +1,7 @@
 import { Card } from '@app/components/ui/card';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
+import { t } from '@lingui/core/macro';
 import RunTestSuiteButton from './RunTestSuiteButton';
 
 interface RunOptionsSectionProps {
@@ -46,22 +47,21 @@ export function RunOptionsSection({
       <Card className="p-4 bg-muted/30 border-dashed">
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="description">Evaluation name or description</Label>
+            <Label htmlFor="description">{t`Evaluation name or description`}</Label>
             <Input
               id="description"
-              placeholder="e.g., GPT-4 vs Claude comparison for customer support prompts"
+              placeholder={t`e.g., GPT-4 vs Claude comparison for customer support prompts`}
               value={description || ''}
               onChange={(e) => onChange({ description: e.target.value, delay, maxConcurrency })}
             />
-            <p className="text-xs text-muted-foreground">
-              Optional. Helps you find this evaluation later.
-            </p>
+            <p className="text-xs text-muted-foreground">{t`Optional. Helps you find this evaluation later.`}</p>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="delay" className={canSetDelay ? '' : 'text-muted-foreground'}>
-              Delay between API calls (ms)
-            </Label>
+            <Label
+              htmlFor="delay"
+              className={canSetDelay ? '' : 'text-muted-foreground'}
+            >{t`Delay between API calls (ms)`}</Label>
             <Input
               id="delay"
               type="number"
@@ -73,8 +73,8 @@ export function RunOptionsSection({
             />
             <p className="text-xs text-muted-foreground">
               {canSetDelay
-                ? 'Add a delay between API calls to avoid rate limits'
-                : 'To set a delay, max concurrent requests must be 1'}
+                ? t`Add a delay between API calls to avoid rate limits`
+                : t`To set a delay, max concurrent requests must be 1`}
             </p>
           </div>
 
@@ -82,9 +82,7 @@ export function RunOptionsSection({
             <Label
               htmlFor="maxConcurrency"
               className={canSetMaxConcurrency ? '' : 'text-muted-foreground'}
-            >
-              Max concurrent requests
-            </Label>
+            >{t`Max concurrent requests`}</Label>
             <Input
               id="maxConcurrency"
               type="number"
@@ -96,27 +94,24 @@ export function RunOptionsSection({
             />
             <p className="text-xs text-muted-foreground">
               {canSetMaxConcurrency
-                ? 'Maximum number of concurrent requests to make'
-                : 'To set max concurrency, delay must be 0'}
+                ? t`Maximum number of concurrent requests to make`
+                : t`To set max concurrency, delay must be 0`}
             </p>
           </div>
         </div>
       </Card>
 
-      <p className="text-sm text-muted-foreground">
-        These settings apply to every provider in this evaluation. Delay and max concurrency cannot
-        be used together.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`These settings apply to every provider in this evaluation. Delay and max concurrency cannot be used together.`}</p>
 
       {/* Run Evaluation Section */}
       <Card className="border-primary/20 bg-primary/5 p-6">
         <div className="space-y-4">
           <div className="space-y-2">
-            <h3 className="text-lg font-semibold">Ready to run your evaluation?</h3>
+            <h3 className="text-lg font-semibold">{t`Ready to run your evaluation?`}</h3>
             <p className="text-sm text-muted-foreground">
               {isReadyToRun
-                ? 'All required steps are complete. Start when you are ready.'
-                : 'Add providers, prompts, and test cases to run this evaluation.'}
+                ? t`All required steps are complete. Start when you are ready.`
+                : t`Add providers, prompts, and test cases to run this evaluation.`}
             </p>
           </div>
 

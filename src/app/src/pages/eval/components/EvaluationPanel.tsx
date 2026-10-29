@@ -7,6 +7,7 @@ import {
   CollapsibleTrigger,
 } from '@app/components/ui/collapsible';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Check, ChevronDown, CircleCheck, CircleX, Copy, CornerDownRight } from 'lucide-react';
 import { ellipsize } from '../../../../../util/text';
 import type { Assertion, GradingResult } from '@promptfoo/types';
@@ -303,12 +304,12 @@ function AssertionResults({ gradingResults }: { gradingResults?: GradingResult[]
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-border bg-muted/50">
-            {hasMetrics && <th className="px-4 py-3 text-left font-semibold">Metric</th>}
-            <th className="px-4 py-3 text-left font-semibold">Pass</th>
-            <th className="px-4 py-3 text-left font-semibold">Score</th>
-            <th className="px-4 py-3 text-left font-semibold">Type</th>
-            <th className="px-4 py-3 text-left font-semibold">Value</th>
-            <th className="px-4 py-3 text-left font-semibold">Reason</th>
+            {hasMetrics && <th className="px-4 py-3 text-left font-semibold">{t`Metric`}</th>}
+            <th className="px-4 py-3 text-left font-semibold">{t`Pass`}</th>
+            <th className="px-4 py-3 text-left font-semibold">{t`Score`}</th>
+            <th className="px-4 py-3 text-left font-semibold">{t`Type`}</th>
+            <th className="px-4 py-3 text-left font-semibold">{t`Value`}</th>
+            <th className="px-4 py-3 text-left font-semibold">{t`Reason`}</th>
           </tr>
         </thead>
         <tbody>
@@ -373,7 +374,7 @@ function AssertionResults({ gradingResults }: { gradingResults?: GradingResult[]
                       <span className="break-words">{isExpanded ? value : truncatedValue}</span>
                       {templateValue && (
                         <div className="mt-1 text-xs text-muted-foreground">
-                          <span className="font-medium">Template:</span>{' '}
+                          <span className="font-medium">{t`Template:`}</span>{' '}
                           <span className="break-words">
                             {isExpanded ? templateValue : truncatedTemplateValue}
                           </span>
@@ -468,14 +469,16 @@ function GradingPromptSection({ gradingResults }: { gradingResults?: GradingResu
 
   return (
     <div className="mt-4">
-      <h4 className="mb-2 text-sm font-medium">Grading Prompts</h4>
+      <h4 className="mb-2 text-sm font-medium">{t`Grading Prompts`}</h4>
       <div className="space-y-2">
         {promptsWithData.map((result, i) => (
           <Collapsible key={i} open={Boolean(openItems[i])} onOpenChange={() => toggleItem(i)}>
             <div className="rounded-lg border border-border">
               <CollapsibleTrigger asChild>
                 <button className="flex w-full items-center justify-between px-4 py-3 text-sm hover:bg-muted/50 transition-colors">
-                  <span>{result.assertion?.type || 'Assertion'} - Full Grading Prompt</span>
+                  <span>
+                    {result.assertion?.type || t`Assertion`} {t`- Full Grading Prompt`}
+                  </span>
                   <ChevronDown
                     className={cn(
                       'size-4 text-muted-foreground transition-transform',

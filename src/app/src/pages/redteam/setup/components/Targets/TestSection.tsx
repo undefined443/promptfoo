@@ -11,6 +11,7 @@ import { Label } from '@app/components/ui/label';
 import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { AlertCircle, CheckCircle, ChevronDown, Info, Play, Send } from 'lucide-react';
 
 import type { ProviderOptions } from '../../types';
@@ -85,17 +86,13 @@ const TestSection: React.FC<TestSectionProps> = ({
       <div className="border-b border-border px-4 py-2.5">
         <div className="flex items-center gap-2">
           <Send className="size-3.5 text-primary" />
-          <span className="text-sm font-medium">Test Target Configuration</span>
+          <span className="text-sm font-medium">{t`Test Target Configuration`}</span>
         </div>
       </div>
 
       {/* Content */}
       <div className="p-4">
-        <p className="mb-3 text-sm text-muted-foreground">
-          Validate your target configuration by sending a test request to your endpoint. This will
-          verify that your authentication, headers, and request transformation settings are working
-          correctly.
-        </p>
+        <p className="mb-3 text-sm text-muted-foreground">{t`Validate your target configuration by sending a test request to your endpoint. This will verify that your authentication, headers, and request transformation settings are working correctly.`}</p>
 
         <Button
           onClick={handleTestTarget}
@@ -108,16 +105,14 @@ const TestSection: React.FC<TestSectionProps> = ({
           ) : (
             <Play className="mr-1.5 size-3.5" />
           )}
-          {isTestRunning ? 'Testing...' : 'Test Target'}
+          {isTestRunning ? t`Testing...` : t`Test Target`}
         </Button>
 
         {!targetUrl && !selectedTarget.config.request && (
           <Alert variant="warning" className="mb-3">
             <AlertCircle className="size-4" />
             <AlertContent>
-              <AlertDescription className="text-sm">
-                Please configure the target URL or request before testing.
-              </AlertDescription>
+              <AlertDescription className="text-sm">{t`Please configure the target URL or request before testing.`}</AlertDescription>
             </AlertContent>
           </Alert>
         )}
@@ -146,17 +141,17 @@ const TestSection: React.FC<TestSectionProps> = ({
                   <AlertDescription className="text-sm">
                     <p className="font-medium">
                       {testResult.changes_needed
-                        ? 'Configuration Changes Needed'
+                        ? t`Configuration Changes Needed`
                         : testResult.success
-                          ? 'Test Passed'
-                          : 'Test Failed'}
+                          ? t`Test Passed`
+                          : t`Test Failed`}
                     </p>
                     <p className="mt-1">{testResult.message}</p>
 
                     {testResult.changes_needed_suggestions &&
                       testResult.changes_needed_suggestions.length > 0 && (
                         <div className="mt-2 rounded-md bg-background/50 p-2">
-                          <p className="mb-1.5 font-medium">Suggested Changes</p>
+                          <p className="mb-1.5 font-medium">{t`Suggested Changes`}</p>
                           <ul className="m-0 list-disc space-y-0.5 pl-4">
                             {testResult.changes_needed_suggestions.map(
                               (suggestion: string, index: number) => (
@@ -178,7 +173,7 @@ const TestSection: React.FC<TestSectionProps> = ({
               className="rounded-lg border border-border"
             >
               <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-muted/50 px-3 py-2.5 text-left transition-colors hover:bg-muted data-[state=open]:rounded-b-none">
-                <span className="text-sm font-medium">Request & Response Details</span>
+                <span className="text-sm font-medium">{t`Request & Response Details`}</span>
                 <ChevronDown
                   className={cn(
                     'size-4 text-muted-foreground transition-transform',
@@ -192,12 +187,12 @@ const TestSection: React.FC<TestSectionProps> = ({
                   <div className="flex flex-col gap-3 md:flex-row md:items-stretch">
                     {/* Request Details */}
                     <div className="flex min-w-0 flex-1 flex-col space-y-1.5">
-                      <Label className="text-sm font-medium">Request</Label>
+                      <Label className="text-sm font-medium">{t`Request`}</Label>
                       <div className="min-w-0 flex-1 space-y-2 rounded-md border border-border bg-muted/30 p-3">
                         {targetUrl && (
                           <>
                             <CodeBlock label="URL">{targetUrl}</CodeBlock>
-                            <CodeBlock label="Method">
+                            <CodeBlock label={t`Method`}>
                               {selectedTarget.config.method || 'POST'}
                             </CodeBlock>
                           </>
@@ -205,7 +200,7 @@ const TestSection: React.FC<TestSectionProps> = ({
 
                         {selectedTarget.config.headers &&
                           Object.keys(selectedTarget.config.headers).length > 0 && (
-                            <CodeBlock label="Headers">
+                            <CodeBlock label={t`Headers`}>
                               {JSON.stringify(selectedTarget.config.headers, null, 2)}
                             </CodeBlock>
                           )}
@@ -213,7 +208,7 @@ const TestSection: React.FC<TestSectionProps> = ({
                         {selectedTarget.config.body &&
                           !testResult?.providerResponse?.metadata?.finalRequestBody &&
                           !testResult?.transformedRequest && (
-                            <CodeBlock label="Body" maxHeight="300px">
+                            <CodeBlock label={t`Body`} maxHeight="300px">
                               {typeof selectedTarget.config.body === 'string'
                                 ? selectedTarget.config.body
                                 : JSON.stringify(selectedTarget.config.body, null, 2)}
@@ -221,7 +216,7 @@ const TestSection: React.FC<TestSectionProps> = ({
                           )}
 
                         {selectedTarget.config.request && (
-                          <CodeBlock label="Raw Request" maxHeight="300px">
+                          <CodeBlock label={t`Raw Request`} maxHeight="300px">
                             {selectedTarget.config.request}
                           </CodeBlock>
                         )}
@@ -229,7 +224,7 @@ const TestSection: React.FC<TestSectionProps> = ({
                         {/* Show rendered body with template variables resolved */}
                         {(testResult?.providerResponse?.metadata?.finalRequestBody ||
                           testResult?.transformedRequest) && (
-                          <CodeBlock label="Rendered Body">
+                          <CodeBlock label={t`Rendered Body`}>
                             {(() => {
                               const rendered =
                                 testResult?.providerResponse?.metadata?.finalRequestBody ||
@@ -245,23 +240,23 @@ const TestSection: React.FC<TestSectionProps> = ({
 
                     {/* Response Details */}
                     <div className="flex min-w-0 flex-1 flex-col space-y-1.5">
-                      <Label className="text-sm font-medium">Response</Label>
+                      <Label className="text-sm font-medium">{t`Response`}</Label>
                       <div className="min-w-0 flex-1 space-y-2 rounded-md border border-border bg-muted/30 p-3">
                         {testResult.providerResponse?.raw === undefined ? (
                           <div className="rounded-md border border-destructive/50 bg-destructive/10 p-2">
                             <p className="text-sm text-destructive">
-                              {testResult.providerResponse?.error || 'No response from provider'}
+                              {testResult.providerResponse?.error || t`No response from provider`}
                             </p>
                           </div>
                         ) : (
                           <>
                             {responseHeaders && Object.keys(responseHeaders).length > 0 && (
-                              <CodeBlock label="Headers">
+                              <CodeBlock label={t`Headers`}>
                                 {JSON.stringify(responseHeaders, null, 2)}
                               </CodeBlock>
                             )}
 
-                            <CodeBlock label="Raw Response">
+                            <CodeBlock label={t`Raw Response`}>
                               {(() => {
                                 const raw = testResult.providerResponse?.raw;
                                 if (typeof raw === 'string') {
@@ -279,7 +274,7 @@ const TestSection: React.FC<TestSectionProps> = ({
                             </CodeBlock>
 
                             {testResult.providerResponse?.sessionId && (
-                              <CodeBlock label="Session ID">
+                              <CodeBlock label={t`Session ID`}>
                                 {testResult.providerResponse.sessionId}
                               </CodeBlock>
                             )}
@@ -293,15 +288,12 @@ const TestSection: React.FC<TestSectionProps> = ({
                   {testResult.providerResponse && testResult.providerResponse.raw !== undefined && (
                     <div className="mt-3 space-y-1.5">
                       <div className="flex items-center gap-1.5">
-                        <Label className="text-sm font-medium">Final Response</Label>
+                        <Label className="text-sm font-medium">{t`Final Response`}</Label>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <Info className="size-3.5 cursor-help text-muted-foreground" />
                           </TooltipTrigger>
-                          <TooltipContent className="text-sm">
-                            This is what promptfoo will use for evaluation. Configure the response
-                            parser if this isn't the plain text output from your API.
-                          </TooltipContent>
+                          <TooltipContent className="text-sm">{t`This is what promptfoo will use for evaluation. Configure the response parser if this isn't the plain text output from your API.`}</TooltipContent>
                         </Tooltip>
                       </div>
                       <div className="overflow-hidden rounded-md border border-primary/30 bg-primary/5 p-3">

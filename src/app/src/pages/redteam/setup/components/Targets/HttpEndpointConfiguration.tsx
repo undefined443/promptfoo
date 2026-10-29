@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import './syntax-highlighting.css';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -192,7 +193,7 @@ Content-Type: application/json
         const isSuccess = hasConfigIssues ? false : (data.testResult?.success ?? true);
 
         // Build the message based on the response
-        let message = data.testResult?.message ?? 'Target configuration is valid!';
+        let message = data.testResult?.message ?? t`Target configuration is valid!`;
         if (hasConfigIssues) {
           message = data.testResult?.changes_needed_reason || 'Configuration changes are needed';
         }
@@ -220,7 +221,7 @@ Content-Type: application/json
       }
     } catch (error) {
       console.error('Error testing target:', error);
-      let errorMessage = 'Failed to test target configuration';
+      let errorMessage = t`Failed to test target configuration`;
       if (error instanceof Error) {
         if (
           error.message.includes('Failed to parse URL') ||
@@ -544,23 +545,23 @@ ${exampleRequest}`;
               }
             }}
           />
-          <Label htmlFor="use-raw-request">Use Raw HTTP Request</Label>
+          <Label htmlFor="use-raw-request">{t`Use Raw HTTP Request`}</Label>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline">
-              Import
+              {t`Import`}
               <ChevronDown className="ml-2 size-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => setConfigDialogOpen(true)}>
               <Sparkles className="mr-2 size-4" />
-              Auto-fill from Example
+              {t`Auto-fill from Example`}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setPostmanDialogOpen(true)}>
               <Globe className="mr-2 size-4" />
-              Postman
+              {t`Postman`}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -578,7 +579,7 @@ ${exampleRequest}`;
                   updateCustomTarget('useHttps', checked);
                 }}
               />
-              <Label htmlFor="use-https">Use HTTPS</Label>
+              <Label htmlFor="use-https">{t`Use HTTPS`}</Label>
             </div>
             <textarea
               value={selectedTarget.config.request || ''}
@@ -605,7 +606,7 @@ ${exampleRequest}`;
                   onValueChange={(value) => updateCustomTarget('method', value)}
                 >
                   <SelectTrigger id="method" className="w-full sm:w-24 sm:shrink-0">
-                    <SelectValue placeholder="Method" />
+                    <SelectValue placeholder={t`Method`} />
                   </SelectTrigger>
                   <SelectContent>
                     {['GET', 'POST'].map((method) => (
@@ -636,7 +637,7 @@ ${exampleRequest}`;
               {urlError && <HelperText error>{urlError}</HelperText>}
             </div>
 
-            <p className="mb-2 mt-6 font-medium">Headers</p>
+            <p className="mb-2 mt-6 font-medium">{t`Headers`}</p>
             {headers.map(({ key, value }, index) => (
               <div
                 key={index}
@@ -645,13 +646,13 @@ ${exampleRequest}`;
                 <Input
                   value={key}
                   onChange={(e) => updateHeaderKey(index, e.target.value)}
-                  placeholder="Name"
+                  placeholder={t`Name`}
                   className="flex-1"
                 />
                 <Input
                   value={value}
                   onChange={(e) => updateHeaderValue(index, e.target.value)}
-                  placeholder="Value"
+                  placeholder={t`Value`}
                   className="flex-1"
                 />
                 <Button
@@ -668,12 +669,12 @@ ${exampleRequest}`;
 
             <Button variant="outline" onClick={addHeader} className="mt-2">
               <Plus className="mr-1 size-4" />
-              Add Header
+              {t`Add Header`}
             </Button>
 
             <div className="mb-2 mt-6 flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <p className="font-medium">Request Body</p>
+                <p className="font-medium">{t`Request Body`}</p>
                 <div className="flex items-center rounded-md border border-border bg-muted/30 p-0.5">
                   <button
                     type="button"
@@ -711,7 +712,7 @@ ${exampleRequest}`;
                         : 'text-muted-foreground hover:text-foreground',
                     )}
                   >
-                    Text
+                    {t`Text`}
                   </button>
                 </div>
               </div>
@@ -721,8 +722,8 @@ ${exampleRequest}`;
                   size="icon"
                   onClick={handleFormatJson}
                   disabled={!requestBody.trim() || !!bodyError}
-                  title={bodyError ? 'Fix JSON errors first' : 'Format JSON'}
-                  aria-label="Format JSON"
+                  title={bodyError ? t`Fix JSON errors first` : t`Format JSON`}
+                  aria-label={t`Format JSON`}
                   className="size-8"
                 >
                   <AlignLeft className="size-4" />
@@ -761,12 +762,10 @@ ${exampleRequest}`;
         )}
 
         {/* Response Transform Section - Common for both modes */}
-        <p className="mb-2 mt-6 font-medium">Response Parser</p>
+        <p className="mb-2 mt-6 font-medium">{t`Response Parser`}</p>
         <div className="mb-4 text-sm text-muted-foreground">
           <p>
-            This tells promptfoo how to extract the AI's response from your API. Most APIs return
-            JSON with the actual response nested inside - this parser helps find the right part.
-            Leave empty if your API returns plain text. See{' '}
+            {t`This tells promptfoo how to extract the AI's response from your API. Most APIs return JSON with the actual response nested inside - this parser helps find the right part. Leave empty if your API returns plain text. See`}{' '}
             <a
               href="https://www.promptfoo.dev/docs/providers/http/#response-transform"
               target="_blank"
@@ -775,19 +774,20 @@ ${exampleRequest}`;
             >
               docs
             </a>{' '}
-            for examples.
+            {t`for examples.`}
           </p>
           <details className="mt-2">
-            <summary className="cursor-pointer">Examples</summary>
+            <summary className="cursor-pointer">{t`Examples`}</summary>
             <ol className="ml-4 mt-2 list-decimal space-y-1">
               <li>
-                A JavaScript object path: <code>json.choices[0].message.content</code>
+                {t`A JavaScript object path:`} <code>json.choices[0].message.content</code>
               </li>
               <li>
-                A function: <code>{`(json, text) => json.choices[0].message.content || text`}</code>
+                {t`A function:`}{' '}
+                <code>{`(json, text) => json.choices[0].message.content || text`}</code>
               </li>
               <li>
-                With guardrails:{' '}
+                {t`With guardrails:`}{' '}
                 <code>{`{ output: json.data, guardrails: { flagged: context.response.status === 500 } }`}</code>
               </li>
             </ol>
@@ -802,7 +802,7 @@ ${exampleRequest}`;
             onValueChange={(code) => updateCustomTarget('transformResponse', code)}
             highlight={highlightJS}
             padding={10}
-            placeholder={'json.choices[0].message.content'}
+            placeholder={t`json.choices[0].message.content`}
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 14,
@@ -821,7 +821,7 @@ ${exampleRequest}`;
             className="absolute right-2 top-2 z-10"
           >
             <Play className="mr-1 size-4" />
-            Test
+            {t`Test`}
           </Button>
         </div>
 
@@ -843,18 +843,13 @@ ${exampleRequest}`;
       <Dialog open={configDialogOpen} onOpenChange={setConfigDialogOpen}>
         <DialogContent className="flex max-h-[90vh] flex-col overflow-hidden sm:max-w-4xl">
           <DialogHeader>
-            <DialogTitle>Generate HTTP Configuration</DialogTitle>
+            <DialogTitle>{t`Generate HTTP Configuration`}</DialogTitle>
           </DialogHeader>
           <div className="min-h-0 flex-1 overflow-y-auto py-4">
-            <p className="mb-2 text-sm text-muted-foreground">
-              Paste an example HTTP request and optionally a response. Promptfoo will automatically
-              generate the configuration for you.
-            </p>
+            <p className="mb-2 text-sm text-muted-foreground">{t`Paste an example HTTP request and optionally a response. Promptfoo will automatically generate the configuration for you.`}</p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div>
-                <p className="mb-2 text-lg font-semibold">
-                  Example Request (paste your HTTP request here)
-                </p>
+                <p className="mb-2 text-lg font-semibold">{t`Example Request (paste your HTTP request here)`}</p>
                 <div className="h-[300px] overflow-auto rounded-lg border border-border bg-muted/30 dark:bg-zinc-900">
                   <Editor
                     value={request}
@@ -870,9 +865,7 @@ ${exampleRequest}`;
                 </div>
               </div>
               <div>
-                <p className="mb-2 text-lg font-semibold">
-                  Example Response (optional, improves accuracy)
-                </p>
+                <p className="mb-2 text-lg font-semibold">{t`Example Response (optional, improves accuracy)`}</p>
                 <div className="h-[300px] overflow-auto rounded-lg border border-border bg-muted/30 dark:bg-zinc-900">
                   <Editor
                     value={response}
@@ -889,19 +882,21 @@ ${exampleRequest}`;
               </div>
               {error && (
                 <div className="col-span-2">
-                  <p className="text-destructive">Error: {error}</p>
+                  <p className="text-destructive">
+                    {t`Error:`} {error}
+                  </p>
                 </div>
               )}
               {generatedConfig && (
                 <div className="col-span-2">
                   <div className="mb-2 mt-4 flex items-center">
-                    <p className="flex-1 text-lg font-semibold">Generated Configuration</p>
+                    <p className="flex-1 text-lg font-semibold">{t`Generated Configuration`}</p>
                     <Button
                       variant="ghost"
                       size="icon"
-                      aria-label="Copy generated configuration"
+                      aria-label={t`Copy generated configuration`}
                       onClick={handleCopy}
-                      title={copied ? 'Copied!' : 'Copy to clipboard'}
+                      title={copied ? t`Copied!` : t`Copy to clipboard`}
                     >
                       {copied ? (
                         <Check className="size-4 text-emerald-600" />
@@ -930,16 +925,16 @@ ${exampleRequest}`;
           </div>
           <DialogFooter className="mt-4 shrink-0 gap-2">
             <Button variant="outline" onClick={() => setConfigDialogOpen(false)}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               variant={generatedConfig ? 'outline' : 'default'}
               onClick={handleGenerateConfig}
               disabled={generating}
             >
-              {generating ? 'Generating...' : 'Generate'}
+              {generating ? t`Generating...` : t`Generate`}
             </Button>
-            {generatedConfig && <Button onClick={handleApply}>Apply Configuration</Button>}
+            {generatedConfig && <Button onClick={handleApply}>{t`Apply Configuration`}</Button>}
           </DialogFooter>
         </DialogContent>
       </Dialog>

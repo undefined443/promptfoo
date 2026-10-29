@@ -15,6 +15,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { EVAL_ROUTES, ROUTES } from '@app/constants/routes';
+import { t } from '@lingui/core/macro';
 import { Link } from 'react-router';
 import type { StandaloneEval } from '@promptfoo/types/standaloneEval';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -256,8 +257,8 @@ export default function History({
     <PageContainer className="fixed top-[calc(var(--nav-height)+var(--update-banner-height,0px))] left-0 right-0 bottom-0 flex flex-col overflow-hidden min-h-0">
       <PageHeader>
         <div className="container max-w-7xl mx-auto p-6">
-          <h1 className="text-2xl font-bold tracking-tight">Evaluation History</h1>
-          <p className="text-sm text-muted-foreground mt-1">View and compare all evaluation runs</p>
+          <h1 className="text-2xl font-bold tracking-tight">{t`Evaluation History`}</h1>
+          <p className="text-sm text-muted-foreground mt-1">{t`View and compare all evaluation runs`}</p>
         </div>
       </PageHeader>
       <div className="flex-1 min-h-0 flex flex-col p-6">
@@ -268,7 +269,7 @@ export default function History({
               data={data}
               isLoading={isLoading}
               error={error}
-              emptyMessage="No evaluation history found. Run an evaluation to see results here."
+              emptyMessage={t`No evaluation history found. Run an evaluation to see results here.`}
               onExportCSV={handleExportCSV}
               onExportJSON={handleExportJSON}
               initialSorting={[{ id: 'evalId', desc: true }]}
@@ -282,7 +283,7 @@ export default function History({
           <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                Prompt Details
+                {t`Prompt Details`}
                 <Badge variant="outline" className="font-mono text-xs">
                   {selectedPrompt.promptId.slice(0, 6)}
                 </Badge>
@@ -291,7 +292,7 @@ export default function History({
 
             <div className="space-y-2 py-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold">Full Prompt</h4>
+                <h4 className="text-sm font-semibold">{t`Full Prompt`}</h4>
                 <CopyButton value={selectedPrompt.raw} />
               </div>
               <div className="p-3 rounded-lg bg-muted/50 border border-border max-h-96 overflow-y-auto">
@@ -301,7 +302,7 @@ export default function History({
 
             <DialogFooter>
               <Button variant="outline" onClick={() => setSelectedPrompt(null)}>
-                Close
+                {t`Close`}
               </Button>
             </DialogFooter>
           </DialogContent>

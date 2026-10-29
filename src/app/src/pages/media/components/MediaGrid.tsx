@@ -5,6 +5,7 @@ import { Skeleton } from '@app/components/ui/skeleton';
 import { Spinner } from '@app/components/ui/spinner';
 import { cn } from '@app/lib/utils';
 import { MEDIA_INFINITE_SCROLL_MARGIN } from '@app/utils/media';
+import { t } from '@lingui/core/macro';
 import { MediaCard } from './MediaCard';
 
 import type { MediaItem } from '../types';
@@ -191,7 +192,7 @@ export function MediaGrid({
       <ul
         ref={gridRef}
         role="list"
-        aria-label={`Media library - ${items.length} items`}
+        aria-label={t`Media library - ${items.length} items`}
         onKeyDown={handleKeyDown}
         className={cn(
           'grid gap-4 list-none p-0 m-0',
@@ -226,13 +227,11 @@ export function MediaGrid({
         {isLoadingMore ? (
           <div className="flex items-center gap-2 text-muted-foreground">
             <Spinner className="h-4 w-4" />
-            <span className="text-sm">Loading more...</span>
+            <span className="text-sm">{t`Loading more...`}</span>
           </div>
         ) : (
           hasMore && (
-            <Button variant="outline" size="sm" onClick={onLoadMore}>
-              Load more
-            </Button>
+            <Button variant="outline" size="sm" onClick={onLoadMore}>{t`Load more`}</Button>
           )
         )}
       </div>

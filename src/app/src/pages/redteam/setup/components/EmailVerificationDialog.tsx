@@ -14,6 +14,7 @@ import { Label } from '@app/components/ui/label';
 import { Spinner } from '@app/components/ui/spinner';
 import { useToast } from '@app/hooks/useToast';
 import { checkEmailStatus, clearEmail, saveEmail } from '@app/utils/emailVerification';
+import { t } from '@lingui/core/macro';
 
 interface EmailVerificationDialogProps {
   open: boolean;
@@ -86,7 +87,7 @@ export function EmailVerificationDialog({
         return;
       }
 
-      showToast('Email saved successfully, starting redteam.');
+      showToast(t`Email saved successfully, starting redteam.`);
       onSuccess();
     } catch (error) {
       console.error('Error submitting email:', error);
@@ -115,13 +116,13 @@ export function EmailVerificationDialog({
     >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Email Required</DialogTitle>
+          <DialogTitle>{t`Email Required`}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-4">
           <p className="text-muted-foreground">{message}</p>
 
           <div className="space-y-2">
-            <Label htmlFor="email">Work Email Address</Label>
+            <Label htmlFor="email">{t`Work Email Address`}</Label>
             <Input
               id="email"
               autoFocus
@@ -130,7 +131,7 @@ export function EmailVerificationDialog({
               onChange={handleEmailChange}
               onKeyDown={handleKeyPress}
               disabled={isSubmitting}
-              placeholder="your.email@company.com"
+              placeholder={t`your.email@company.com`}
               className={emailError ? 'border-destructive' : ''}
             />
             {emailError && <HelperText error>{emailError}</HelperText>}
@@ -138,16 +139,16 @@ export function EmailVerificationDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose} disabled={isSubmitting}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button onClick={handleSubmit} disabled={isSubmitting || !email.trim()}>
             {isSubmitting ? (
               <>
                 <Spinner className="mr-2 size-4" />
-                Verifying...
+                {t`Verifying...`}
               </>
             ) : (
-              'Verify Email'
+              t`Verify Email`
             )}
           </Button>
         </DialogFooter>

@@ -2,6 +2,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { EVAL_ROUTES } from '@app/constants/routes';
 import { cn } from '@app/lib/utils';
 import { formatASRForDisplay } from '@app/utils/redteam';
+import { t } from '@lingui/core/macro';
 import { riskCategorySeverityMap, Severity } from '@promptfoo/redteam/constants';
 import { CheckCircle, Info, XCircle } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -84,12 +85,12 @@ export default function FrameworkPluginResult({
                 type === 'passed' && 'font-bold text-emerald-600 dark:text-emerald-500',
                 type === 'untested' && 'font-semibold text-muted-foreground',
               )}
-              aria-label={`${failCount}/${total} attacks successful`}
+              aria-label={t`${failCount}/${total} attacks successful`}
             >
-              {type === 'untested' ? 'Not Tested' : `${formatASRForDisplay(asr)}%`}
+              {type === 'untested' ? t`Not Tested` : `${formatASRForDisplay(asr)}%`}
             </span>
           </TooltipTrigger>
-          <TooltipContent>{`${failCount}/${total} attacks successful`}</TooltipContent>
+          <TooltipContent>{t`${failCount}/${total} attacks successful`}</TooltipContent>
         </Tooltip>
       </div>
     </div>

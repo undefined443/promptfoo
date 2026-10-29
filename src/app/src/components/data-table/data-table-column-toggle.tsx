@@ -5,6 +5,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@app/components/ui/dropdown-menu';
+import { t } from '@lingui/core/macro';
 import { Columns3 } from 'lucide-react';
 
 import type { DataTableColumnToggleProps } from './types';
@@ -19,7 +20,7 @@ export function DataTableColumnToggle<TData>({
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm" className="h-11 sm:h-8">
           <Columns3 className="mr-2 size-4" />
-          Columns
+          {t`Columns`}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">

@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@app/components/ui/select';
+import { t } from '@lingui/core/macro';
 import { useResultsViewSettingsStore } from '../../store';
 import CompactSlider from './CompactSlider';
 import CompactToggle from './CompactToggle';
@@ -110,50 +111,50 @@ const SettingsPanel = ({ resultsTableZoom, onResultsTableZoomChange }: SettingsP
     <div className="grid grid-cols-1 gap-5 p-5 pt-3 sm:grid-cols-[1fr_1px_1fr]">
       {/* Left Column - Visibility */}
       <div>
-        <SectionHeader>Show</SectionHeader>
+        <SectionHeader>{t`Show`}</SectionHeader>
 
         <CompactToggle
-          label="Sticky header"
+          label={t`Sticky header`}
           checked={stickyHeader}
           onChange={setStickyHeader}
-          tooltipText="Keep the header fixed when scrolling"
+          tooltipText={t`Keep the header fixed when scrolling`}
         />
 
         <CompactToggle
-          label="Pass/fail indicators"
+          label={t`Pass/fail indicators`}
           checked={showPassFail}
           onChange={setShowPassFail}
-          tooltipText="Show success/failure status for each test"
+          tooltipText={t`Show success/failure status for each test`}
         />
 
         <CompactToggle
-          label="Pass reasons"
+          label={t`Pass reasons`}
           checked={showPassReasons}
           onChange={setShowPassReasons}
-          tooltipText="Show reasons for passing assertions (e.g., from llm-rubric)"
+          tooltipText={t`Show reasons for passing assertions (e.g., from llm-rubric)`}
           disabled={!showPassFail}
         />
 
         <CompactToggle
-          label="Metrics pills"
+          label={t`Metrics pills`}
           checked={showMetricPills}
           onChange={setShowMetricPills}
-          tooltipText="Show custom metric pills in each results table cell"
+          tooltipText={t`Show custom metric pills in each results table cell`}
           disabled={!showPassFail}
         />
 
         <CompactToggle
-          label="Inference details"
+          label={t`Inference details`}
           checked={showInferenceDetails}
           onChange={setShowInferenceDetails}
-          tooltipText="Show latency, tokens, cost, etc."
+          tooltipText={t`Show latency, tokens, cost, etc.`}
         />
 
         <CompactToggle
-          label="Full prompts"
+          label={t`Full prompts`}
           checked={showPrompts}
           onChange={setShowPrompts}
-          tooltipText="Show the prompt that produced each output"
+          tooltipText={t`Show the prompt that produced each output`}
         />
       </div>
 
@@ -162,34 +163,34 @@ const SettingsPanel = ({ resultsTableZoom, onResultsTableZoomChange }: SettingsP
 
       {/* Right Column - Formatting */}
       <div>
-        <SectionHeader>Display</SectionHeader>
+        <SectionHeader>{t`Display`}</SectionHeader>
 
         <CompactToggle
-          label="Render Markdown"
+          label={t`Render Markdown`}
           checked={renderMarkdown}
           onChange={setRenderMarkdown}
-          tooltipText="Format outputs using Markdown"
+          tooltipText={t`Format outputs using Markdown`}
         />
 
         <CompactToggle
-          label="Prettify JSON"
+          label={t`Prettify JSON`}
           checked={prettifyJson}
           onChange={setPrettifyJson}
-          tooltipText="Format JSON with indentation"
+          tooltipText={t`Format JSON with indentation`}
         />
 
         <CompactToggle
-          label="Force line breaks"
+          label={t`Force line breaks`}
           checked={wordBreak === 'break-all'}
           onChange={handleWordBreakChange}
-          tooltipText="Break lines at any character for narrower columns"
+          tooltipText={t`Break lines at any character for narrower columns`}
         />
 
         <div className="mt-3">
           <div className="mb-3 flex items-center justify-between gap-3">
-            <span className="text-[0.8125rem] leading-normal">Zoom</span>
+            <span className="text-[0.8125rem] leading-normal">{t`Zoom`}</span>
             <Select value={String(resultsTableZoom)} onValueChange={handleResultsTableZoomChange}>
-              <SelectTrigger aria-label="Results zoom" className="h-8 w-[110px] text-xs">
+              <SelectTrigger aria-label={t`Results zoom`} className="h-8 w-[110px] text-xs">
                 {Math.round(resultsTableZoom * 100)}%
               </SelectTrigger>
               <SelectContent>
@@ -203,34 +204,34 @@ const SettingsPanel = ({ resultsTableZoom, onResultsTableZoomChange }: SettingsP
           </div>
 
           <CompactSlider
-            label="Max text length"
+            label={t`Max text length`}
             value={localMaxTextLength}
             onChange={handleTextLengthChange}
             onChangeCommitted={handleTextLengthCommitted}
             min={25}
             max={INFINITY_SLIDER_VALUE}
-            tooltipText="Characters before truncating"
+            tooltipText={t`Characters before truncating`}
             unlimited
           />
 
           <CompactSlider
-            label="Max image width"
+            label={t`Max image width`}
             value={maxImageWidth}
             onChange={setMaxImageWidth}
             min={100}
             max={1000}
             unit="px"
-            tooltipText="Maximum image width in pixels"
+            tooltipText={t`Maximum image width in pixels`}
           />
 
           <CompactSlider
-            label="Max image height"
+            label={t`Max image height`}
             value={maxImageHeight}
             onChange={setMaxImageHeight}
             min={100}
             max={1000}
             unit="px"
-            tooltipText="Maximum image height in pixels"
+            tooltipText={t`Maximum image height in pixels`}
           />
         </div>
       </div>

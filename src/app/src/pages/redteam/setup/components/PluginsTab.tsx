@@ -10,6 +10,7 @@ import useCloudConfig from '@app/hooks/useCloudConfig';
 import { useTelemetry } from '@app/hooks/useTelemetry';
 import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   categoryAliases,
   DEFAULT_PLUGINS,
@@ -64,7 +65,7 @@ import type { LocalPluginConfig } from '../types';
 
 const ErrorFallback = ({ error }: { error: unknown }) => (
   <div role="alert">
-    <p>Something went wrong:</p>
+    <p>{t`Something went wrong:`}</p>
     <pre>{error instanceof Error ? error.message : String(error)}</pre>
   </div>
 );
@@ -258,10 +259,10 @@ export default function PluginsTab({
 
     return [
       ...(recentlyUsedCount > 0
-        ? [{ key: 'Recently Used', label: 'Recently Used', count: recentlyUsedCount }]
+        ? [{ key: 'Recently Used', label: t`Recently Used`, count: recentlyUsedCount }]
         : []),
       ...(selectedPlugins.size > 0
-        ? [{ key: 'Selected', label: 'Selected', count: selectedPlugins.size }]
+        ? [{ key: 'Selected', label: t`Selected`, count: selectedPlugins.size }]
         : []),
       ...CATEGORY_FILTERS,
     ];
@@ -453,10 +454,11 @@ export default function PluginsTab({
               ) : (
                 <ChevronRight className="size-4 text-muted-foreground" />
               )}
-              <h3 className="text-lg font-semibold">Presets</h3>
+              <h3 className="text-lg font-semibold">{t`Presets`}</h3>
               {!presetsExpanded && currentlySelectedPreset && (
                 <Badge variant="secondary">
-                  {currentlySelectedPreset.name} ({currentlySelectedPreset.plugins.size} plugins)
+                  {currentlySelectedPreset.name} ({currentlySelectedPreset.plugins.size}{' '}
+                  {t`plugins)`}
                 </Badge>
               )}
             </button>
@@ -495,7 +497,7 @@ export default function PluginsTab({
                     : 'border-border bg-background text-muted-foreground hover:border-primary/40 hover:bg-muted/50 hover:text-foreground',
                 )}
               >
-                All
+                {t`All`}
               </button>
               {allCategoryFilters.map((filter) => (
                 <button
@@ -532,8 +534,8 @@ export default function PluginsTab({
               <Input
                 data-testid="plugin-search-input"
                 type="search"
-                aria-label="Search plugins"
-                placeholder="Search plugins..."
+                aria-label={t`Search plugins`}
+                placeholder={t`Search plugins...`}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-9"
@@ -550,7 +552,7 @@ export default function PluginsTab({
                     );
                   }}
                 >
-                  Select all
+                  {t`Select all`}
                 </button>
                 <button
                   type="button"
@@ -562,9 +564,7 @@ export default function PluginsTab({
                     );
                     setSelectedPlugins(newSelected);
                   }}
-                >
-                  Select none
-                </button>
+                >{t`Select none`}</button>
               </div>
             )}
           </div>
@@ -644,20 +644,14 @@ export default function PluginsTab({
                           {displayNameOverrides[plugin] || categoryAliases[plugin] || plugin}
                         </span>
                         {category === 'Recently Used' && (
-                          <Badge variant="secondary">Recently Used</Badge>
+                          <Badge variant="secondary">{t`Recently Used`}</Badge>
                         )}
                         {pluginDisabled && isRemoteGenerationDisabled && (
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <span className="rounded border border-destructive/30 bg-destructive/10 px-1 py-0.5 text-xs font-medium text-destructive">
-                                Remote generation required
-                              </span>
+                              <span className="rounded border border-destructive/30 bg-destructive/10 px-1 py-0.5 text-xs font-medium text-destructive">{t`Remote generation required`}</span>
                             </TooltipTrigger>
-                            <TooltipContent>
-                              This plugin requires remote generation. Unset
-                              PROMPTFOO_DISABLE_REMOTE_GENERATION or
-                              PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION to enable.
-                            </TooltipContent>
+                            <TooltipContent>{t`This plugin requires remote generation. Unset PROMPTFOO_DISABLE_REMOTE_GENERATION or PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION to enable.`}</TooltipContent>
                           </Tooltip>
                         )}
                       </div>
@@ -706,7 +700,7 @@ export default function PluginsTab({
                             </Button>
                           </TooltipTrigger>
                           <TooltipContent>
-                            Configure{' '}
+                            {t`Configure`}{' '}
                             {displayNameOverrides[plugin] || categoryAliases[plugin] || plugin}
                           </TooltipContent>
                         </Tooltip>
@@ -729,7 +723,7 @@ export default function PluginsTab({
                               <HelpCircle className="size-4" />
                             </Button>
                           </TooltipTrigger>
-                          <TooltipContent>View documentation</TooltipContent>
+                          <TooltipContent>{t`View documentation`}</TooltipContent>
                         </Tooltip>
                       )}
                       <Checkbox
@@ -776,7 +770,8 @@ export default function PluginsTab({
         >
           <div className="rounded-lg border border-border bg-background p-4">
             <h3 className="mb-4 text-lg font-semibold" data-testid="selected-plugins-header">
-              Selected Plugins ({selectedPlugins.size})
+              {t`Selected Plugins (`}
+              {selectedPlugins.size})
             </h3>
 
             {selectedPlugins.size === 0 ? (
@@ -784,18 +779,16 @@ export default function PluginsTab({
                 className="py-8 text-center text-sm text-muted-foreground"
                 data-testid="selected-plugins-empty-state"
               >
-                No plugins selected yet.
+                {t`No plugins selected yet.`}
                 <br />
-                Click on plugins to add them here.
+                {t`Click on plugins to add them here.`}
               </p>
             ) : (
               <div className="max-h-[400px] space-y-2 overflow-y-auto">
                 {/* Plugins requiring configuration - shown first */}
                 {pluginsNeedingConfig.length > 0 && (
                   <div className="mb-3" data-testid="plugins-needing-config-section">
-                    <p className="mb-2 text-xs font-medium uppercase tracking-wide text-destructive">
-                      Needs Configuration
-                    </p>
+                    <p className="mb-2 text-xs font-medium uppercase tracking-wide text-destructive">{t`Needs Configuration`}</p>
                     <div className="space-y-2">
                       {pluginsNeedingConfig.map((plugin) => (
                         <div
@@ -896,9 +889,7 @@ export default function PluginsTab({
                   onClick={() => {
                     setSelectedPlugins(new Set());
                   }}
-                >
-                  Clear All
-                </Button>
+                >{t`Clear All`}</Button>
               </div>
             )}
           </div>

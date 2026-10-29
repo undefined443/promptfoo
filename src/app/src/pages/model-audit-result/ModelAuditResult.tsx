@@ -21,6 +21,7 @@ import {
 import { ArrowBackIcon, DeleteIcon, DownloadIcon, MoreVertIcon } from '@app/components/ui/icons';
 import { Spinner } from '@app/components/ui/spinner';
 import { MODEL_AUDIT_ROUTES } from '@app/constants/routes';
+import { t } from '@lingui/core/macro';
 import { Link as RouterLink, useNavigate, useParams } from 'react-router';
 import { ResultPageSkeleton } from '../model-audit/components/ModelAuditSkeleton';
 import ResultsTab from '../model-audit/components/ResultsTab';
@@ -73,7 +74,7 @@ export default function ModelAuditResult() {
         if (abortController.signal.aborted || (err instanceof Error && err.name === 'AbortError')) {
           return;
         }
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load scan';
+        const errorMessage = err instanceof Error ? err.message : t`Failed to load scan`;
         setError(errorMessage);
       } finally {
         if (!abortController.signal.aborted) {
@@ -137,20 +138,21 @@ export default function ModelAuditResult() {
         <div className="container max-w-2xl mx-auto px-4">
           <Alert variant="destructive" className="mb-6">
             <AlertContent>
-              <AlertDescription>{error || 'Scan not found'}</AlertDescription>
+              <AlertDescription>{error || t`Scan not found`}</AlertDescription>
             </AlertContent>
           </Alert>
           <div className="flex gap-3">
             <Button asChild>
               <RouterLink to={MODEL_AUDIT_ROUTES.LIST}>
                 <ArrowBackIcon className="size-4 mr-2" />
-                Back to History
+                {t`Back to History`}
               </RouterLink>
             </Button>
             <Button variant="outline" asChild>
-              <RouterLink to={MODEL_AUDIT_ROUTES.SETUP} onClick={startNewScan}>
-                New Scan
-              </RouterLink>
+              <RouterLink
+                to={MODEL_AUDIT_ROUTES.SETUP}
+                onClick={startNewScan}
+              >{t`New Scan`}</RouterLink>
             </Button>
           </div>
         </div>
@@ -163,21 +165,21 @@ export default function ModelAuditResult() {
       <Button variant="ghost" size="sm" asChild className="-ml-2">
         <RouterLink to={MODEL_AUDIT_ROUTES.LIST}>
           <ArrowBackIcon className="size-4 mr-2" />
-          Back to History
+          {t`Back to History`}
         </RouterLink>
       </Button>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">
-            Actions
+            {t`Actions`}
             <MoreVertIcon className="size-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem onClick={handleDownload}>
             <DownloadIcon className="size-4 mr-2" />
-            Download JSON
+            {t`Download JSON`}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
@@ -185,7 +187,7 @@ export default function ModelAuditResult() {
             className="text-destructive focus:text-destructive"
           >
             <DeleteIcon className="size-4 mr-2" />
-            Delete Scan
+            {t`Delete Scan`}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -240,10 +242,8 @@ export default function ModelAuditResult() {
         <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Delete Scan?</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to delete this scan? This action cannot be undone.
-              </DialogDescription>
+              <DialogTitle>{t`Delete Scan?`}</DialogTitle>
+              <DialogDescription>{t`Are you sure you want to delete this scan? This action cannot be undone.`}</DialogDescription>
             </DialogHeader>
             <DialogFooter>
               <Button
@@ -251,18 +251,18 @@ export default function ModelAuditResult() {
                 onClick={() => setDeleteDialogOpen(false)}
                 disabled={isDeleting}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
               <Button variant="destructive" onClick={handleDelete} disabled={isDeleting}>
                 {isDeleting ? (
                   <>
                     <Spinner size="sm" className="mr-2" />
-                    Deleting...
+                    {t`Deleting...`}
                   </>
                 ) : (
                   <>
                     <DeleteIcon className="size-4 mr-2" />
-                    Delete
+                    {t`Delete`}
                   </>
                 )}
               </Button>

@@ -5,6 +5,7 @@ import { Input } from '@app/components/ui/input';
 import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { useToast } from '@app/hooks/useToast';
+import { t } from '@lingui/core/macro';
 import { Check, Pencil, X } from 'lucide-react';
 
 interface AuthorChipProps {
@@ -54,7 +55,7 @@ export const AuthorChip = ({
       await onEditAuthor(email || '');
       setIsEditing(false);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Failed to save';
+      const message = err instanceof Error ? err.message : t`Failed to save`;
       showToast(message, 'error');
       setEmail(author || '');
       setIsEditing(false);
@@ -85,14 +86,14 @@ export const AuthorChip = ({
           onKeyDown={handleKeyDown}
           disabled={isLoading}
           className="h-auto py-1 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-xs min-w-[150px]"
-          placeholder="email@example.com"
+          placeholder={t`email@example.com`}
         />
         <button
           type="button"
           onClick={handleSave}
           disabled={isLoading}
           className="p-1.5 hover:bg-muted/50 transition-colors text-emerald-600 dark:text-emerald-400"
-          aria-label="Save"
+          aria-label={t`Save`}
         >
           {isLoading ? <Spinner className="size-3.5" /> : <Check className="size-3.5" />}
         </button>
@@ -101,7 +102,7 @@ export const AuthorChip = ({
           onClick={handleCancel}
           disabled={isLoading}
           className="p-1.5 pr-2 hover:bg-muted/50 transition-colors text-muted-foreground hover:text-destructive"
-          aria-label="Cancel"
+          aria-label={t`Cancel`}
         >
           <X className="size-3.5" />
         </button>
@@ -121,11 +122,11 @@ export const AuthorChip = ({
             editable ? <Pencil className="size-3.5 text-muted-foreground" /> : undefined
           }
         >
-          {author || 'Unknown'}
+          {author || t`Unknown`}
         </Chip>
       </TooltipTrigger>
       <TooltipContent>
-        {editable ? (author ? 'Click to edit author' : 'Click to set author') : 'Author'}
+        {editable ? (author ? t`Click to edit author` : t`Click to set author`) : t`Author`}
       </TooltipContent>
     </Tooltip>
   );

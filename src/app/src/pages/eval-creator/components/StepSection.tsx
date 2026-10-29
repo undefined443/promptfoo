@@ -1,5 +1,7 @@
 import { useId } from 'react';
 
+import { t } from '@lingui/core/macro';
+
 interface StepSectionProps {
   stepNumber: number;
   title: string;
@@ -28,13 +30,15 @@ export function StepSection({
       {/* Header */}
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-          <span>Step {stepNumber}</span>
+          <span>
+            {t`Step`} {stepNumber}
+          </span>
           <span aria-hidden="true">/</span>
-          <span>{isRequired ? 'Required' : 'Optional'}</span>
+          <span>{isRequired ? t`Required` : t`Optional`}</span>
           {isComplete && (
             <>
               <span aria-hidden="true">/</span>
-              <span>{count === undefined ? 'Configured' : `${count} configured`}</span>
+              <span>{count === undefined ? t`Configured` : `${count} configured`}</span>
             </>
           )}
         </div>

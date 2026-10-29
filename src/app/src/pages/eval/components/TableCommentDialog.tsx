@@ -7,6 +7,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { Textarea } from '@app/components/ui/textarea';
+import { t } from '@lingui/core/macro';
 
 interface CommentDialogProps {
   open: boolean;
@@ -29,7 +30,7 @@ const CommentDialog = ({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-lg">
         <DialogHeader>
-          <DialogTitle>Edit Comment</DialogTitle>
+          <DialogTitle>{t`Edit Comment`}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2 min-w-0 overflow-hidden">
           <pre
@@ -48,9 +49,9 @@ const CommentDialog = ({
         </div>
         <DialogFooter>
           <Button onClick={onClose} variant="outline">
-            Cancel
+            {t`Cancel`}
           </Button>
-          <Button onClick={onSave}>Save</Button>
+          <Button onClick={onSave}>{t`Save`}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

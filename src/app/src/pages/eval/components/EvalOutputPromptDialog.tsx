@@ -11,6 +11,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@app/components/ui/tabs';
 import { HIDDEN_METADATA_KEYS } from '@app/constants';
 import { getRedteamHistoryMessages } from '@app/utils/redteamHistory';
+import { t } from '@lingui/core/macro';
 import { Check, Copy, X } from 'lucide-react';
 import ChatMessages, { type Message } from './ChatMessages';
 import { DebuggingPanel } from './DebuggingPanel';
@@ -366,10 +367,11 @@ export default function EvalOutputPromptDialog({
       >
         {/* Header with title and close button */}
         <SheetHeader className="flex flex-row items-center justify-between p-4 border-b border-border space-y-0">
-          <SheetTitle>Details{provider && `: ${provider}`}</SheetTitle>
-          <SheetDescription className="sr-only">
-            View prompt, output, evaluation results, and metadata details
-          </SheetDescription>
+          <SheetTitle>
+            {t`Details`}
+            {provider && `: ${provider}`}
+          </SheetTitle>
+          <SheetDescription className="sr-only">{t`View prompt, output, evaluation results, and metadata details`}</SheetDescription>
           <Button
             variant="ghost"
             size="icon"
@@ -392,39 +394,31 @@ export default function EvalOutputPromptDialog({
               value="prompt-output"
               className="-mb-px rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3"
             >
-              {hasOutputContent ? 'Prompt & Output' : 'Prompt'}
+              {hasOutputContent ? t`Prompt & Output` : t`Prompt`}
             </TabsTrigger>
             {hasEvaluationData && (
               <TabsTrigger
                 value="evaluation"
                 className="-mb-px rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3"
-              >
-                Evaluation
-              </TabsTrigger>
+              >{t`Evaluation`}</TabsTrigger>
             )}
             {hasMessagesData && (
               <TabsTrigger
                 value="messages"
                 className="-mb-px rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3"
-              >
-                Messages
-              </TabsTrigger>
+              >{t`Messages`}</TabsTrigger>
             )}
             {hasMetadata && (
               <TabsTrigger
                 value="metadata"
                 className="-mb-px rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3"
-              >
-                Metadata
-              </TabsTrigger>
+              >{t`Metadata`}</TabsTrigger>
             )}
             {hasTracesData && (
               <TabsTrigger
                 value="traces"
                 className="-mb-px rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none py-3"
-              >
-                Traces
-              </TabsTrigger>
+              >{t`Traces`}</TabsTrigger>
             )}
           </TabsList>
 

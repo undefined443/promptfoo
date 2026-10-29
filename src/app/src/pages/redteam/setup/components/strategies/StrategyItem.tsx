@@ -6,6 +6,7 @@ import { Card } from '@app/components/ui/card';
 import { Checkbox } from '@app/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   AGENTIC_STRATEGIES_SET,
   CONFIGURABLE_STRATEGIES_SET,
@@ -120,30 +121,20 @@ export function StrategyItem({
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-medium">{strategy.name}</span>
               {DEFAULT_STRATEGIES_SET.has(strategy.id) && (
-                <Badge variant="secondary">Recommended</Badge>
+                <Badge variant="secondary">{t`Recommended`}</Badge>
               )}
               {AGENTIC_STRATEGIES_SET.has(strategy.id) && (
-                <Badge className="border border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                  Agent
-                </Badge>
+                <Badge className="border border-amber-500 bg-amber-500/10 text-amber-600 dark:text-amber-400">{t`Agent`}</Badge>
               )}
               {MULTI_MODAL_STRATEGIES_SET.has(strategy.id) && (
-                <Badge className="border border-blue-500 bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                  Multi-modal
-                </Badge>
+                <Badge className="border border-blue-500 bg-blue-500/10 text-blue-600 dark:text-blue-400">{t`Multi-modal`}</Badge>
               )}
               {isDisabled && isRemoteGenerationDisabled && (
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <span className="pointer-events-auto rounded border border-destructive/30 bg-destructive/10 px-1 py-0.5 text-[0.7rem] font-medium text-destructive">
-                      Remote generation required
-                    </span>
+                    <span className="pointer-events-auto rounded border border-destructive/30 bg-destructive/10 px-1 py-0.5 text-[0.7rem] font-medium text-destructive">{t`Remote generation required`}</span>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    This strategy requires remote generation. Unset
-                    PROMPTFOO_DISABLE_REMOTE_GENERATION or
-                    PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION to enable.
-                  </TooltipContent>
+                  <TooltipContent>{t`This strategy requires remote generation. Unset PROMPTFOO_DISABLE_REMOTE_GENERATION or PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION to enable.`}</TooltipContent>
                 </Tooltip>
               )}
               {isDisabled && isAuthGated && (
@@ -154,9 +145,7 @@ export function StrategyItem({
                       ENTERPRISE
                     </Badge>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    This strategy is available in Promptfoo Enterprise
-                  </TooltipContent>
+                  <TooltipContent>{t`This strategy is available in Promptfoo Enterprise`}</TooltipContent>
                 </Tooltip>
               )}
             </div>

@@ -1,4 +1,8 @@
+import { i18n } from '@lingui/core';
 import '@app/lib/prism';
+
+i18n.load('en', {});
+i18n.activate('en');
 
 import { webcrypto } from 'node:crypto';
 

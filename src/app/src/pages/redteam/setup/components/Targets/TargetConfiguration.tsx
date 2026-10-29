@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, AlertContent, AlertDescription } from '@app/components/ui/alert';
 import { useTelemetry } from '@app/hooks/useTelemetry';
 import { isPlainObject } from '@app/utils/isPlainObject';
+import { t } from '@lingui/core/macro';
 import { AlertTriangle, Info } from 'lucide-react';
 import { DEFAULT_HTTP_TARGET, useRedTeamConfig } from '../../hooks/useRedTeamConfig';
 import { useRedTeamTargetConfigValidation } from '../../hooks/useRedTeamTargetConfigValidation';
@@ -104,8 +105,8 @@ export default function TargetConfiguration({ onNext, onBack }: TargetConfigurat
 
   return (
     <PageWrapper
-      title={`Configure Target: ${selectedTarget.label || 'Unnamed Target'}`}
-      description="Configure the specific settings for your target. The fields below will change based on the target type you selected."
+      title={`Configure Target: ${selectedTarget.label || t`Unnamed Target`}`}
+      description={t`Configure the specific settings for your target. The fields below will change based on the target type you selected.`}
       onNext={handleNext}
       onBack={onBack}
       nextDisabled={!isProviderValid()}
@@ -118,7 +119,7 @@ export default function TargetConfiguration({ onNext, onBack }: TargetConfigurat
             <AlertTriangle className="size-4" />
             <AlertContent>
               <AlertDescription>
-                <p className="text-sm">Please fix the following issues before continuing:</p>
+                <p className="text-sm">{t`Please fix the following issues before continuing:`}</p>
                 <p className="mt-2 text-sm font-medium">{validationErrors}</p>
               </AlertDescription>
             </AlertContent>
@@ -131,16 +132,14 @@ export default function TargetConfiguration({ onNext, onBack }: TargetConfigurat
             <Info className="size-4" />
             <AlertContent>
               <AlertDescription>
-                Need help configuring {selectedTarget.label || selectedTarget.id}?{' '}
+                {t`Need help configuring`} {selectedTarget.label || selectedTarget.id}?{' '}
                 <a
                   href={getProviderDocumentationUrl(providerType)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-primary hover:underline"
-                >
-                  View the documentation
-                </a>{' '}
-                for detailed setup instructions and examples.
+                >{t`View the documentation`}</a>{' '}
+                {t`for detailed setup instructions and examples.`}
               </AlertDescription>
             </AlertContent>
           </Alert>

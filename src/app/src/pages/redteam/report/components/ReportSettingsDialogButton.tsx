@@ -11,6 +11,7 @@ import {
 } from '@app/components/ui/dialog';
 import { Label } from '@app/components/ui/label';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
+import { t } from '@lingui/core/macro';
 import { Settings } from 'lucide-react';
 import { useReportStore } from './store';
 
@@ -58,13 +59,13 @@ const ReportSettingsDialogButton = () => {
             <Settings className="size-5" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Report Settings</TooltipContent>
+        <TooltipContent>{t`Report Settings`}</TooltipContent>
       </Tooltip>
 
       <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Report Settings</DialogTitle>
+            <DialogTitle>{t`Report Settings`}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-6 py-4">
@@ -74,20 +75,20 @@ const ReportSettingsDialogButton = () => {
                 checked={showUntestedPlugins}
                 onCheckedChange={(checked) => setShowUntestedPlugins(checked === true)}
               />
-              <Label htmlFor="show-untested" inline className="cursor-pointer">
-                Show untested plugins
-              </Label>
+              <Label
+                htmlFor="show-untested"
+                inline
+                className="cursor-pointer"
+              >{t`Show untested plugins`}</Label>
             </div>
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label htmlFor="plugin-pass-rate">Plugin Pass Rate Threshold</Label>
+                <Label htmlFor="plugin-pass-rate">{t`Plugin Pass Rate Threshold`}</Label>
                 <span className="text-sm font-medium text-muted-foreground">
                   {displayThreshold}%
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground">
-                Sets the threshold for considering a plugin as passed on the risk cards.
-              </p>
+              <p className="text-sm text-muted-foreground">{t`Sets the threshold for considering a plugin as passed on the risk cards.`}</p>
               <input
                 id="plugin-pass-rate"
                 type="range"
@@ -107,7 +108,7 @@ const ReportSettingsDialogButton = () => {
           </div>
 
           <DialogFooter>
-            <Button onClick={handleClose}>Close</Button>
+            <Button onClick={handleClose}>{t`Close`}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

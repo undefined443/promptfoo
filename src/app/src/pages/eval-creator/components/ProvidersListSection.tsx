@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@app/components/ui/dialog';
+import { t } from '@lingui/core/macro';
 import { Plus, Settings, Trash2 } from 'lucide-react';
 import AddProviderDialog from './AddProviderDialog';
 import type { ProviderOptions } from '@promptfoo/types';
@@ -124,7 +125,7 @@ export function ProvidersListSection({ providers, onChange }: ProvidersListSecti
                       </Badge>
                     </div>
                     <p className="text-sm text-muted-foreground font-mono truncate">
-                      {typeof provider.id === 'string' ? provider.id : 'custom provider'}
+                      {typeof provider.id === 'string' ? provider.id : t`custom provider`}
                     </p>
                   </div>
                 </div>
@@ -157,13 +158,11 @@ export function ProvidersListSection({ providers, onChange }: ProvidersListSecti
         <div className="space-y-4">
           <Button onClick={() => setIsAddDialogOpen(true)} className="w-full" variant="outline">
             <Plus className="size-4 mr-2" />
-            Add Provider
+            {t`Add Provider`}
           </Button>
           <Card className="p-8 text-center bg-muted/30 border-dashed">
-            <p className="text-sm text-muted-foreground mb-4">No providers configured yet.</p>
-            <p className="text-xs text-muted-foreground">
-              Add AI models, HTTP endpoints, Python scripts, or other providers to evaluate.
-            </p>
+            <p className="text-sm text-muted-foreground mb-4">{t`No providers configured yet.`}</p>
+            <p className="text-xs text-muted-foreground">{t`Add AI models, HTTP endpoints, Python scripts, or other providers to evaluate.`}</p>
           </Card>
         </div>
       )}
@@ -172,7 +171,7 @@ export function ProvidersListSection({ providers, onChange }: ProvidersListSecti
       {providers.length > 0 && (
         <Button onClick={() => setIsAddDialogOpen(true)} className="w-full" variant="outline">
           <Plus className="size-4 mr-2" />
-          Add Provider
+          {t`Add Provider`}
         </Button>
       )}
 
@@ -199,17 +198,15 @@ export function ProvidersListSection({ providers, onChange }: ProvidersListSecti
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete provider?</DialogTitle>
-            <DialogDescription>
-              This removes the provider from this evaluation. This action cannot be undone.
-            </DialogDescription>
+            <DialogTitle>{t`Delete provider?`}</DialogTitle>
+            <DialogDescription>{t`This removes the provider from this evaluation. This action cannot be undone.`}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={cancelDeleteProvider}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={confirmDeleteProvider}>
-              Delete
+              {t`Delete`}
             </Button>
           </DialogFooter>
         </DialogContent>

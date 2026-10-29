@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import TransformTestDialog from './TransformTestDialog';
 
 interface ResponseParserTestModalProps {
@@ -67,7 +68,7 @@ const ResponseParserTestModal: React.FC<ResponseParserTestModalProps> = ({
     <TransformTestDialog
       open={open}
       onClose={onClose}
-      title="Test Response Parser"
+      title={t`Test Response Parser`}
       transformCode={editableTransform}
       onTransformCodeChange={setEditableTransform}
       testInput={testInput}
@@ -81,13 +82,15 @@ const ResponseParserTestModal: React.FC<ResponseParserTestModalProps> = ({
         signature: '(json, text, context) => ProviderResponse | string',
         description: (
           <>
-            • <strong>json</strong>: any - Parsed JSON response (or null if not JSON)
-            <br />• <strong>text</strong>: string - Raw response text
-            <br />• <strong>context</strong>: {'{ response: FetchResult }'} - HTTP response metadata
-            (optional)
+            • <strong>json</strong>
+            {t`: any - Parsed JSON response (or null if not JSON)`}
+            <br />• <strong>text</strong>
+            {t`: string - Raw response text`}
+            <br />• <strong>context</strong>: {'{ response: FetchResult }'}{' '}
+            {t`- HTTP response metadata (optional)`}
             <br />
             <br />
-            <strong>Returns:</strong> String output or {'{ output, tokenUsage?, error? }'}
+            <strong>{t`Returns:`}</strong> {t`String output or`} {'{ output, tokenUsage?, error? }'}
           </>
         ),
         successMessage: 'Parser executed successfully!',

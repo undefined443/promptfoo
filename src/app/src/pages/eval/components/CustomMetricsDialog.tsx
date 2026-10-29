@@ -12,6 +12,7 @@ import {
 } from '@app/components/ui/tooltip';
 import { useCustomPoliciesMap } from '@app/hooks/useCustomPoliciesMap';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   deserializePolicyIdFromMetric,
   formatPolicyIdentifierAsMetric,
@@ -117,7 +118,7 @@ function PromptMetricGroupHeader({ prompt, index }: { prompt: PromptHeader; inde
       title={getPromptHeaderTitle(prompt, index)}
     >
       <span className="block text-[11px] font-medium uppercase text-blue-700 dark:text-blue-300">
-        Prompt {index + 1}
+        {t`Prompt`} {index + 1}
       </span>
       <span className="block truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">
         {providerLabel}
@@ -129,12 +130,8 @@ function PromptMetricGroupHeader({ prompt, index }: { prompt: PromptHeader; inde
 function SummaryMetricGroupHeader() {
   return (
     <div className="min-w-0 rounded-md border border-zinc-200 bg-zinc-100/80 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-800/80">
-      <span className="block text-[11px] font-medium uppercase text-zinc-600 dark:text-zinc-300">
-        Summary
-      </span>
-      <span className="block truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">
-        Across prompts
-      </span>
+      <span className="block text-[11px] font-medium uppercase text-zinc-600 dark:text-zinc-300">{t`Summary`}</span>
+      <span className="block truncate text-sm font-semibold text-zinc-950 dark:text-zinc-100">{t`Across prompts`}</span>
     </div>
   );
 }
@@ -351,7 +348,7 @@ const MetricsTable = ({ onClose }: { onClose: () => void }) => {
                 <div className="flex h-full items-center justify-end">
                   <span
                     className="text-sm font-medium text-zinc-700 dark:text-zinc-200"
-                    title="Pass-rate spread across prompt columns"
+                    title={t`Pass-rate spread across prompt columns`}
                   >
                     {spread === null ? '--' : `${spread.toFixed(2)} pts`}
                   </span>
@@ -390,7 +387,7 @@ const MetricsTable = ({ onClose }: { onClose: () => void }) => {
                     <FilterIcon className="size-4" />
                   </Button>
                 </TooltipTrigger>
-                <TooltipContent side="left">Filter results by this metric</TooltipContent>
+                <TooltipContent side="left">{t`Filter results by this metric`}</TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
@@ -436,7 +433,7 @@ const MetricsTable = ({ onClose }: { onClose: () => void }) => {
       data={rows}
       getRowId={(row) => row.id}
       initialSorting={[{ id: 'metric', desc: false }]}
-      emptyMessage="No metrics available"
+      emptyMessage={t`No metrics available`}
       showToolbar
       showFilter
       showColumnToggle
@@ -458,7 +455,7 @@ export default function CustomMetricsDialog({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="flex h-[80vh] max-w-[98vw] flex-col overflow-hidden">
         <DialogHeader>
-          <DialogTitle>Custom Metrics</DialogTitle>
+          <DialogTitle>{t`Custom Metrics`}</DialogTitle>
         </DialogHeader>
         <MetricsTable onClose={onClose} />
       </DialogContent>

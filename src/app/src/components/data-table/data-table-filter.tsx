@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@app/components/ui/select';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Filter, Plus, X } from 'lucide-react';
 import type { Column, ColumnFiltersState, Table } from '@tanstack/react-table';
 
@@ -52,8 +53,8 @@ export type FilterOperator = ComparisonOperator | SelectOperator;
 export const COMPARISON_OPERATORS: { value: ComparisonOperator; label: string }[] = [
   { value: 'contains', label: 'contains' },
   { value: 'equals', label: 'equals' },
-  { value: 'startsWith', label: 'starts with' },
-  { value: 'endsWith', label: 'ends with' },
+  { value: 'startsWith', label: t`starts with` },
+  { value: 'endsWith', label: t`ends with` },
   { value: 'gt', label: '>' },
   { value: 'gte', label: '>=' },
   { value: 'lt', label: '<' },
@@ -62,8 +63,8 @@ export const COMPARISON_OPERATORS: { value: ComparisonOperator; label: string }[
 
 export const SELECT_OPERATORS: { value: SelectOperator; label: string }[] = [
   { value: 'equals', label: 'equals' },
-  { value: 'notEquals', label: 'not equals' },
-  { value: 'isAny', label: 'is any of' },
+  { value: 'notEquals', label: t`not equals` },
+  { value: 'isAny', label: t`is any of` },
 ];
 
 export interface FilterOption {
@@ -330,7 +331,7 @@ function SelectFilterInput({
               {selectedValues.length > 0 ? (
                 <span className="truncate">{selectedSummary}</span>
               ) : (
-                <span className="text-gray-500 dark:text-gray-400">Select values...</span>
+                <span className="text-gray-500 dark:text-gray-400">{t`Select values...`}</span>
               )}
             </Button>
           </PopoverTrigger>
@@ -372,7 +373,7 @@ function SelectFilterInput({
           disabled={disabled}
         >
           <SelectTrigger aria-label={valueLabel} className="h-8 min-w-[150px] flex-1">
-            <SelectValue placeholder="Select value..." />
+            <SelectValue placeholder={t`Select value...`} />
           </SelectTrigger>
           <SelectContent>
             {options.map((option) => (
@@ -423,7 +424,7 @@ function ComparisonFilterInput({
       </Select>
       <Input
         aria-label={valueLabel}
-        placeholder="Value..."
+        placeholder={t`Value...`}
         value={value}
         onChange={(e) => onValueChange(e.target.value)}
         disabled={disabled}
@@ -624,7 +625,7 @@ export function DataTableHeaderFilter<TData>({ column }: { column: Column<TData,
                       {multiSelectValues.length > 0 ? (
                         <span className="truncate">{multiSelectSummary}</span>
                       ) : (
-                        <span className="text-zinc-500 dark:text-zinc-400">Select values...</span>
+                        <span className="text-zinc-500 dark:text-zinc-400">{t`Select values...`}</span>
                       )}
                     </Button>
                     {isMultiSelectOpen && (
@@ -683,7 +684,7 @@ export function DataTableHeaderFilter<TData>({ column }: { column: Column<TData,
                       aria-label={`Value for ${columnHeader} filter`}
                       className="h-8 w-full min-w-0"
                     >
-                      <SelectValue placeholder="Select value..." />
+                      <SelectValue placeholder={t`Select value...`} />
                     </SelectTrigger>
                     <SelectContent>
                       {filterOptions.map((option) => (
@@ -719,7 +720,7 @@ export function DataTableHeaderFilter<TData>({ column }: { column: Column<TData,
                 </Select>
                 <Input
                   aria-label={`Value for ${columnHeader} filter`}
-                  placeholder="Value..."
+                  placeholder={t`Value...`}
                   value={textValue}
                   onChange={(event) => {
                     const nextValue = event.target.value;
@@ -737,7 +738,7 @@ export function DataTableHeaderFilter<TData>({ column }: { column: Column<TData,
               onClick={handleClearFilter}
               className="h-8 px-2 text-xs shrink-0 whitespace-nowrap"
             >
-              Clear
+              {t`Clear`}
             </Button>
           </div>
         </div>
@@ -984,7 +985,7 @@ export function DataTableFilter<TData>({ table, columnFilters }: DataTableFilter
       <PopoverTrigger asChild>
         <Button variant="outline" size="sm" className="relative h-11 sm:h-8">
           <Filter className="mr-2 size-4" />
-          Filters
+          {t`Filters`}
           {activeFilterCount > 0 && (
             <span className="ml-1.5 flex size-5 items-center justify-center rounded-full bg-primary text-[10px] font-medium text-primary-foreground">
               {activeFilterCount}
@@ -999,7 +1000,7 @@ export function DataTableFilter<TData>({ table, columnFilters }: DataTableFilter
       >
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium">Filters</h4>
+            <h4 className="text-sm font-medium">{t`Filters`}</h4>
             {(activeFilters.length > 0 || activeFilterCount > 0) && (
               <Button
                 variant="ghost"
@@ -1007,7 +1008,7 @@ export function DataTableFilter<TData>({ table, columnFilters }: DataTableFilter
                 onClick={clearAllFilters}
                 className="h-auto px-2 py-1 text-xs text-gray-500 dark:text-gray-400 hover:text-foreground"
               >
-                Clear all
+                {t`Clear all`}
               </Button>
             )}
           </div>
@@ -1172,7 +1173,7 @@ export function DataTableFilter<TData>({ table, columnFilters }: DataTableFilter
             disabled={filterableColumns.length === 0}
           >
             <Plus className="mr-2 size-4" />
-            Add filter
+            {t`Add filter`}
           </Button>
         </div>
       </PopoverContent>

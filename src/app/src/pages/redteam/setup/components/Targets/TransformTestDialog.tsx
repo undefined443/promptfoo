@@ -19,6 +19,7 @@ import { Label } from '@app/components/ui/label';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { highlightJS, highlightJSON } from '@app/lib/codeHighlight';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { AlertCircle, AlignLeft, CheckCircle, ChevronDown, Code2, Info, Play } from 'lucide-react';
 
 interface TransformTestDialogProps {
@@ -158,14 +159,14 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                     <TooltipTrigger asChild>
                       <button
                         type="button"
-                        aria-label="Format JSON"
+                        aria-label={t`Format JSON`}
                         className="rounded p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                         onClick={formatJson}
                       >
                         <AlignLeft className="size-4" />
                       </button>
                     </TooltipTrigger>
-                    <TooltipContent>Format JSON</TooltipContent>
+                    <TooltipContent>{t`Format JSON`}</TooltipContent>
                   </Tooltip>
                 </div>
                 <Collapsible
@@ -178,7 +179,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                       type="button"
                       className="flex flex-1 items-center justify-between text-left transition-colors hover:text-foreground"
                     >
-                      <span className="text-sm text-muted-foreground">Test input</span>
+                      <span className="text-sm text-muted-foreground">{t`Test input`}</span>
                       <ChevronDown
                         className={cn(
                           'size-4 text-muted-foreground transition-transform',
@@ -217,7 +218,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
 
               {/* Transform Code Editor Section */}
               <div className="space-y-2">
-                <Label className="text-sm font-semibold">Transform Function</Label>
+                <Label className="text-sm font-semibold">{t`Transform Function`}</Label>
 
                 {/* Documentation Collapsible */}
                 <Collapsible
@@ -229,7 +230,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                     type="button"
                     className="flex w-full items-center justify-between rounded-lg bg-muted/50 px-3 py-2 text-left transition-colors hover:bg-muted data-[state=open]:rounded-b-none"
                   >
-                    <span className="text-sm text-muted-foreground">Documentation</span>
+                    <span className="text-sm text-muted-foreground">{t`Documentation`}</span>
                     <ChevronDown
                       className={cn(
                         'size-4 text-muted-foreground transition-transform',
@@ -240,17 +241,13 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                   <CollapsibleContent>
                     <div className="space-y-3 border-t border-border p-3">
                       <div>
-                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                          Function Signature
-                        </p>
+                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t`Function Signature`}</p>
                         <code className="block rounded bg-muted px-2 py-1.5 font-mono text-xs">
                           {functionDocumentation.signature}
                         </code>
                       </div>
                       <div>
-                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                          Parameters & Return
-                        </p>
+                        <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t`Parameters & Return`}</p>
                         <div className="text-sm leading-relaxed text-muted-foreground">
                           {functionDocumentation.description}
                         </div>
@@ -262,7 +259,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                 {/* Code Editor */}
                 <div className="overflow-hidden rounded-lg border border-border">
                   <div className="flex items-center justify-between border-b border-border bg-muted/50 px-3 py-1.5">
-                    <span className="text-xs text-muted-foreground">JavaScript</span>
+                    <span className="text-xs text-muted-foreground">{t`JavaScript`}</span>
                   </div>
                   <div className="bg-white dark:bg-zinc-950">
                     <Editor
@@ -284,7 +281,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
               {/* Test Button */}
               <Button onClick={testTransform} disabled={testLoading} size="lg" className="w-full">
                 <Play className="mr-2 size-4" />
-                Run Test
+                {t`Run Test`}
               </Button>
 
               {/* Loading */}
@@ -299,7 +296,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
           {/* Right side - Result */}
           <div className="flex flex-1 flex-col bg-muted/30">
             <div className="flex flex-1 flex-col p-4">
-              <Label className="mb-2 text-sm font-semibold">Result</Label>
+              <Label className="mb-2 text-sm font-semibold">{t`Result`}</Label>
               {testResult ? (
                 <div className="flex flex-1 flex-col overflow-auto rounded-lg border border-border bg-card p-4">
                   {testResult.success ? (
@@ -324,9 +321,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                         </Alert>
                       )}
                       {onApply && !testResult.noTransform && (
-                        <Button onClick={handleApply} className="mb-4">
-                          Apply Transform
-                        </Button>
+                        <Button onClick={handleApply} className="mb-4">{t`Apply Transform`}</Button>
                       )}
                       <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">
                         {functionDocumentation.outputLabel}
@@ -362,7 +357,7 @@ const TransformTestDialog: React.FC<TransformTestDialogProps> = ({
                 <div className="flex flex-1 items-center justify-center rounded-lg border border-dashed border-border bg-card p-4">
                   <div className="text-center">
                     <Play className="mx-auto mb-2 size-8 text-muted-foreground/50" />
-                    <p className="text-sm text-muted-foreground">Run the test to see results</p>
+                    <p className="text-sm text-muted-foreground">{t`Run the test to see results`}</p>
                   </div>
                 </div>
               )}

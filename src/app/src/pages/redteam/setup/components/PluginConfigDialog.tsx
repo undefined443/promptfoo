@@ -11,6 +11,7 @@ import {
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
 import { Textarea } from '@app/components/ui/textarea';
+import { t } from '@lingui/core/macro';
 import { categoryAliases, displayNameOverrides } from '@promptfoo/redteam/constants';
 import { Minus, Plus } from 'lucide-react';
 import { useRedTeamConfig } from '../hooks/useRedTeamConfig';
@@ -108,29 +109,28 @@ export default function PluginConfigDialog({
 
         if (policyPlugins.length === 0) {
           specificConfig = (
-            <p className="py-4 text-sm text-muted-foreground">
-              No custom policies configured. Add policies in the Custom Policies section.
-            </p>
+            <p className="py-4 text-sm text-muted-foreground">{t`No custom policies configured. Add policies in the Custom Policies section.`}</p>
           );
         } else {
           specificConfig = (
             <div>
               <p className="mb-3 text-sm font-medium">
-                Configured Custom Policies ({policyPlugins.length})
+                {t`Configured Custom Policies (`}
+                {policyPlugins.length})
               </p>
               {policyPlugins.map((policyPlugin, index) => (
                 <div key={index} className="mb-3 rounded-md border border-border bg-muted/30 p-3">
-                  <p className="mb-1 text-xs text-muted-foreground">Policy {index + 1}</p>
+                  <p className="mb-1 text-xs text-muted-foreground">
+                    {t`Policy`} {index + 1}
+                  </p>
                   <p className="whitespace-pre-wrap text-sm leading-relaxed">
                     {typeof policyPlugin.config.policy === 'string'
                       ? policyPlugin.config.policy
-                      : policyPlugin.config.policy?.text || 'No policy text'}
+                      : policyPlugin.config.policy?.text || t`No policy text`}
                   </p>
                 </div>
               ))}
-              <p className="text-xs text-muted-foreground">
-                To edit or add policies, use the Custom Policies section in Available Plugins.
-              </p>
+              <p className="text-xs text-muted-foreground">{t`To edit or add policies, use the Custom Policies section in Available Plugins.`}</p>
             </div>
           );
         }
@@ -144,9 +144,7 @@ export default function PluginConfigDialog({
 
         if (!intentPlugin?.config?.intent) {
           specificConfig = (
-            <p className="py-4 text-sm text-muted-foreground">
-              No custom intents configured. Add intents in the Custom Prompts section.
-            </p>
+            <p className="py-4 text-sm text-muted-foreground">{t`No custom intents configured. Add intents in the Custom Prompts section.`}</p>
           );
           break;
         }
@@ -158,9 +156,7 @@ export default function PluginConfigDialog({
 
         if (flatIntents.length === 0) {
           specificConfig = (
-            <p className="py-4 text-sm text-muted-foreground">
-              No custom intents configured. Add intents in the Custom Prompts section.
-            </p>
+            <p className="py-4 text-sm text-muted-foreground">{t`No custom intents configured. Add intents in the Custom Prompts section.`}</p>
           );
           break;
         }
@@ -168,17 +164,18 @@ export default function PluginConfigDialog({
         specificConfig = (
           <div>
             <p className="mb-3 text-sm font-medium">
-              Configured Custom Intents ({flatIntents.length})
+              {t`Configured Custom Intents (`}
+              {flatIntents.length})
             </p>
             {flatIntents.map((intent: string, index: number) => (
               <div key={index} className="mb-3 rounded-md border border-border bg-muted/30 p-3">
-                <p className="mb-1 text-xs text-muted-foreground">Intent {index + 1}</p>
+                <p className="mb-1 text-xs text-muted-foreground">
+                  {t`Intent`} {index + 1}
+                </p>
                 <p className="whitespace-pre-wrap text-sm leading-relaxed">{intent}</p>
               </div>
             ))}
-            <p className="text-xs text-muted-foreground">
-              To edit or add intents, use the Custom Prompts section in Available Plugins.
-            </p>
+            <p className="text-xs text-muted-foreground">{t`To edit or add intents, use the Custom Prompts section in Available Plugins.`}</p>
           </div>
         );
         break;
@@ -186,13 +183,9 @@ export default function PluginConfigDialog({
         const key = 'systemPrompt';
         specificConfig = (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              The Prompt Extraction plugin tests whether an attacker can extract your system prompt
-              through various techniques. Provide your actual system prompt here so the plugin can
-              test if it can be extracted.
-            </p>
+            <p className="text-sm text-muted-foreground">{t`The Prompt Extraction plugin tests whether an attacker can extract your system prompt through various techniques. Provide your actual system prompt here so the plugin can test if it can be extracted.`}</p>
             <div className="space-y-2">
-              <Label htmlFor="system-prompt">System Prompt</Label>
+              <Label htmlFor="system-prompt">{t`System Prompt`}</Label>
               <Textarea
                 id="system-prompt"
                 className="min-h-[100px]"
@@ -258,7 +251,7 @@ export default function PluginConfigDialog({
               disabled={hasEmptyArrayItems(currentArray)}
             >
               <Plus className="mr-1 size-4" />
-              Add
+              {t`Add`}
             </Button>
           </div>
         );
@@ -266,21 +259,16 @@ export default function PluginConfigDialog({
       case 'indirect-prompt-injection':
         specificConfig = (
           <div className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              Indirect Prompt Injection tests whether untrusted content can influence your AI
-              system's behavior. This happens when user-generated content or external data (like
-              from RAG systems) contains malicious instructions. Specify the variable name in your
-              prompt that contains untrusted data (e.g., 'name', 'userContent', 'document').
-            </p>
+            <p className="text-sm text-muted-foreground">{t`Indirect Prompt Injection tests whether untrusted content can influence your AI system's behavior. This happens when user-generated content or external data (like from RAG systems) contains malicious instructions. Specify the variable name in your prompt that contains untrusted data (e.g., 'name', 'userContent', 'document').`}</p>
             <div className="space-y-2">
-              <Label htmlFor="indirect-injection-var">Indirect Injection Variable</Label>
+              <Label htmlFor="indirect-injection-var">{t`Indirect Injection Variable`}</Label>
               <Input
                 id="indirect-injection-var"
                 value={(localConfig.indirectInjectionVar as string) || ''}
                 onChange={(e) =>
                   setLocalConfig({ ...localConfig, indirectInjectionVar: e.target.value })
                 }
-                placeholder="e.g., name, userContent, document"
+                placeholder={t`e.g., name, userContent, document`}
               />
             </div>
             <p className="text-xs text-muted-foreground">
@@ -301,15 +289,13 @@ export default function PluginConfigDialog({
         {specificConfig && <div className="my-4" />}
         <div className="space-y-3">
           <div>
-            <p className="mb-1 text-sm font-medium">Grading Guidance (Optional)</p>
-            <p className="mb-3 text-sm text-muted-foreground">
-              Plugin-specific rules that take priority over general grading criteria
-            </p>
+            <p className="mb-1 text-sm font-medium">{t`Grading Guidance (Optional)`}</p>
+            <p className="mb-3 text-sm text-muted-foreground">{t`Plugin-specific rules that take priority over general grading criteria`}</p>
           </div>
           <Textarea
             id="plugin-grading-guidance-input"
             className="min-h-[100px]"
-            placeholder="e.g., For this financial app, discussing fund names is required and should pass."
+            placeholder={t`e.g., For this financial app, discussing fund names is required and should pass.`}
             value={(localConfig.graderGuidance as string) || ''}
             onChange={(e) =>
               setLocalConfig((prev) => ({ ...prev, graderGuidance: e.target.value }))
@@ -357,9 +343,9 @@ export default function PluginConfigDialog({
         <div className="min-h-0 flex-1 overflow-y-auto py-4">{renderConfigInputs()}</div>
         <DialogFooter className="shrink-0">
           <Button variant="outline" onClick={onClose}>
-            {isReadOnlyPlugin ? 'Close' : 'Cancel'}
+            {isReadOnlyPlugin ? t`Close` : t`Cancel`}
           </Button>
-          {!isReadOnlyPlugin && <Button onClick={handleSave}>Save</Button>}
+          {!isReadOnlyPlugin && <Button onClick={handleSave}>{t`Save`}</Button>}
         </DialogFooter>
       </DialogContent>
     </Dialog>

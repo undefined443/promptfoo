@@ -15,6 +15,7 @@ import { useTelemetry } from '@app/hooks/useTelemetry';
 import { cn } from '@app/lib/utils';
 import { callApi } from '@app/utils/api';
 import { formatToolsAsJSDocs } from '@app/utils/discovery';
+import { t } from '@lingui/core/macro';
 import { type TargetPurposeDiscoveryResult } from '@promptfoo/redteam/commands/discover';
 import { AlertTriangle, CheckCircle, ChevronDown, Info, Sparkles } from 'lucide-react';
 import { DEFAULT_HTTP_TARGET, useRedTeamConfig } from '../hooks/useRedTeamConfig';
@@ -62,16 +63,14 @@ function DiscoveryResult({
     <div className="relative mb-4 rounded-lg border border-primary/20 bg-primary/5 p-4 dark:border-primary/30 dark:bg-primary/10">
       <div className="flex items-start gap-4">
         <div className="flex-1">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-primary/80">
-            Auto-Discovery Result
-          </p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-primary/80">{t`Auto-Discovery Result`}</p>
           <p className="whitespace-pre-wrap wrap-break-word font-mono text-[13px] leading-relaxed text-foreground">
             {text}
           </p>
         </div>
         <Button size="sm" onClick={handleApply} disabled={applied}>
           <Sparkles className="mr-2 size-3.5" />
-          Apply
+          {t`Apply`}
         </Button>
       </div>
     </div>
@@ -254,13 +253,13 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
   return (
     <PageWrapper
-      title="Application Details"
+      title={t`Application Details`}
       description={(() => {
         switch (testMode) {
           case 'application':
-            return 'Describe your application so we can generate targeted security tests.';
+            return t`Describe your application so we can generate targeted security tests.`;
           case 'model':
-            return 'Describe the foundation model so we can generate targeted tests.';
+            return t`Describe the foundation model so we can generate targeted tests.`;
           default:
             return '';
         }
@@ -285,10 +284,8 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
               )}
               onClick={() => handleTestModeChange('application')}
             >
-              <span className="text-sm font-medium">I'm testing an application</span>
-              <span className="text-xs text-muted-foreground">
-                Test a complete AI application with its context
-              </span>
+              <span className="text-sm font-medium">{t`I'm testing an application`}</span>
+              <span className="text-xs text-muted-foreground">{t`Test a complete AI application with its context`}</span>
             </button>
             <button
               type="button"
@@ -299,10 +296,8 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
               )}
               onClick={() => handleTestModeChange('model')}
             >
-              <span className="text-sm font-medium">I'm testing a model</span>
-              <span className="text-xs text-muted-foreground">
-                Test a model directly without application context
-              </span>
+              <span className="text-sm font-medium">{t`I'm testing a model`}</span>
+              <span className="text-xs text-muted-foreground">{t`Test a model directly without application context`}</span>
             </button>
           </div>
 
@@ -320,22 +315,19 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                         <Sparkles className="size-5 text-primary" />
                       </div>
                       <div>
-                        <h2 className="text-base font-semibold tracking-tight">Auto-Discovery</h2>
-                        <p className="text-xs text-muted-foreground">
-                          1-click detection of your target's capabilities
-                        </p>
+                        <h2 className="text-base font-semibold tracking-tight">{t`Auto-Discovery`}</h2>
+                        <p className="text-xs text-muted-foreground">{t`1-click detection of your target's capabilities`}</p>
                       </div>
                     </div>
 
                     <p className="text-[13px] leading-relaxed text-muted-foreground">
-                      Automatically analyze your target to discover its purpose, tools, and
-                      limitations.{' '}
+                      {t`Automatically analyze your target to discover its purpose, tools, and limitations.`}{' '}
                       <a
                         href="https://promptfoo.dev/docs/red-team/discovery"
                         target="_blank"
                         className="text-primary/80 underline underline-offset-2 hover:text-primary"
                       >
-                        Learn more
+                        {t`Learn more`}
                       </a>
                     </p>
 
@@ -351,17 +343,14 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                       onClick={handleTargetPurposeDiscovery}
                       className="w-37.5"
                     >
-                      {isDiscovering ? 'Discovering...' : 'Discover'}
+                      {isDiscovering ? t`Discovering...` : t`Discover`}
                     </Button>
 
                     {isDiscovering && showSlowDiscoveryMessage && (
                       <Alert variant="info">
                         <Info className="size-4" />
                         <AlertContent>
-                          <AlertDescription>
-                            Discovery is taking a little while. This is normal for complex
-                            applications.
-                          </AlertDescription>
+                          <AlertDescription>{t`Discovery is taking a little while. This is normal for complex applications.`}</AlertDescription>
                         </AlertContent>
                       </Alert>
                     )}
@@ -369,9 +358,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                       <Alert variant="warning">
                         <AlertTriangle className="size-4" />
                         <AlertContent>
-                          <AlertDescription>
-                            You must configure a target to run auto-discovery.
-                          </AlertDescription>
+                          <AlertDescription>{t`You must configure a target to run auto-discovery.`}</AlertDescription>
                         </AlertContent>
                       </Alert>
                     )}
@@ -379,10 +366,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                       <Alert variant="destructive">
                         <AlertTriangle className="size-4" />
                         <AlertContent>
-                          <AlertDescription>
-                            Cannot connect to Promptfoo API. Auto-discovery requires a healthy API
-                            connection.
-                          </AlertDescription>
+                          <AlertDescription>{t`Cannot connect to Promptfoo API. Auto-discovery requires a healthy API connection.`}</AlertDescription>
                         </AlertContent>
                       </Alert>
                     )}
@@ -403,17 +387,15 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                           </AlertContent>
                         </Alert>
                         <div className="rounded-lg border border-border bg-background/80 p-4">
-                          <p className="mb-3 text-[13px] text-muted-foreground">
-                            To re-attempt discovery from your terminal:
-                          </p>
+                          <p className="mb-3 text-[13px] text-muted-foreground">{t`To re-attempt discovery from your terminal:`}</p>
                           <div className="space-y-1.5 text-[13px] text-muted-foreground">
                             <p>
-                              <span className="font-medium text-foreground">1.</span> Save Config
-                              and export as YAML
+                              <span className="font-medium text-foreground">1.</span>{' '}
+                              {t`Save Config and export as YAML`}
                             </p>
                             <p>
-                              <span className="font-medium text-foreground">2.</span> Run the
-                              command:
+                              <span className="font-medium text-foreground">2.</span>{' '}
+                              {t`Run the command:`}
                             </p>
                           </div>
                           <Code className="mt-2">
@@ -429,23 +411,16 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
               {/* Main Purpose - Standalone Section */}
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-2xl font-semibold tracking-tight">Application Details</h2>
-                  <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-                    This is the most critical step for generating effective red team attacks. The
-                    quality and specificity of your responses directly determines how targeted and
-                    realistic the generated attacks will be.
-                  </p>
+                  <h2 className="text-2xl font-semibold tracking-tight">{t`Application Details`}</h2>
+                  <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{t`This is the most critical step for generating effective red team attacks. The quality and specificity of your responses directly determines how targeted and realistic the generated attacks will be.`}</p>
                 </div>
 
                 <div>
                   <Label className="mb-1.5 block text-base">
-                    What is the main purpose of your application?
+                    {t`What is the main purpose of your application?`}
                     <span className="ml-1 text-destructive/80">*</span>
                   </Label>
-                  <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-                    Describe the primary objective and goals of your application. This foundational
-                    information provides essential context for generating targeted security tests.
-                  </p>
+                  <p className="mb-3 text-sm leading-relaxed text-muted-foreground">{t`Describe the primary objective and goals of your application. This foundational information provides essential context for generating targeted security tests.`}</p>
 
                   {discoveryResult && discoveryResult.purpose && (
                     <DiscoveryResult text={discoveryResult.purpose} section="purpose" />
@@ -454,14 +429,12 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                   <Textarea
                     value={config.applicationDefinition?.purpose ?? ''}
                     onChange={(e) => updateApplicationDefinition('purpose', e.target.value)}
-                    placeholder="e.g. Assist healthcare professionals and patients with medical-related tasks, access medical information, schedule appointments..."
+                    placeholder={t`e.g. Assist healthcare professionals and patients with medical-related tasks, access medical information, schedule appointments...`}
                     rows={3}
                     className="min-h-18 resize-y"
                   />
                 </div>
-                <p className="text-xs text-muted-foreground/80">
-                  Only the purpose is required. Additional details improve test targeting.
-                </p>
+                <p className="text-xs text-muted-foreground/80">{t`Only the purpose is required. Additional details improve test targeting.`}</p>
               </div>
 
               <div className="space-y-0">
@@ -473,9 +446,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                 >
                   <CollapsibleTrigger className="flex w-full items-center justify-between gap-3 p-4 hover:bg-muted/50">
                     <div className="flex min-w-0 flex-1 flex-col items-start gap-1 pr-3 text-left sm:flex-row sm:items-center sm:gap-3">
-                      <h3 className="text-left text-base font-semibold tracking-tight">
-                        Core Application Details
-                      </h3>
+                      <h3 className="text-left text-base font-semibold tracking-tight">{t`Core Application Details`}</h3>
                       <span className="text-xs font-medium text-muted-foreground">
                         {getCompletionPercentage('Core Application Details')}
                       </span>
@@ -494,18 +465,16 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                     <div className="space-y-6">
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What key features does your application provide?
+                          {t`What key features does your application provide?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          List the main capabilities and functionalities available to users.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`List the main capabilities and functionalities available to users.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.features ?? ''}
                           onChange={(e) => updateApplicationDefinition('features', e.target.value)}
-                          placeholder="e.g. Patient record access, appointment scheduling, prescription management, lab results retrieval..."
+                          placeholder={t`e.g. Patient record access, appointment scheduling, prescription management, lab results retrieval...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -513,18 +482,16 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What industry or domain does your application operate in?
+                          {t`What industry or domain does your application operate in?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Helps generate industry-specific attacks and compliance tests.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Helps generate industry-specific attacks and compliance tests.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.industry ?? ''}
                           onChange={(e) => updateApplicationDefinition('industry', e.target.value)}
-                          placeholder="e.g. Healthcare, Financial Services, Education, E-commerce, Government, Legal..."
+                          placeholder={t`e.g. Healthcare, Financial Services, Education, E-commerce, Government, Legal...`}
                           rows={1}
                           className="min-h-10 resize-y"
                         />
@@ -532,15 +499,12 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          Any constraints or rules attackers should know about?
+                          {t`Any constraints or rules attackers should know about?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Describe guardrails, restricted topics, input formats, or domain-specific
-                          rules.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Describe guardrails, restricted topics, input formats, or domain-specific rules.`}</p>
 
                         {discoveryResult && discoveryResult.limitations && (
                           <DiscoveryResult
@@ -554,7 +518,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                           onChange={(e) =>
                             updateApplicationDefinition('attackConstraints', e.target.value)
                           }
-                          placeholder="e.g. The agent only responds to voicemail-related queries, so every attack should mention voicemail services. OR: All interactions must be in the context of medical appointments, so attacks should reference scheduling or patient care."
+                          placeholder={t`e.g. The agent only responds to voicemail-related queries, so every attack should mention voicemail services. OR: All interactions must be in the context of medical appointments, so attacks should reference scheduling or patient care.`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -571,9 +535,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                 >
                   <CollapsibleTrigger className="flex w-full items-center justify-between gap-3 p-4 hover:bg-muted/50">
                     <div className="flex min-w-0 flex-1 flex-col items-start gap-1 pr-3 text-left sm:flex-row sm:items-center sm:gap-3">
-                      <h3 className="text-left text-base font-semibold tracking-tight">
-                        Access & Permissions
-                      </h3>
+                      <h3 className="text-left text-base font-semibold tracking-tight">{t`Access & Permissions`}</h3>
                       <span className="text-xs font-medium text-muted-foreground">
                         {getCompletionPercentage('Access & Permissions')}
                       </span>
@@ -592,14 +554,12 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                     <div className="space-y-6">
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What systems or resources does your application have access to?
+                          {t`What systems or resources does your application have access to?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Describe what your application can legitimately access and use.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Describe what your application can legitimately access and use.`}</p>
 
                         {discoveryResult && toolsAsJSDocs && (
                           <DiscoveryResult text={toolsAsJSDocs} section="hasAccessTo" />
@@ -610,7 +570,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                           onChange={(e) =>
                             updateApplicationDefinition('hasAccessTo', e.target.value)
                           }
-                          placeholder="e.g. Patient's own medical records, appointment scheduling system, prescription database..."
+                          placeholder={t`e.g. Patient's own medical records, appointment scheduling system, prescription database...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -618,20 +578,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What should your application NOT have access to?
+                          {t`What should your application NOT have access to?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Specify restricted systems, data, or resources.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Specify restricted systems, data, or resources.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.doesNotHaveAccessTo ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('doesNotHaveAccessTo', e.target.value)
                           }
-                          placeholder="e.g. Other patients' records, financial systems, admin backends..."
+                          placeholder={t`e.g. Other patients' records, financial systems, admin backends...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -639,18 +597,16 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What types of users interact with your application?
+                          {t`What types of users interact with your application?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Describe user roles and their authorization levels.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Describe user roles and their authorization levels.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.userTypes ?? ''}
                           onChange={(e) => updateApplicationDefinition('userTypes', e.target.value)}
-                          placeholder="e.g. Authorized Patients, Healthcare Providers, Administrators..."
+                          placeholder={t`e.g. Authorized Patients, Healthcare Providers, Administrators...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -658,20 +614,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What security and compliance requirements apply?
+                          {t`What security and compliance requirements apply?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          List security, privacy, and regulatory requirements.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`List security, privacy, and regulatory requirements.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.securityRequirements ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('securityRequirements', e.target.value)
                           }
-                          placeholder="e.g. patient privacy controls, confidentiality, audit logging..."
+                          placeholder={t`e.g. patient privacy controls, confidentiality, audit logging...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -688,9 +642,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                 >
                   <CollapsibleTrigger className="flex w-full items-center justify-between gap-3 p-4 hover:bg-muted/50">
                     <div className="flex min-w-0 flex-1 flex-col items-start gap-1 pr-3 text-left sm:flex-row sm:items-center sm:gap-3">
-                      <h3 className="text-left text-base font-semibold tracking-tight">
-                        Data & Content
-                      </h3>
+                      <h3 className="text-left text-base font-semibold tracking-tight">{t`Data & Content`}</h3>
                       <span className="text-xs font-medium text-muted-foreground">
                         {getCompletionPercentage('Data & Content')}
                       </span>
@@ -709,21 +661,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                     <div className="space-y-6">
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What types of sensitive data does your application handle?
+                          {t`What types of sensitive data does your application handle?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Helps generate targeted privacy and data protection attacks. Also used to
-                          grade attack effectiveness.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Helps generate targeted privacy and data protection attacks. Also used to grade attack effectiveness.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.sensitiveDataTypes ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('sensitiveDataTypes', e.target.value)
                           }
-                          placeholder="e.g. Personal health information, financial records, SSNs, payment data..."
+                          placeholder={t`e.g. Personal health information, financial records, SSNs, payment data...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -731,21 +680,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          Example identifiers or data points your application uses?
+                          {t`Example identifiers or data points your application uses?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Realistic examples help test for PII exposure. Specific formats improve
-                          grading accuracy.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Realistic examples help test for PII exposure. Specific formats improve grading accuracy.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.exampleIdentifiers ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('exampleIdentifiers', e.target.value)
                           }
-                          placeholder="e.g. Patient IDs (MRN2023001), Emails (user@example.com), Prescription IDs (RX123456)..."
+                          placeholder={t`e.g. Patient IDs (MRN2023001), Emails (user@example.com), Prescription IDs (RX123456)...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -753,20 +699,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What critical or dangerous actions can your application perform?
+                          {t`What critical or dangerous actions can your application perform?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          High-risk operations that should be protected from misuse.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`High-risk operations that should be protected from misuse.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.criticalActions ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('criticalActions', e.target.value)
                           }
-                          placeholder="e.g. Prescribing medication, financial transactions, data deletion..."
+                          placeholder={t`e.g. Prescribing medication, financial transactions, data deletion...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -774,20 +718,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          What topics should your application never discuss?
+                          {t`What topics should your application never discuss?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Content boundaries to test for harmful or inappropriate responses.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Content boundaries to test for harmful or inappropriate responses.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.forbiddenTopics ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('forbiddenTopics', e.target.value)
                           }
-                          placeholder="e.g. Self-harm, illegal drugs, violence, competitor products..."
+                          placeholder={t`e.g. Self-harm, illegal drugs, violence, competitor products...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -804,9 +746,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                 >
                   <CollapsibleTrigger className="flex w-full items-center justify-between gap-3 p-4 hover:bg-muted/50">
                     <div className="flex min-w-0 flex-1 flex-col items-start gap-1 pr-3 text-left sm:flex-row sm:items-center sm:gap-3">
-                      <h3 className="text-left text-base font-semibold tracking-tight">
-                        Business Context
-                      </h3>
+                      <h3 className="text-left text-base font-semibold tracking-tight">{t`Business Context`}</h3>
                       <span className="text-xs font-medium text-muted-foreground">
                         {getCompletionPercentage('Business Context')}
                       </span>
@@ -825,20 +765,18 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                     <div className="space-y-6">
                       <div>
                         <Label className="mb-1.5 flex items-baseline gap-2">
-                          Competitors that shouldn't be endorsed or promoted?
+                          {t`Competitors that shouldn't be endorsed or promoted?`}
                           <span className="text-xs font-normal text-muted-foreground/70">
-                            optional
+                            {t`optional`}
                           </span>
                         </Label>
-                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                          Companies or products your application should remain neutral about.
-                        </p>
+                        <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`Companies or products your application should remain neutral about.`}</p>
                         <Textarea
                           value={config.applicationDefinition?.competitors ?? ''}
                           onChange={(e) =>
                             updateApplicationDefinition('competitors', e.target.value)
                           }
-                          placeholder="e.g. Epic Systems, Cerner, Allscripts, athenahealth..."
+                          placeholder={t`e.g. Epic Systems, Cerner, Allscripts, athenahealth...`}
                           rows={2}
                           className="min-h-14 resize-y"
                         />
@@ -850,15 +788,13 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
 
               {/* Red Team User - Standalone Section */}
               <div className="mt-8 space-y-4">
-                <h2 className="text-lg font-semibold tracking-tight">Red Team User</h2>
+                <h2 className="text-lg font-semibold tracking-tight">{t`Red Team User`}</h2>
                 <div>
                   <Label className="mb-1.5 flex items-baseline gap-2">
-                    Who typically uses this system?
-                    <span className="text-xs font-normal text-muted-foreground/70">optional</span>
+                    {t`Who typically uses this system?`}
+                    <span className="text-xs font-normal text-muted-foreground/70">{t`optional`}</span>
                   </Label>
-                  <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">
-                    The red team will simulate these user personas when testing for vulnerabilities.
-                  </p>
+                  <p className="mb-3 text-[13px] leading-relaxed text-muted-foreground">{t`The red team will simulate these user personas when testing for vulnerabilities.`}</p>
 
                   {discoveryResult && discoveryResult.user && (
                     <DiscoveryResult text={discoveryResult.user} section="redteamUser" />
@@ -867,7 +803,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
                   <Textarea
                     value={config.applicationDefinition?.redteamUser ?? ''}
                     onChange={(e) => updateApplicationDefinition('redteamUser', e.target.value)}
-                    placeholder="e.g. An engineer at Acme Inc, a healthcare provider, a financial analyst..."
+                    placeholder={t`e.g. An engineer at Acme Inc, a healthcare provider, a financial analyst...`}
                     rows={2}
                     className="min-h-14 resize-y"
                   />
@@ -879,10 +815,7 @@ export default function Purpose({ onNext, onBack }: PromptsProps) {
               <Alert variant="info">
                 <Info className="size-4" />
                 <AlertContent>
-                  <AlertDescription>
-                    When testing a model directly, you don't need to provide application details.
-                    You can proceed to configure the model and test scenarios in the next steps.
-                  </AlertDescription>
+                  <AlertDescription>{t`When testing a model directly, you don't need to provide application details. You can proceed to configure the model and test scenarios in the next steps.`}</AlertDescription>
                 </AlertContent>
               </Alert>
             </div>

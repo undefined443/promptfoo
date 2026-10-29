@@ -15,6 +15,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
 import { useStore } from '@app/stores/evalConfig';
+import { t } from '@lingui/core/macro';
 import PromptDialog from './PromptDialog';
 
 interface PromptsSectionProps {
@@ -70,17 +71,17 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
       reader.onload = (e) => {
         const text = e.target?.result?.toString();
         if (!text || text.trim() === '') {
-          showToast('The file appears to be empty. Please select a file with content.', 'error');
+          showToast(t`The file appears to be empty. Please select a file with content.`, 'error');
           event.target.value = '';
           return;
         }
 
         setPrompts([...prompts, text]);
-        showToast('Prompt imported successfully', 'success');
+        showToast(t`Prompt imported successfully`, 'success');
         event.target.value = '';
       };
       reader.onerror = () => {
-        showToast('Failed to read file', 'error');
+        showToast(t`Failed to read file`, 'error');
         event.target.value = '';
       };
       reader.readAsText(file);
@@ -138,32 +139,30 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
       {!canEditInlinePrompts && (
         <Alert variant="info" className="flex-col items-start sm:flex-row sm:items-center">
           <AlertContent>
-            <AlertTitle>Managed in YAML</AlertTitle>
+            <AlertTitle>{t`Managed in YAML`}</AlertTitle>
             <AlertDescription>
-              This prompt configuration is loaded from{' '}
+              {t`This prompt configuration is loaded from`}{' '}
               <code className="rounded bg-background/80 px-1 py-0.5 text-xs">
                 {getManagedPromptsLabel(rawPrompts)}
               </code>
-              . Use the YAML editor to update it.
+              {t`. Use the YAML editor to update it.`}
             </AlertDescription>
           </AlertContent>
           {onOpenYamlEditor && (
-            <Button variant="outline" size="sm" onClick={onOpenYamlEditor}>
-              Edit YAML
-            </Button>
+            <Button variant="outline" size="sm" onClick={onOpenYamlEditor}>{t`Edit YAML`}</Button>
           )}
         </Alert>
       )}
 
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h3 className="text-xl font-semibold">Prompts</h3>
+        <h3 className="text-xl font-semibold">{t`Prompts`}</h3>
         <div className="flex flex-wrap items-center gap-2">
           {canEditInlinePrompts && (
             <>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <label className="cursor-pointer" aria-label="Upload prompt from file">
+                  <label className="cursor-pointer" aria-label={t`Upload prompt from file`}>
                     <Button variant="ghost" size="icon" asChild>
                       <span>
                         <UploadIcon className="size-4" />
@@ -174,19 +173,17 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
                       accept=".txt,.md"
                       onChange={handleAddPromptFromFile}
                       className="hidden"
-                      aria-label="Upload prompt from file"
+                      aria-label={t`Upload prompt from file`}
                     />
                   </label>
                 </TooltipTrigger>
-                <TooltipContent>Upload prompt from file</TooltipContent>
+                <TooltipContent>{t`Upload prompt from file`}</TooltipContent>
               </Tooltip>
 
               <Button
                 onClick={() => setPromptDialogOpen(true)}
                 className="dark:bg-blue-600 dark:hover:bg-blue-500"
-              >
-                Add Prompt
-              </Button>
+              >{t`Add Prompt`}</Button>
 
               {prompts.length === 0 && (
                 <Button
@@ -196,9 +193,7 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
                       'Write a short, fun story about a {{animal}} going on an adventure in {{location}}. Make it entertaining and suitable for children.';
                     setPrompts([...prompts, examplePrompt]);
                   }}
-                >
-                  Add Example
-                </Button>
+                >{t`Add Example`}</Button>
               )}
             </>
           )}
@@ -209,7 +204,7 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
       <div className="rounded-lg border border-border overflow-hidden">
         {canEditInlinePrompts ? (
           prompts.length === 0 ? (
-            <div className="p-8 text-center text-muted-foreground">No prompts added yet.</div>
+            <div className="p-8 text-center text-muted-foreground">{t`No prompts added yet.`}</div>
           ) : (
             <div className="divide-y divide-border">
               {prompts.map((prompt, index) => (
@@ -230,7 +225,10 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
                     aria-label={`Open prompt ${index + 1} for editing`}
                     className="flex-1 rounded-sm text-left text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:mr-4"
                   >
-                    <span className="text-muted-foreground font-medium">Prompt #{index + 1}: </span>
+                    <span className="text-muted-foreground font-medium">
+                      {t`Prompt #`}
+                      {index + 1}:{' '}
+                    </span>
                     {highlightVars(prompt)}
                   </button>
                   <div className="flex shrink-0 items-center gap-1 self-end sm:self-auto">
@@ -248,7 +246,7 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
                           <EditIcon className="size-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Edit</TooltipContent>
+                      <TooltipContent>{t`Edit`}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -262,7 +260,7 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
                           <ContentCopyIcon className="size-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Duplicate</TooltipContent>
+                      <TooltipContent>{t`Duplicate`}</TooltipContent>
                     </Tooltip>
 
                     <Tooltip>
@@ -276,7 +274,7 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
                           <DeleteIcon className="size-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Delete</TooltipContent>
+                      <TooltipContent>{t`Delete`}</TooltipContent>
                     </Tooltip>
                   </div>
                 </div>
@@ -284,9 +282,7 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
             </div>
           )
         ) : (
-          <div className="p-8 text-center text-muted-foreground">
-            Prompt entries from YAML are not editable in the UI editor.
-          </div>
+          <div className="p-8 text-center text-muted-foreground">{t`Prompt entries from YAML are not editable in the UI editor.`}</div>
         )}
       </div>
 
@@ -316,17 +312,15 @@ const PromptsSection = ({ onOpenYamlEditor }: PromptsSectionProps) => {
       <Dialog open={deleteDialogOpen} onOpenChange={(open) => !open && cancelDeletePrompt()}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Delete prompt?</DialogTitle>
-            <DialogDescription>
-              This removes the prompt from this evaluation. This action cannot be undone.
-            </DialogDescription>
+            <DialogTitle>{t`Delete prompt?`}</DialogTitle>
+            <DialogDescription>{t`This removes the prompt from this evaluation. This action cannot be undone.`}</DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={cancelDeletePrompt}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={confirmDeletePrompt}>
-              Delete
+              {t`Delete`}
             </Button>
           </DialogFooter>
         </DialogContent>

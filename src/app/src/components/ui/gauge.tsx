@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 
 interface GaugeProps extends Omit<React.ComponentProps<'div'>, 'value'> {
   value: number;
@@ -51,7 +52,7 @@ export function Gauge({
       aria-valuenow={Number.isNaN(value) ? undefined : value}
       aria-valuemin={0}
       aria-valuemax={max}
-      aria-label="Progress gauge"
+      aria-label={t`Progress gauge`}
       {...props}
     >
       <svg

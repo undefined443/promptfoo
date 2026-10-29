@@ -22,6 +22,7 @@ import { Textarea } from '@app/components/ui/textarea';
 import { cn } from '@app/lib/utils';
 import ChatMessages from '@app/pages/eval/components/ChatMessages';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import {
   AlertCircle,
   AlertTriangle,
@@ -97,12 +98,11 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
         <Info className="size-4" />
         <AlertContent>
           <AlertDescription className="text-sm">
-            <p className="mb-2 font-medium">Session Endpoint Configuration</p>
+            <p className="mb-2 font-medium">{t`Session Endpoint Configuration`}</p>
             <p>
-              Configure a separate endpoint that will be called to obtain session IDs before making
-              API requests. The session ID will be available as{' '}
-              <code className="rounded bg-muted px-1 font-mono text-xs">{'{{sessionId}}'}</code> in
-              your main request.
+              {t`Configure a separate endpoint that will be called to obtain session IDs before making API requests. The session ID will be available as`}{' '}
+              <code className="rounded bg-muted px-1 font-mono text-xs">{'{{sessionId}}'}</code>{' '}
+              {t`in your main request.`}
             </p>
           </AlertDescription>
         </AlertContent>
@@ -110,12 +110,11 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
 
       {/* Session Endpoint URL */}
       <div>
-        <Label htmlFor="session-url" className="text-sm font-medium">
-          Session Endpoint URL
-        </Label>
-        <p className="mb-2 mt-0.5 text-sm text-muted-foreground">
-          The URL of the endpoint that returns session IDs
-        </p>
+        <Label
+          htmlFor="session-url"
+          className="text-sm font-medium"
+        >{t`Session Endpoint URL`}</Label>
+        <p className="mb-2 mt-0.5 text-sm text-muted-foreground">{t`The URL of the endpoint that returns session IDs`}</p>
         <Input
           id="session-url"
           value={session?.url || ''}
@@ -127,12 +126,8 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
 
       {/* Session Endpoint Method */}
       <div>
-        <Label htmlFor="session-method" className="text-sm font-medium">
-          HTTP Method
-        </Label>
-        <p className="mb-2 mt-0.5 text-sm text-muted-foreground">
-          The HTTP method to use when calling the session endpoint
-        </p>
+        <Label htmlFor="session-method" className="text-sm font-medium">{t`HTTP Method`}</Label>
+        <p className="mb-2 mt-0.5 text-sm text-muted-foreground">{t`The HTTP method to use when calling the session endpoint`}</p>
         <Select
           value={session?.method || 'POST'}
           onValueChange={(value) => updateSession('method', value)}
@@ -149,10 +144,10 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
 
       {/* Session Endpoint Headers */}
       <div>
-        <Label className="text-sm font-medium">Headers</Label>
+        <Label className="text-sm font-medium">{t`Headers`}</Label>
         <p className="mb-2 mt-0.5 text-sm text-muted-foreground">
-          Headers to send with the session endpoint request. Template variables like{' '}
-          <code className="font-mono text-xs">{'{{api_key}}'}</code> are supported.
+          {t`Headers to send with the session endpoint request. Template variables like`}{' '}
+          <code className="font-mono text-xs">{'{{api_key}}'}</code> {t`are supported.`}
         </p>
         <div className="space-y-2">
           {headers.map((header, index) => (
@@ -163,13 +158,13 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
               <Input
                 value={header.key}
                 onChange={(e) => updateHeader(index, 'key', e.target.value)}
-                placeholder="Header name"
+                placeholder={t`Header name`}
                 className="flex-1 font-mono text-xs"
               />
               <Input
                 value={header.value}
                 onChange={(e) => updateHeader(index, 'value', e.target.value)}
-                placeholder="Header value"
+                placeholder={t`Header value`}
                 className="flex-1 font-mono text-xs"
               />
               <Button
@@ -186,7 +181,7 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
           ))}
           <Button type="button" variant="outline" size="sm" onClick={addHeader} className="mt-1">
             <Plus className="mr-1.5 size-3.5" />
-            Add Header
+            {t`Add Header`}
           </Button>
         </div>
       </div>
@@ -195,11 +190,9 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
       {(session?.method || 'POST') === 'POST' && (
         <div>
           <Label htmlFor="session-body" className="text-sm font-medium">
-            Request Body
+            {t`Request Body`}
           </Label>
-          <p className="mb-2 mt-0.5 text-sm text-muted-foreground">
-            JSON body to send with the session endpoint request. Template variables are supported.
-          </p>
+          <p className="mb-2 mt-0.5 text-sm text-muted-foreground">{t`JSON body to send with the session endpoint request. Template variables are supported.`}</p>
           <Textarea
             id="session-body"
             value={
@@ -226,21 +219,20 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
 
       {/* Response Parser */}
       <div>
-        <Label htmlFor="session-response-parser" className="text-sm font-medium">
-          Session ID Extraction
-        </Label>
-        <p className="mb-2 mt-0.5 text-sm text-muted-foreground">
-          Specify how to extract the session ID from the session endpoint response
-        </p>
+        <Label
+          htmlFor="session-response-parser"
+          className="text-sm font-medium"
+        >{t`Session ID Extraction`}</Label>
+        <p className="mb-2 mt-0.5 text-sm text-muted-foreground">{t`Specify how to extract the session ID from the session endpoint response`}</p>
         <Input
           id="session-response-parser"
           value={session?.responseParser || ''}
-          placeholder="e.g., data.body.sessionId or data.headers['x-session-id']"
+          placeholder={t`e.g., data.body.sessionId or data.headers['x-session-id']`}
           onChange={(e) => updateSession('responseParser', e.target.value)}
           className="font-mono text-xs"
         />
         <p className="mt-1.5 text-xs text-muted-foreground">
-          Common patterns: <code className="rounded bg-muted px-1">data.body.sessionId</code>,{' '}
+          {t`Common patterns:`} <code className="rounded bg-muted px-1">data.body.sessionId</code>,{' '}
           <code className="rounded bg-muted px-1">data.body.session.id</code>,{' '}
           <code className="rounded bg-muted px-1">data.headers['x-session-token']</code>
         </p>
@@ -251,19 +243,19 @@ const SessionEndpointConfig: React.FC<SessionEndpointConfigProps> = ({ session, 
         <Info className="size-4" />
         <AlertContent>
           <AlertDescription className="text-sm">
-            <p className="mb-1.5 font-medium">How to use the session ID:</p>
+            <p className="mb-1.5 font-medium">{t`How to use the session ID:`}</p>
             <p className="mb-2">
-              Once configured, the session ID will be automatically fetched and made available as{' '}
-              <code className="rounded bg-muted px-1 font-mono text-xs">{'{{sessionId}}'}</code> in
-              your main API request.
+              {t`Once configured, the session ID will be automatically fetched and made available as`}{' '}
+              <code className="rounded bg-muted px-1 font-mono text-xs">{'{{sessionId}}'}</code>{' '}
+              {t`in your main API request.`}
             </p>
             <div className="space-y-1 text-muted-foreground">
               <p>
-                <span className="font-medium text-foreground">Header:</span>{' '}
+                <span className="font-medium text-foreground">{t`Header:`}</span>{' '}
                 <code className="font-mono text-xs">X-Session: {'{{sessionId}}'}</code>
               </p>
               <p>
-                <span className="font-medium text-foreground">Body:</span>{' '}
+                <span className="font-medium text-foreground">{t`Body:`}</span>{' '}
                 <code className="font-mono text-xs">
                   {'{"session_id": "{{sessionId}}", "message": "{{prompt}}"}'}
                 </code>
@@ -419,11 +411,7 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
           <Alert variant="info" className="mt-3">
             <Info className="size-4" />
             <AlertContent>
-              <AlertDescription className="text-sm">
-                Since your system doesn't maintain conversation history, the full context will be
-                included in each request during multi-turn testing. Session management configuration
-                is not needed for non-stateful systems.
-              </AlertDescription>
+              <AlertDescription className="text-sm">{t`Since your system doesn't maintain conversation history, the full context will be included in each request during multi-turn testing. Session management configuration is not needed for non-stateful systems.`}</AlertDescription>
             </AlertContent>
           </Alert>
         )}
@@ -436,10 +424,8 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
 
           {/* Session Management Section */}
           <div>
-            <p className="mb-0.5 text-sm font-medium">How does your target manage sessions?</p>
-            <p className="mb-3 text-sm text-muted-foreground">
-              Choose whether session IDs are created by your server or generated by the client.
-            </p>
+            <p className="mb-0.5 text-sm font-medium">{t`How does your target manage sessions?`}</p>
+            <p className="mb-3 text-sm text-muted-foreground">{t`Choose whether session IDs are created by your server or generated by the client.`}</p>
 
             <div className="space-y-1">
               <label className="flex cursor-pointer items-start gap-2.5 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/50">
@@ -461,11 +447,8 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                   className="mt-0.5"
                 />
                 <div>
-                  <p className="text-sm">Server-generated Session ID</p>
-                  <p className="text-xs text-muted-foreground">
-                    Your server creates and returns session IDs (e.g., in cookies, headers, or
-                    response body)
-                  </p>
+                  <p className="text-sm">{t`Server-generated Session ID`}</p>
+                  <p className="text-xs text-muted-foreground">{t`Your server creates and returns session IDs (e.g., in cookies, headers, or response body)`}</p>
                 </div>
               </label>
               <label className="flex cursor-pointer items-start gap-2.5 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/50">
@@ -485,10 +468,8 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                   className="mt-0.5"
                 />
                 <div>
-                  <p className="text-sm">Client-generated Session ID</p>
-                  <p className="text-xs text-muted-foreground">
-                    The client generates session IDs and includes them in requests
-                  </p>
+                  <p className="text-sm">{t`Client-generated Session ID`}</p>
+                  <p className="text-xs text-muted-foreground">{t`The client generates session IDs and includes them in requests`}</p>
                 </div>
               </label>
               <label className="flex cursor-pointer items-start gap-2.5 rounded-md px-2 py-1.5 transition-colors hover:bg-muted/50">
@@ -513,10 +494,8 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                   className="mt-0.5"
                 />
                 <div>
-                  <p className="text-sm">Separate Session Endpoint</p>
-                  <p className="text-xs text-muted-foreground">
-                    Call a separate endpoint to get session IDs before making API requests
-                  </p>
+                  <p className="text-sm">{t`Separate Session Endpoint`}</p>
+                  <p className="text-xs text-muted-foreground">{t`Call a separate endpoint to get session IDs before making API requests`}</p>
                 </div>
               </label>
             </div>
@@ -527,17 +506,15 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
             selectedTarget.config?.sessionSource == null) && (
             <>
               <div>
-                <Label htmlFor="session-parser" className="text-sm font-medium">
-                  Session ID Extraction
-                </Label>
-                <p className="mb-2 mt-0.5 text-sm text-muted-foreground">
-                  Specify how to extract the session ID from the server response. Leave empty if the
-                  session ID is automatically handled (e.g., via cookies).
-                </p>
+                <Label
+                  htmlFor="session-parser"
+                  className="text-sm font-medium"
+                >{t`Session ID Extraction`}</Label>
+                <p className="mb-2 mt-0.5 text-sm text-muted-foreground">{t`Specify how to extract the session ID from the server response. Leave empty if the session ID is automatically handled (e.g., via cookies).`}</p>
                 <Input
                   id="session-parser"
                   value={(selectedTarget.config?.sessionParser as string) || ''}
-                  placeholder="e.g., data.headers['session-id'] or JSON.parse(data.body).sessionId"
+                  placeholder={t`e.g., data.headers['session-id'] or JSON.parse(data.body).sessionId`}
                   onChange={(e) => {
                     updateCustomTarget('sessionParser', e.target.value);
                     setTestResult(null);
@@ -550,20 +527,20 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                 <Info className="size-4" />
                 <AlertContent>
                   <AlertDescription className="text-sm">
-                    <p className="mb-1.5 font-medium">Common patterns:</p>
+                    <p className="mb-1.5 font-medium">{t`Common patterns:`}</p>
                     <ul className="list-inside list-disc space-y-0.5">
                       <li>
-                        <strong>Header:</strong>{' '}
+                        <strong>{t`Header:`}</strong>{' '}
                         <code className="font-mono text-xs">data.headers['x-session-id']</code>
                       </li>
                       <li>
-                        <strong>Cookie:</strong>{' '}
+                        <strong>{t`Cookie:`}</strong>{' '}
                         <code className="font-mono text-xs">
                           data.headers['set-cookie']?.match(/sessionId=([^;]+)/)?.[1]
                         </code>
                       </li>
                       <li>
-                        <strong>JSON body:</strong>{' '}
+                        <strong>{t`JSON body:`}</strong>{' '}
                         <code className="font-mono text-xs">JSON.parse(data.body).session.id</code>
                       </li>
                     </ul>
@@ -579,23 +556,23 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
               <Info className="size-4" />
               <AlertContent>
                 <AlertDescription className="text-sm">
-                  <p className="mb-2 font-medium">Client-generated sessions enabled</p>
+                  <p className="mb-2 font-medium">{t`Client-generated sessions enabled`}</p>
                   <p className="mb-2">
-                    A unique UUID will be generated for each conversation and stored in the{' '}
+                    {t`A unique UUID will be generated for each conversation and stored in the`}{' '}
                     <code className="rounded bg-muted px-1 font-mono text-xs">sessionId</code>{' '}
-                    variable. Include{' '}
+                    {t`variable. Include`}{' '}
                     <code className="rounded bg-muted px-1 font-mono text-xs">
                       {'{{sessionId}}'}
                     </code>{' '}
-                    in your request headers or body where needed.
+                    {t`in your request headers or body where needed.`}
                   </p>
                   <div className="space-y-1 text-muted-foreground">
                     <p>
-                      <span className="font-medium text-foreground">Header:</span>{' '}
+                      <span className="font-medium text-foreground">{t`Header:`}</span>{' '}
                       <code className="font-mono text-xs">X-Session-ID: {'{{sessionId}}'}</code>
                     </p>
                     <p>
-                      <span className="font-medium text-foreground">Body:</span>{' '}
+                      <span className="font-medium text-foreground">{t`Body:`}</span>{' '}
                       <code className="font-mono text-xs">
                         {'{"session_id": "{{sessionId}}", "message": "{{prompt}}"}'}
                       </code>
@@ -623,17 +600,13 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
             <div className="border-b border-border px-4 py-2.5">
               <div className="flex items-center gap-2">
                 <Send className="size-3.5 text-primary" />
-                <span className="text-sm font-medium">Test Session Configuration</span>
+                <span className="text-sm font-medium">{t`Test Session Configuration`}</span>
               </div>
             </div>
 
             {/* Content */}
             <div className="p-4">
-              <p className="mb-3 text-sm text-muted-foreground">
-                Validate your session configuration by sending two test requests. The first
-                establishes a session with test data, and the second verifies the session persists
-                across requests.
-              </p>
+              <p className="mb-3 text-sm text-muted-foreground">{t`Validate your session configuration by sending two test requests. The first establishes a session with test data, and the second verifies the session persists across requests.`}</p>
 
               <Button
                 onClick={handleTestSessionClick}
@@ -646,17 +619,14 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                 ) : (
                   <Play className="mr-1.5 size-3.5" />
                 )}
-                {isTestRunning ? 'Testing...' : 'Test Session'}
+                {isTestRunning ? t`Testing...` : t`Test Session`}
               </Button>
 
               {!targetUrl && (
                 <Alert variant="warning" className="mb-3">
                   <AlertCircle className="size-4" />
                   <AlertContent>
-                    <AlertDescription className="text-sm">
-                      Please configure the target URL in the endpoint configuration before testing
-                      sessions.
-                    </AlertDescription>
+                    <AlertDescription className="text-sm">{t`Please configure the target URL in the endpoint configuration before testing sessions.`}</AlertDescription>
                   </AlertContent>
                 </Alert>
               )}
@@ -673,7 +643,7 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                     <AlertContent>
                       <AlertDescription className="text-sm">
                         <p className="font-medium">
-                          {testResult.success ? 'Session Test Passed' : 'Session Test Failed'}
+                          {testResult.success ? t`Session Test Passed` : t`Session Test Failed`}
                         </p>
                         <p className="mt-1">{testResult.message}</p>
                       </AlertDescription>
@@ -688,7 +658,7 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                       className="rounded-lg border border-border"
                     >
                       <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-muted/50 px-3 py-2.5 text-left transition-colors hover:bg-muted data-[state=open]:rounded-b-none">
-                        <span className="text-sm font-medium">Session Test Details</span>
+                        <span className="text-sm font-medium">{t`Session Test Details`}</span>
                         <ChevronDown
                           className={cn(
                             'size-4 text-muted-foreground transition-transform',
@@ -704,21 +674,15 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                               <AlertTriangle className="size-4" />
                               <AlertContent>
                                 <AlertDescription className="text-sm">
-                                  <p className="mb-1.5 font-medium">Troubleshooting</p>
+                                  <p className="mb-1.5 font-medium">{t`Troubleshooting`}</p>
                                   <ul className="m-0 list-disc space-y-0.5 pl-4">
+                                    <li>{t`Verify your session configuration matches your target's requirements`}</li>
+                                    <li>{t`For server sessions: Check the session parser extracts the correct ID`}</li>
                                     <li>
-                                      Verify your session configuration matches your target's
-                                      requirements
+                                      {t`For client sessions: Ensure`} {'{{sessionId}}'}{' '}
+                                      {t`is in the right place`}
                                     </li>
-                                    <li>
-                                      For server sessions: Check the session parser extracts the
-                                      correct ID
-                                    </li>
-                                    <li>
-                                      For client sessions: Ensure {'{{sessionId}}'} is in the right
-                                      place
-                                    </li>
-                                    <li>Confirm your target supports stateful conversations</li>
+                                    <li>{t`Confirm your target supports stateful conversations`}</li>
                                   </ul>
                                 </AlertDescription>
                               </AlertContent>
@@ -727,7 +691,7 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
 
                           {/* Conversation Flow */}
                           <div className="space-y-1.5">
-                            <Label className="text-sm font-medium">Conversation Flow</Label>
+                            <Label className="text-sm font-medium">{t`Conversation Flow`}</Label>
                             <div className="rounded-md border border-border bg-muted/30 p-3">
                               <ChatMessages
                                 messages={(() => {
@@ -785,7 +749,7 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                               )}
                               <AlertContent>
                                 <AlertDescription className="text-sm">
-                                  <strong>{testResult.success ? 'Success:' : 'Issue:'}</strong>{' '}
+                                  <strong>{testResult.success ? t`Success:` : t`Issue:`}</strong>{' '}
                                   {testResult.reason}
                                 </AlertDescription>
                               </AlertContent>
@@ -794,17 +758,17 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
 
                           {/* Session Configuration Info - at bottom */}
                           <div className="space-y-1.5 rounded-md border border-border bg-muted/30 p-3">
-                            <Label className="text-sm font-medium">Session Details</Label>
+                            <Label className="text-sm font-medium">{t`Session Details`}</Label>
                             <div className="grid gap-1.5 text-sm">
                               <div className="flex items-center justify-between">
-                                <span className="text-muted-foreground">Session ID:</span>
+                                <span className="text-muted-foreground">{t`Session ID:`}</span>
                                 <code className="rounded bg-muted px-2 py-0.5 text-xs">
                                   {testResult.details.sessionId || 'None'}
                                 </code>
                               </div>
                               {testResult.details.sessionSource && (
                                 <div className="flex items-center justify-between">
-                                  <span className="text-muted-foreground">Session Source:</span>
+                                  <span className="text-muted-foreground">{t`Session Source:`}</span>
                                   <span className="font-medium">
                                     {testResult.details.sessionSource}
                                   </span>
@@ -813,28 +777,28 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
                               {testResult.details.hasSessionIdTemplate !== undefined && (
                                 <div className="flex items-center justify-between">
                                   <span className="text-muted-foreground">
-                                    {'{{sessionId}}'} template:
+                                    {'{{sessionId}}'} {t`template:`}
                                   </span>
                                   <span className="font-medium">
                                     {testResult.details.hasSessionIdTemplate
-                                      ? 'Found'
-                                      : 'Not found'}
+                                      ? t`Found`
+                                      : t`Not found`}
                                   </span>
                                 </div>
                               )}
                               {testResult.details.hasSessionParser !== undefined && (
                                 <div className="flex items-center justify-between">
-                                  <span className="text-muted-foreground">Session Parser:</span>
+                                  <span className="text-muted-foreground">{t`Session Parser:`}</span>
                                   <span className="font-medium">
                                     {testResult.details.hasSessionParser
-                                      ? 'Configured'
-                                      : 'Not configured'}
+                                      ? t`Configured`
+                                      : t`Not configured`}
                                   </span>
                                 </div>
                               )}
                               {testResult.details.sessionParser && (
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-muted-foreground">Parser Expression:</span>
+                                  <span className="text-muted-foreground">{t`Parser Expression:`}</span>
                                   <code className="rounded bg-muted px-2 py-1 text-xs">
                                     {testResult.details.sessionParser}
                                   </code>
@@ -855,15 +819,13 @@ const SessionsTab: React.FC<SessionsTabProps> = ({
 
       {/* Documentation link - always visible */}
       <p className="text-sm text-muted-foreground">
-        For more information, see the{' '}
+        {t`For more information, see the`}{' '}
         <a
           href="https://www.promptfoo.dev/docs/providers/http/#session-management"
           target="_blank"
           rel="noopener noreferrer"
           className="text-primary hover:underline"
-        >
-          session management documentation
-        </a>
+        >{t`session management documentation`}</a>
         .
       </p>
 

@@ -22,6 +22,7 @@ import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
 import { fetchUserEmail, updateEvalAuthor } from '@app/utils/api';
 import { formatDuration } from '@app/utils/date';
+import { t } from '@lingui/core/macro';
 import { ChevronDown, Ellipsis } from 'lucide-react';
 import { Link } from 'react-router';
 import { AuthorChip } from './AuthorChip';
@@ -104,10 +105,10 @@ export default function EvalHeader({
     if (evalId) {
       navigator.clipboard.writeText(evalId).then(
         () => {
-          showToast('Eval ID copied to clipboard', 'success');
+          showToast(t`Eval ID copied to clipboard`, 'success');
         },
         () => {
-          showToast('Failed to copy Eval ID to clipboard', 'error');
+          showToast(t`Failed to copy Eval ID to clipboard`, 'error');
           console.error('Failed to copy to clipboard');
         },
       );
@@ -135,7 +136,7 @@ export default function EvalHeader({
               <BreadcrumbList className="flex-nowrap">
                 <BreadcrumbItem className="shrink-0">
                   <BreadcrumbLink asChild>
-                    <Link to={EVAL_ROUTES.LIST}>Evals</Link>
+                    <Link to={EVAL_ROUTES.LIST}>{t`Evals`}</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="shrink-0" />
@@ -146,11 +147,11 @@ export default function EvalHeader({
                     aria-haspopup="dialog"
                     aria-expanded={evalSelectorDialogOpen}
                     onClick={() => setEvalSelectorDialogOpen(true)}
-                    title={config?.description || evalId || 'Select eval'}
+                    title={config?.description || evalId || t`Select eval`}
                     className="inline-flex min-w-0 items-center gap-1 rounded-sm text-foreground transition-colors hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <span className="truncate">
-                      {config?.description || evalId || 'Select eval'}
+                      {config?.description || evalId || t`Select eval`}
                     </span>
                     <ChevronDown className="size-3.5 shrink-0 text-muted-foreground" />
                   </button>
@@ -171,7 +172,7 @@ export default function EvalHeader({
                 <DropdownMenu open={evalActionsOpen} onOpenChange={setEvalActionsOpen}>
                   <DropdownMenuTrigger asChild>
                     <Button variant="outline" size="sm">
-                      Eval actions
+                      {t`Eval actions`}
                       <ChevronDown className="size-4 ml-2" />
                     </Button>
                   </DropdownMenuTrigger>
@@ -181,38 +182,46 @@ export default function EvalHeader({
               {isRedteam && validEvalId && (
                 <Tabs value={activeView} onValueChange={(v) => onActiveViewChange(v as ActiveView)}>
                   <TabsList>
-                    <TabsTrigger value="results">Results</TabsTrigger>
-                    <TabsTrigger value="report">Vulnerability Report</TabsTrigger>
+                    <TabsTrigger value="results">{t`Results`}</TabsTrigger>
+                    <TabsTrigger value="report">{t`Vulnerability Report`}</TabsTrigger>
                   </TabsList>
                 </Tabs>
               )}
             </div>
           </div>
           <h1 className="hidden print:block text-2xl font-bold">
-            {config?.description || evalId || 'Evaluation'}
+            {config?.description || evalId || t`Evaluation`}
           </h1>
           <div className="mt-2 flex min-w-0 flex-nowrap items-center gap-3 print:hidden">
             {formattedDate && (
-              <Chip label="DATE" interactive={false} className="shrink-0">
+              <Chip label={t`DATE`} interactive={false} className="shrink-0">
                 {formattedDate}
               </Chip>
             )}
             <Chip
-              label="AUTHOR"
+              label={t`AUTHOR`}
               interactive={false}
               className="hidden min-w-0 max-w-64 md:inline-flex"
             >
-              {author || 'Unknown'}
+              {author || t`Unknown`}
             </Chip>
             {stats?.durationMs != null && (
-              <Chip label="DURATION" interactive={false} className="hidden shrink-0 sm:inline-flex">
+              <Chip
+                label={t`DURATION`}
+                interactive={false}
+                className="hidden shrink-0 sm:inline-flex"
+              >
                 {formatDuration(stats.durationMs)}
               </Chip>
             )}
-            <Chip label="PROVIDERS" interactive={false} className="hidden shrink-0 sm:inline-flex">
+            <Chip
+              label={t`PROVIDERS`}
+              interactive={false}
+              className="hidden shrink-0 sm:inline-flex"
+            >
               {uniqueProviderCount}
             </Chip>
-            <Chip label="TESTS" interactive={false} className="shrink-0">
+            <Chip label={t`TESTS`} interactive={false} className="shrink-0">
               {totalResultsCount}
             </Chip>
             {evalId && (
@@ -227,8 +236,8 @@ export default function EvalHeader({
                   variant="ghost"
                   size="icon"
                   className="size-7 shrink-0"
-                  aria-label="More evaluation details"
-                  title="More evaluation details"
+                  aria-label={t`More evaluation details`}
+                  title={t`More evaluation details`}
                 >
                   <Ellipsis className="size-4" />
                 </Button>
@@ -236,17 +245,17 @@ export default function EvalHeader({
               <PopoverContent
                 ref={evalDetailsRef}
                 align="end"
-                aria-label="Evaluation details"
+                aria-label={t`Evaluation details`}
                 onOpenAutoFocus={(event) => {
                   event.preventDefault();
                   evalDetailsRef.current?.focus();
                 }}
                 className="w-96 max-w-[calc(100vw-2rem)] max-h-[var(--radix-popover-content-available-height)] overflow-y-auto print:hidden"
               >
-                <h2 className="mb-2 text-sm font-semibold">Evaluation details</h2>
+                <h2 className="mb-2 text-sm font-semibold">{t`Evaluation details`}</h2>
                 <div className="flex flex-col items-start gap-1">
                   {formattedDate && (
-                    <Chip label="DATE" interactive={false}>
+                    <Chip label={t`DATE`} interactive={false}>
                       {formattedDate}
                     </Chip>
                   )}
@@ -257,14 +266,14 @@ export default function EvalHeader({
                     editable
                   />
                   {stats?.durationMs != null && (
-                    <Chip label="DURATION" interactive={false}>
+                    <Chip label={t`DURATION`} interactive={false}>
                       {formatDuration(stats.durationMs)}
                     </Chip>
                   )}
-                  <Chip label="PROVIDERS" interactive={false}>
+                  <Chip label={t`PROVIDERS`} interactive={false}>
                     {uniqueProviderCount}
                   </Chip>
-                  <Chip label="TESTS" interactive={false}>
+                  <Chip label={t`TESTS`} interactive={false}>
                     {totalResultsCount}
                   </Chip>
                   {isRedteam && (
@@ -287,32 +296,33 @@ export default function EvalHeader({
             <div className="grid grid-cols-3 gap-x-6 gap-y-1 text-sm">
               {formattedDate && (
                 <div>
-                  <span className="font-semibold text-gray-700">Date:</span>{' '}
+                  <span className="font-semibold text-gray-700">{t`Date:`}</span>{' '}
                   <span>{formattedDate}</span>
                 </div>
               )}
               {author && (
                 <div>
-                  <span className="font-semibold text-gray-700">Author:</span> <span>{author}</span>
+                  <span className="font-semibold text-gray-700">{t`Author:`}</span>{' '}
+                  <span>{author}</span>
                 </div>
               )}
               {stats?.durationMs != null && (
                 <div>
-                  <span className="font-semibold text-gray-700">Duration:</span>{' '}
+                  <span className="font-semibold text-gray-700">{t`Duration:`}</span>{' '}
                   <span>{formatDuration(stats.durationMs)}</span>
                 </div>
               )}
               <div>
-                <span className="font-semibold text-gray-700">Providers:</span>{' '}
+                <span className="font-semibold text-gray-700">{t`Providers:`}</span>{' '}
                 <span>{uniqueProviderCount}</span>
               </div>
               <div>
-                <span className="font-semibold text-gray-700">Tests:</span>{' '}
+                <span className="font-semibold text-gray-700">{t`Tests:`}</span>{' '}
                 <span>{totalResultsCount}</span>
               </div>
               {isRedteam && (
                 <div>
-                  <span className="font-semibold text-gray-700">Probes:</span>{' '}
+                  <span className="font-semibold text-gray-700">{t`Probes:`}</span>{' '}
                   <span>{probesCount}</span>
                 </div>
               )}
@@ -324,7 +334,7 @@ export default function EvalHeader({
               ))}
               {evalId && (
                 <div>
-                  <span className="font-semibold text-gray-700">Eval ID:</span>{' '}
+                  <span className="font-semibold text-gray-700">{t`Eval ID:`}</span>{' '}
                   <span>{evalId}</span>
                 </div>
               )}
