@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import os from 'os';
 import path from 'path';
 
+import { lingui } from '@lingui/vite-plugin';
 import react from '@vitejs/plugin-react';
 import { configDefaults } from 'vitest/config';
 import packageJson from '../../package.json' with { type: 'json' };
@@ -76,6 +77,7 @@ export default {
   },
   base: process.env.VITE_PUBLIC_BASENAME || '/',
   plugins: [
+    lingui({ macroTransform: true }),
     browserModulesPlugin(),
     reactCompilerPlugin(),
     ...react(),

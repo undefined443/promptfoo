@@ -12,6 +12,7 @@
  * 2. Extraction of key config fields for display as badges
  */
 
+import { t } from '@lingui/core/macro';
 import type { ProviderOptions } from '@promptfoo/types';
 
 // Provider definitions can be strings, ProviderOptions objects, or record-style
@@ -261,7 +262,7 @@ function getReasoningBadges(config: BadgeSourceConfig): ConfigBadge[] {
     badges.push({
       label: 'reasoning',
       value: String(config.reasoning_effort),
-      tooltip: 'Reasoning effort level for o-series models',
+      tooltip: t`Reasoning effort level for o-series models`,
     });
   }
 
@@ -269,7 +270,7 @@ function getReasoningBadges(config: BadgeSourceConfig): ConfigBadge[] {
     badges.push({
       label: 'reasoning',
       value: String(config.model_reasoning_effort),
-      tooltip: 'Model reasoning effort for Codex SDK',
+      tooltip: t`Model reasoning effort for Codex SDK`,
     });
   }
 
@@ -277,7 +278,7 @@ function getReasoningBadges(config: BadgeSourceConfig): ConfigBadge[] {
     badges.push({
       label: 'effort',
       value: String(config.effort),
-      tooltip: 'Output effort level for Anthropic models',
+      tooltip: t`Output effort level for Anthropic models`,
     });
   }
 
@@ -307,7 +308,7 @@ function getGoogleThinkingBadges(config: BadgeSourceConfig): ConfigBadge[] {
         {
           label: 'thinking',
           value: `${thinkingConfig.thinkingBudget} tokens`,
-          tooltip: 'Thinking budget for Gemini models',
+          tooltip: t`Thinking budget for Gemini models`,
         },
       ];
     }
@@ -334,7 +335,7 @@ function getAnthropicThinkingBadges(config: BadgeSourceConfig): ConfigBadge[] {
       value: config.thinking.budget_tokens
         ? `${formatNumber(config.thinking.budget_tokens)} tokens`
         : (config.thinking.type ?? 'enabled'),
-      tooltip: 'Extended thinking for Claude models',
+      tooltip: t`Extended thinking for Claude models`,
     },
   ];
 }

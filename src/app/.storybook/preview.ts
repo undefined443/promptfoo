@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import type { Preview } from '@storybook/react-vite';
+import '../src/i18n';
 import '../src/index.css';
 import './preview.css';
 

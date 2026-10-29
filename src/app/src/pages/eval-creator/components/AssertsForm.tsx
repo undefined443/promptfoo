@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from '@app/components/ui/select';
 import { Textarea } from '@app/components/ui/textarea';
+import { t } from '@lingui/core/macro';
 import type { Assertion, AssertionType } from '@promptfoo/types';
 
 interface AssertsFormProps {
@@ -139,7 +140,7 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Assertions</h3>
+      <h3 className="text-lg font-semibold">{t`Assertions`}</h3>
 
       {asserts.length > 0 && (
         <div className="space-y-3">
@@ -150,7 +151,7 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
                 <div className="flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     <Label htmlFor={`assert-type-${index}`} className="text-sm font-medium">
-                      Type
+                      {t`Type`}
                     </Label>
                     {LLM_ASSERTION_TYPES.has(assert.type) && (
                       <Badge variant="secondary" className="text-xs">
@@ -163,7 +164,7 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
                     size="icon"
                     onClick={() => handleRemoveAssert(index)}
                     className="shrink-0"
-                    aria-label="Remove assertion"
+                    aria-label={t`Remove assertion`}
                   >
                     <DeleteIcon className="size-4" />
                   </Button>
@@ -181,13 +182,13 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
                   }}
                 >
                   <SelectTrigger id={`assert-type-${index}`}>
-                    <SelectValue placeholder="Select type" />
+                    <SelectValue placeholder={t`Select type`} />
                   </SelectTrigger>
                   <SelectContent className="max-h-[300px]">
                     {assertTypes.map((type) => (
                       <SelectItem key={type} value={type}>
                         {type}
-                        {LLM_ASSERTION_TYPES.has(type) && ' (LLM)'}
+                        {LLM_ASSERTION_TYPES.has(type) && t` (LLM)`}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -196,11 +197,11 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
                 {/* Value textarea */}
                 <div className="space-y-2">
                   <Label htmlFor={`assert-value-${index}`} className="text-sm font-medium">
-                    Value
+                    {t`Value`}
                   </Label>
                   <Textarea
                     id={`assert-value-${index}`}
-                    placeholder="Enter expected value or criteria..."
+                    placeholder={t`Enter expected value or criteria...`}
                     value={
                       typeof assert.value === 'string'
                         ? assert.value
@@ -220,13 +221,13 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
                   />
                   {ARRAY_VALUE_ASSERTION_TYPES.has(assert.type) && (
                     <p className="text-xs text-muted-foreground">
-                      Separate values with commas, e.g.{' '}
+                      {t`Separate values with commas, e.g.`}{' '}
                       <code className="rounded bg-muted px-1 py-0.5 font-mono">hello, world</code>
                     </p>
                   )}
                   {(assert.type === 'regex' || assert.type === 'not-regex') && (
                     <p className="text-xs text-muted-foreground">
-                      Enter a regular expression pattern, e.g.{' '}
+                      {t`Enter a regular expression pattern, e.g.`}{' '}
                       <code className="rounded bg-muted px-1 py-0.5 font-mono">hello.*world</code>
                     </p>
                   )}
@@ -237,9 +238,7 @@ const AssertsForm = ({ onAdd, initialValues }: AssertsFormProps) => {
         </div>
       )}
 
-      <Button variant="outline" onClick={handleAdd}>
-        Add Assertion
-      </Button>
+      <Button variant="outline" onClick={handleAdd}>{t`Add Assertion`}</Button>
     </div>
   );
 };

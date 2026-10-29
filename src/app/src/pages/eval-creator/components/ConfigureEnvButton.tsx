@@ -18,6 +18,7 @@ import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
 import { cn } from '@app/lib/utils';
 import { useStore } from '@app/stores/evalConfig';
+import { t } from '@lingui/core/macro';
 
 interface EnvSectionProps {
   title: string;
@@ -89,13 +90,13 @@ const ConfigureEnvButton = () => {
     <>
       <Button variant="outline" onClick={handleOpen}>
         <SettingsIcon className="size-4 mr-2" />
-        API keys
+        {t`API keys`}
       </Button>
 
       <Dialog open={dialogOpen} onOpenChange={(open) => !open && handleClose()}>
         <DialogContent className="flex max-h-[85vh] max-w-2xl flex-col overflow-hidden">
           <DialogHeader>
-            <DialogTitle>Provider Settings</DialogTitle>
+            <DialogTitle>{t`Provider Settings`}</DialogTitle>
           </DialogHeader>
 
           <div
@@ -103,108 +104,108 @@ const ConfigureEnvButton = () => {
             className="min-h-0 flex-1 overflow-y-auto py-4"
           >
             <div className="border border-border rounded-lg overflow-hidden">
-              <EnvSection title="OpenAI" defaultOpen>
+              <EnvSection title={t`OpenAI`} defaultOpen>
                 <EnvField
-                  label="OpenAI API key"
+                  label={t`OpenAI API key`}
                   envKey="OPENAI_API_KEY"
                   value={env.OPENAI_API_KEY || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="OpenAI API host"
+                  label={t`OpenAI API host`}
                   envKey="OPENAI_API_HOST"
                   value={env.OPENAI_API_HOST || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="OpenAI organization"
+                  label={t`OpenAI organization`}
                   envKey="OPENAI_ORGANIZATION"
                   value={env.OPENAI_ORGANIZATION || ''}
                   onChange={handleEnvChange}
                 />
               </EnvSection>
 
-              <EnvSection title="Azure">
+              <EnvSection title={t`Azure`}>
                 <EnvField
-                  label="Azure API key"
+                  label={t`Azure API key`}
                   envKey="AZURE_API_KEY"
                   value={env.AZURE_API_KEY || env.AZURE_OPENAI_API_KEY || ''}
                   onChange={handleEnvChange}
                 />
               </EnvSection>
 
-              <EnvSection title="Amazon Bedrock">
+              <EnvSection title={t`Amazon Bedrock`}>
                 <EnvField
-                  label="Bedrock API key"
+                  label={t`Bedrock API key`}
                   envKey="AWS_BEARER_TOKEN_BEDROCK"
                   value={env.AWS_BEARER_TOKEN_BEDROCK || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="AWS access key ID"
+                  label={t`AWS access key ID`}
                   envKey="AWS_ACCESS_KEY_ID"
                   value={env.AWS_ACCESS_KEY_ID || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="AWS secret access key"
+                  label={t`AWS secret access key`}
                   envKey="AWS_SECRET_ACCESS_KEY"
                   value={env.AWS_SECRET_ACCESS_KEY || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="AWS session token"
+                  label={t`AWS session token`}
                   envKey="AWS_SESSION_TOKEN"
                   value={env.AWS_SESSION_TOKEN || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="AWS profile"
+                  label={t`AWS profile`}
                   envKey="AWS_PROFILE"
                   value={env.AWS_PROFILE || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="Bedrock Region"
+                  label={t`Bedrock Region`}
                   envKey="AWS_BEDROCK_REGION"
                   value={env.AWS_BEDROCK_REGION || ''}
                   onChange={handleEnvChange}
                 />
               </EnvSection>
 
-              <EnvSection title="Anthropic">
+              <EnvSection title={t`Anthropic`}>
                 <EnvField
-                  label="Anthropic API key"
+                  label={t`Anthropic API key`}
                   envKey="ANTHROPIC_API_KEY"
                   value={env.ANTHROPIC_API_KEY || ''}
                   onChange={handleEnvChange}
                 />
               </EnvSection>
 
-              <EnvSection title="Google Vertex AI">
+              <EnvSection title={t`Google Vertex AI`}>
                 <EnvField
-                  label="Vertex API Key"
+                  label={t`Vertex API Key`}
                   envKey="VERTEX_API_KEY"
                   value={env.VERTEX_API_KEY || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="Vertex Project ID"
+                  label={t`Vertex Project ID`}
                   envKey="VERTEX_PROJECT_ID"
                   value={env.VERTEX_PROJECT_ID || ''}
                   onChange={handleEnvChange}
                 />
                 <EnvField
-                  label="Vertex Region"
+                  label={t`Vertex Region`}
                   envKey="VERTEX_REGION"
                   value={env.VERTEX_REGION || ''}
                   onChange={handleEnvChange}
                 />
               </EnvSection>
 
-              <EnvSection title="Replicate">
+              <EnvSection title={t`Replicate`}>
                 <EnvField
-                  label="Replicate API key"
+                  label={t`Replicate API key`}
                   envKey="REPLICATE_API_KEY"
                   value={env.REPLICATE_API_KEY || ''}
                   onChange={handleEnvChange}
@@ -215,9 +216,9 @@ const ConfigureEnvButton = () => {
 
           <DialogFooter data-testid="configure-env-dialog-footer" className="shrink-0">
             <Button variant="outline" onClick={handleClose}>
-              Cancel
+              {t`Cancel`}
             </Button>
-            <Button onClick={handleSave}>Save</Button>
+            <Button onClick={handleSave}>{t`Save`}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

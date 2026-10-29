@@ -17,6 +17,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import ProviderConfigEditor from '@app/pages/redteam/setup/components/Targets/ProviderConfigEditor';
 import ProviderTypeSelector from '@app/pages/redteam/setup/components/Targets/ProviderTypeSelector';
+import { t } from '@lingui/core/macro';
 import type { ProviderOptions as RedteamProviderOptions } from '@app/pages/redteam/setup/types';
 import type { ProviderOptions } from '@promptfoo/types';
 
@@ -126,15 +127,15 @@ export default function AddProviderDialog({
           <DialogHeader>
             <DialogTitle>
               {initialProvider
-                ? 'Edit Provider'
+                ? t`Edit Provider`
                 : step === 'select'
-                  ? 'Select Provider Type'
-                  : 'Configure Provider'}
+                  ? t`Select Provider Type`
+                  : t`Configure Provider`}
             </DialogTitle>
             <DialogDescription>
               {step === 'select'
-                ? 'Choose the type of provider you want to evaluate'
-                : 'Configure the settings for your provider'}
+                ? t`Choose the type of provider you want to evaluate`
+                : t`Configure the settings for your provider`}
             </DialogDescription>
           </DialogHeader>
 
@@ -172,14 +173,14 @@ export default function AddProviderDialog({
 
           <DialogFooter data-testid="add-provider-dialog-footer" className="shrink-0">
             <Button variant="outline" onClick={handleBack}>
-              {step === 'configure' ? 'Back' : 'Cancel'}
+              {step === 'configure' ? t`Back` : t`Cancel`}
             </Button>
             {step === 'configure' && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div>
                     <Button onClick={handleSave} disabled={!!error}>
-                      {initialProvider ? 'Save Changes' : 'Add Provider'}
+                      {initialProvider ? t`Save Changes` : t`Add Provider`}
                     </Button>
                   </div>
                 </TooltipTrigger>

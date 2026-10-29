@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@app/components/ui/dialog';
 import { EVAL_ROUTES, ROUTES } from '@app/constants/routes';
+import { t } from '@lingui/core/macro';
 import { Link } from 'react-router';
 import type { ServerPromptWithMetadata } from '@promptfoo/types';
 
@@ -57,7 +58,7 @@ const PromptDialog = ({
         <DialogHeader>
           <DialogTitle className="flex min-w-0 flex-col items-start gap-2 text-left sm:flex-row sm:items-center">
             <span className="min-w-0 break-words">
-              {selectedPrompt.prompt.label || selectedPrompt.prompt.display || 'Prompt Details'}
+              {selectedPrompt.prompt.label || selectedPrompt.prompt.display || t`Prompt Details`}
             </span>
             <Badge variant="outline" className="font-mono text-xs">
               {selectedPrompt.id.slice(0, 6)}
@@ -72,7 +73,7 @@ const PromptDialog = ({
           {/* Prompt content section */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <h4 className="text-sm font-semibold">Prompt</h4>
+              <h4 className="text-sm font-semibold">{t`Prompt`}</h4>
               <CopyButton value={selectedPrompt?.prompt?.raw || ''} />
             </div>
             <div className="p-3 rounded-lg bg-muted/50 border border-border max-h-48 overflow-y-auto">
@@ -86,7 +87,7 @@ const PromptDialog = ({
           {sortedEvals.length > 0 && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <h4 className="text-sm font-semibold">Eval History</h4>
+                <h4 className="text-sm font-semibold">{t`Eval History`}</h4>
                 <Badge variant="secondary" className="text-xs">
                   {sortedEvals.length} evals
                 </Badge>
@@ -96,15 +97,15 @@ const PromptDialog = ({
                 <table className="min-w-[720px] w-full text-sm">
                   <thead className="bg-muted/50">
                     <tr className="border-b border-border">
-                      <th className="px-3 py-2 text-left font-semibold">Eval ID</th>
+                      <th className="px-3 py-2 text-left font-semibold">{t`Eval ID`}</th>
                       {showDatasetColumn && (
-                        <th className="px-3 py-2 text-left font-semibold">Dataset ID</th>
+                        <th className="px-3 py-2 text-left font-semibold">{t`Dataset ID`}</th>
                       )}
-                      <th className="px-3 py-2 text-right font-semibold">Raw Score</th>
-                      <th className="px-3 py-2 text-right font-semibold">Pass Rate</th>
-                      <th className="px-3 py-2 text-right font-semibold">Pass Count</th>
-                      <th className="px-3 py-2 text-right font-semibold">Fail Count</th>
-                      <th className="px-3 py-2 text-right font-semibold">Error Count</th>
+                      <th className="px-3 py-2 text-right font-semibold">{t`Raw Score`}</th>
+                      <th className="px-3 py-2 text-right font-semibold">{t`Pass Rate`}</th>
+                      <th className="px-3 py-2 text-right font-semibold">{t`Pass Count`}</th>
+                      <th className="px-3 py-2 text-right font-semibold">{t`Fail Count`}</th>
+                      <th className="px-3 py-2 text-right font-semibold">{t`Error Count`}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -167,7 +168,7 @@ const PromptDialog = ({
 
         <DialogFooter data-testid="prompt-dialog-footer" className="shrink-0">
           <Button variant="outline" onClick={handleClose}>
-            Close
+            {t`Close`}
           </Button>
         </DialogFooter>
       </DialogContent>

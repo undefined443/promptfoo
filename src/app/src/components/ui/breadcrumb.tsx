@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Slot } from '@radix-ui/react-slot';
 import { ChevronRight, MoreHorizontal } from 'lucide-react';
 
@@ -82,7 +83,7 @@ const BreadcrumbEllipsis = ({ className, ...props }: React.ComponentProps<'span'
     {...props}
   >
     <MoreHorizontal className="size-4" />
-    <span className="sr-only">More</span>
+    <span className="sr-only">{t`More`}</span>
   </span>
 );
 BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis';

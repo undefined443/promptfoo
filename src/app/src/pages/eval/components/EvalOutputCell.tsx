@@ -11,6 +11,7 @@ import {
   resolveImageSource,
   resolveVideoSource,
 } from '@app/utils/media';
+import { t } from '@lingui/core/macro';
 import { type EvaluateTableOutput, type GradingResult, type ImageOutput } from '@promptfoo/types';
 import { ResultFailureReason } from '@promptfoo/types/results';
 import { getActualPrompt } from '@promptfoo/util/providerResponse';
@@ -356,11 +357,11 @@ function renderMediaNode({
         <div className="audio-output">
           <audio controls style={{ width: '100%' }} data-testid="audio-player">
             <source src={outputAudioSource.src} type={outputAudioSource.type || 'audio/mpeg'} />
-            Your browser does not support the audio element.
+            {t`Your browser does not support the audio element.`}
           </audio>
           {output.audio.transcript && (
             <div className="transcript">
-              <strong>Transcript:</strong> {output.audio.transcript}
+              <strong>{t`Transcript:`}</strong> {output.audio.transcript}
             </div>
           )}
         </div>
@@ -370,7 +371,7 @@ function renderMediaNode({
     if (output.audio.transcript) {
       return (
         <div className="transcript">
-          <strong>Transcript:</strong> {output.audio.transcript}
+          <strong>{t`Transcript:`}</strong> {output.audio.transcript}
         </div>
       );
     }
@@ -389,17 +390,27 @@ function renderMediaNode({
             data-testid="video-player"
           >
             <source src={videoSource.src} type={videoSource.type || 'video/mp4'} />
-            Your browser does not support the video element.
+            {t`Your browser does not support the video element.`}
           </video>
           <div
             className="video-metadata"
             style={{ marginTop: '8px', fontSize: '0.85em', opacity: 0.8 }}
           >
             {videoData?.model && (
-              <span style={{ marginRight: '12px' }}>Model: {videoData.model}</span>
+              <span style={{ marginRight: '12px' }}>
+                {t`Model:`} {videoData.model}
+              </span>
             )}
-            {videoData?.size && <span style={{ marginRight: '12px' }}>Size: {videoData.size}</span>}
-            {videoData?.duration && <span>Duration: {videoData.duration}s</span>}
+            {videoData?.size && (
+              <span style={{ marginRight: '12px' }}>
+                {t`Size:`} {videoData.size}
+              </span>
+            )}
+            {videoData?.duration && (
+              <span>
+                {t`Duration:`} {videoData.duration}s
+              </span>
+            )}
           </div>
         </div>
       );
@@ -498,7 +509,7 @@ function renderStructuredImages({
         <img
           key={`img-${idx}`}
           src={src}
-          alt={output.prompt || 'Generated image'}
+          alt={output.prompt || t`Generated image`}
           loading="lazy"
           style={{ display: 'block', width: '100%', cursor: 'pointer' }}
           onClick={() => toggleLightbox(src)}
@@ -664,13 +675,13 @@ function getPassFailText({
     failCount > 1 || (passCount > 1 && failCount > 0)
       ? `${failCount} FAIL`
       : failCount === 1
-        ? 'FAIL'
+        ? t`FAIL`
         : '';
   const passText =
     passCount > 1 || (failCount > 1 && passCount > 0)
       ? `${passCount} PASS`
       : passCount === 1 && failCount === 0
-        ? 'PASS'
+        ? t`PASS`
         : '';
   const separator = failText && passText ? ' ' : '';
 
@@ -719,7 +730,7 @@ function getProviderOverrideBadge(output: EvaluateTableOutput): React.ReactNode 
       <TooltipTrigger asChild>
         <span className="provider pill">{providerId}</span>
       </TooltipTrigger>
-      <TooltipContent side="top">Model override for this test</TooltipContent>
+      <TooltipContent side="top">{t`Model override for this test`}</TooltipContent>
     </Tooltip>
   );
 }
@@ -745,7 +756,7 @@ function formatTokenUsageDisplay(
     return (
       <span>
         {WHOLE_NUMBER_FORMATTER.format(tokenUsage.cached ?? 0)}
-        <span className="italic"> (cached)</span>
+        <span className="italic"> {t`(cached)`}</span>
       </span>
     );
   }
@@ -811,7 +822,7 @@ function getLatencyDisplay(output: EvaluateTableOutput): React.ReactNode | undef
       <TooltipTrigger asChild>
         <span aria-label={tooltipContent}>
           {formatted}
-          {cached && <span className="italic"> (cached)</span>}
+          {cached && <span className="italic"> {t`(cached)`}</span>}
         </span>
       </TooltipTrigger>
       <TooltipContent>{tooltipContent}</TooltipContent>
@@ -904,22 +915,22 @@ function renderCellDetail({
     <div className="cell-detail">
       {tokenUsageDisplay && (
         <div className="stat-item">
-          <strong>Tokens:</strong> {tokenUsageDisplay}
+          <strong>{t`Tokens:`}</strong> {tokenUsageDisplay}
         </div>
       )}
       {latencyDisplay && (
         <div className="stat-item">
-          <strong>Latency:</strong> {latencyDisplay}
+          <strong>{t`Latency:`}</strong> {latencyDisplay}
         </div>
       )}
       {tokPerSecDisplay && (
         <div className="stat-item">
-          <strong>Tokens/Sec:</strong> {tokPerSecDisplay}
+          <strong>{t`Tokens/Sec:`}</strong> {tokPerSecDisplay}
         </div>
       )}
       {costDisplay && (
         <div className="stat-item">
-          <strong>Cost:</strong> {costDisplay}
+          <strong>{t`Cost:`}</strong> {costDisplay}
         </div>
       )}
     </div>
@@ -1000,7 +1011,7 @@ function renderPromptBlock({
 
   return (
     <div className="prompt">
-      <span className="pill">Prompt</span>
+      <span className="pill">{t`Prompt`}</span>
       {typeof prompt === 'string' ? prompt : JSON.stringify(prompt, null, 2)}
     </div>
   );
@@ -1017,7 +1028,7 @@ function renderResponseAudioPlayer(
     <div className="response-audio" style={{ marginBottom: '8px' }}>
       <audio controls style={{ width: '100%', height: '32px' }} data-testid="response-audio-player">
         <source src={responseAudioSource.src} type={responseAudioSource.type || 'audio/mpeg'} />
-        Your browser does not support the audio element.
+        {t`Your browser does not support the audio element.`}
       </audio>
     </div>
   );
@@ -1076,8 +1087,8 @@ function renderOutputActions({
   handlePromptClose: () => void;
   setActionsHovered: (hovered: boolean) => void;
 }): React.ReactNode {
-  const passActionLabel = isRedteam ? 'Mark as safe' : 'Mark test passed';
-  const failActionLabel = isRedteam ? 'Mark as vulnerable' : 'Mark test failed';
+  const passActionLabel = isRedteam ? t`Mark as safe` : t`Mark test passed`;
+  const failActionLabel = isRedteam ? t`Mark as vulnerable` : t`Mark test failed`;
 
   return (
     <div
@@ -1094,12 +1105,12 @@ function renderOutputActions({
                 className="action p-1 rounded hover:bg-muted transition-colors"
                 onClick={handleCopy}
                 onMouseDown={(e) => e.preventDefault()}
-                aria-label="Copy output to clipboard"
+                aria-label={t`Copy output to clipboard`}
               >
                 {copied ? <Check className="size-4" /> : <ClipboardCopy className="size-4" />}
               </button>
             </TooltipTrigger>
-            <TooltipContent>Copy output to clipboard</TooltipContent>
+            <TooltipContent>{t`Copy output to clipboard`}</TooltipContent>
           </Tooltip>
           <Tooltip disableHoverableContent>
             <TooltipTrigger asChild>
@@ -1108,12 +1119,12 @@ function renderOutputActions({
                 className="action p-1 rounded hover:bg-muted transition-colors"
                 onClick={handleRowShareLink}
                 onMouseDown={(e) => e.preventDefault()}
-                aria-label="Copy link to output"
+                aria-label={t`Copy link to output`}
               >
                 {linked ? <Check className="size-4" /> : <Link className="size-4" />}
               </button>
             </TooltipTrigger>
-            <TooltipContent>Copy link to output</TooltipContent>
+            <TooltipContent>{t`Copy link to output`}</TooltipContent>
           </Tooltip>
           <Tooltip disableHoverableContent>
             <TooltipTrigger asChild>
@@ -1122,7 +1133,7 @@ function renderOutputActions({
                 className={`action p-1 rounded hover:bg-muted transition-colors ${isHighlighted ? 'text-amber-500 dark:text-amber-400' : ''}`}
                 onClick={handleToggleHighlight}
                 onMouseDown={(e) => e.preventDefault()}
-                aria-label="Toggle test highlight"
+                aria-label={t`Toggle test highlight`}
               >
                 <Star
                   className={`size-4 ${isHighlighted ? 'stroke-amber-600 dark:stroke-amber-300' : ''}`}
@@ -1130,7 +1141,7 @@ function renderOutputActions({
                 />
               </button>
             </TooltipTrigger>
-            <TooltipContent>Toggle test highlight</TooltipContent>
+            <TooltipContent>{t`Toggle test highlight`}</TooltipContent>
           </Tooltip>
         </>
       )}
@@ -1153,7 +1164,9 @@ function renderOutputActions({
             )}
           </button>
         </TooltipTrigger>
-        <TooltipContent>{passActionLabel} (score 1.0)</TooltipContent>
+        <TooltipContent>
+          {passActionLabel} {t`(score 1.0)`}
+        </TooltipContent>
       </Tooltip>
       <Tooltip disableHoverableContent>
         <TooltipTrigger asChild>
@@ -1174,7 +1187,9 @@ function renderOutputActions({
             )}
           </button>
         </TooltipTrigger>
-        <TooltipContent>{failActionLabel} (score 0.0)</TooltipContent>
+        <TooltipContent>
+          {failActionLabel} {t`(score 0.0)`}
+        </TooltipContent>
       </Tooltip>
       <Tooltip disableHoverableContent>
         <TooltipTrigger asChild>
@@ -1182,12 +1197,12 @@ function renderOutputActions({
             type="button"
             className="action p-1 rounded hover:bg-muted transition-colors"
             onClick={handleSetScore}
-            aria-label="Set test score"
+            aria-label={t`Set test score`}
           >
             <Hash className="size-4" />
           </button>
         </TooltipTrigger>
-        <TooltipContent>Set test score</TooltipContent>
+        <TooltipContent>{t`Set test score`}</TooltipContent>
       </Tooltip>
       <Tooltip disableHoverableContent>
         <TooltipTrigger asChild>
@@ -1195,12 +1210,12 @@ function renderOutputActions({
             type="button"
             className="action p-1 rounded hover:bg-muted transition-colors"
             onClick={handleCommentOpen}
-            aria-label="Edit comment"
+            aria-label={t`Edit comment`}
           >
             <Pencil className="size-4" />
           </button>
         </TooltipTrigger>
-        <TooltipContent>Edit comment</TooltipContent>
+        <TooltipContent>{t`Edit comment`}</TooltipContent>
       </Tooltip>
       {output.prompt && (
         <>
@@ -1210,12 +1225,12 @@ function renderOutputActions({
                 type="button"
                 className="action p-1 rounded hover:bg-muted transition-colors"
                 onClick={handlePromptOpen}
-                aria-label="View output and test details"
+                aria-label={t`View output and test details`}
               >
                 <Search className="size-4" />
               </button>
             </TooltipTrigger>
-            <TooltipContent>View output and test details</TooltipContent>
+            <TooltipContent>{t`View output and test details`}</TooltipContent>
           </Tooltip>
           {openPrompt && (
             <EvalOutputPromptDialog
@@ -1662,7 +1677,7 @@ function EvalOutputCell({
       })}
       {lightboxOpen && lightboxImage && (
         <div className="lightbox" onClick={() => toggleLightbox()}>
-          <img src={lightboxImage} alt="Lightbox" />
+          <img src={lightboxImage} alt={t`Lightbox`} />
         </div>
       )}
       {commentDialogOpen && (

@@ -5,6 +5,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { downloadBlob } from '@app/hooks/useDownloadEval';
 import { cn } from '@app/lib/utils';
 import { toPortableConfig } from '@app/utils/portableConfig';
+import { t } from '@lingui/core/macro';
 import * as yaml from 'js-yaml';
 import { Check, ClipboardCopy, Download } from 'lucide-react';
 import { useTableStore } from './store';
@@ -49,33 +50,33 @@ export default function ConfigModal({ open, onClose }: ConfigModalProps) {
       <DialogContent className="max-w-4xl max-h-[85vh] flex flex-col">
         <DialogHeader>
           <div className="flex justify-between items-center">
-            <DialogTitle className="flex-1">Config</DialogTitle>
+            <DialogTitle className="flex-1">{t`Config`}</DialogTitle>
             <div className="flex gap-1">
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    aria-label="Copy config to clipboard"
+                    aria-label={t`Copy config to clipboard`}
                     onClick={handleCopyClick}
                     className="p-2 rounded hover:bg-muted transition-colors"
                   >
                     {copied ? <Check className="size-5" /> : <ClipboardCopy className="size-5" />}
                   </button>
                 </TooltipTrigger>
-                <TooltipContent>Copy to clipboard</TooltipContent>
+                <TooltipContent>{t`Copy to clipboard`}</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     type="button"
-                    aria-label="Download config"
+                    aria-label={t`Download config`}
                     onClick={handleDownloadClick}
                     className="p-2 rounded hover:bg-muted transition-colors"
                   >
                     <Download className="size-5" />
                   </button>
                 </TooltipTrigger>
-                <TooltipContent>Download .yaml</TooltipContent>
+                <TooltipContent>{t`Download .yaml`}</TooltipContent>
               </Tooltip>
             </div>
           </div>

@@ -10,6 +10,7 @@ import {
   WarningIcon,
 } from '@app/components/ui/icons';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
+import { t } from '@lingui/core/macro';
 
 interface InstallationGuideProps {
   onRetryCheck: () => void;
@@ -54,20 +55,20 @@ export default function InstallationGuide({
         <Alert variant="warning" className="mb-6 flex-col items-start sm:flex-row sm:items-center">
           <WarningIcon className="size-4" />
           <AlertContent>
-            <AlertTitle>ModelAudit CLI Not Found</AlertTitle>
+            <AlertTitle>{t`ModelAudit CLI Not Found`}</AlertTitle>
             <AlertDescription>
               {error ||
-                'The modelaudit command-line tool needs to be installed to run security scans.'}
+                t`The modelaudit command-line tool needs to be installed to run security scans.`}
             </AlertDescription>
           </AlertContent>
         </Alert>
 
-        <h3 className="text-lg font-semibold mb-4">Quick Installation</h3>
+        <h3 className="text-lg font-semibold mb-4">{t`Quick Installation`}</h3>
 
         <div
           className="flex items-center justify-between p-4 rounded-lg bg-muted font-mono text-sm mb-4"
           role="region"
-          aria-label="Installation command"
+          aria-label={t`Installation command`}
         >
           <code>{installCommand}</code>
           <Tooltip>
@@ -76,7 +77,7 @@ export default function InstallationGuide({
                 variant="ghost"
                 size="sm"
                 onClick={handleCopy}
-                aria-label={copied ? 'Command copied to clipboard' : 'Copy installation command'}
+                aria-label={copied ? t`Command copied to clipboard` : t`Copy installation command`}
               >
                 {copied ? (
                   <CheckCircleIcon className="size-4 text-green-600" />
@@ -85,18 +86,15 @@ export default function InstallationGuide({
                 )}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{copied ? 'Copied!' : 'Copy command'}</TooltipContent>
+            <TooltipContent>{copied ? t`Copied!` : t`Copy command`}</TooltipContent>
           </Tooltip>
         </div>
 
-        <p className="text-sm text-muted-foreground mb-6">
-          Make sure you have Python 3.8+ installed. After installation, run the command in your
-          terminal.
-        </p>
+        <p className="text-sm text-muted-foreground mb-6">{t`Make sure you have Python 3.8+ installed. After installation, run the command in your terminal.`}</p>
 
         <div className="flex flex-wrap gap-3 mb-6">
           <Button onClick={onRetryCheck} disabled={isChecking}>
-            {isChecking ? 'Checking...' : 'Check Again'}
+            {isChecking ? t`Checking...` : t`Check Again`}
           </Button>
           <Button variant="outline" asChild>
             <a
@@ -104,44 +102,41 @@ export default function InstallationGuide({
               target="_blank"
               rel="noopener noreferrer"
             >
-              View Documentation
+              {t`View Documentation`}
               <OpenInNewIcon className="size-4 ml-2" />
             </a>
           </Button>
         </div>
 
-        <h4 className="text-sm font-medium text-muted-foreground mb-3">Troubleshooting</h4>
+        <h4 className="text-sm font-medium text-muted-foreground mb-3">{t`Troubleshooting`}</h4>
         <ul className="space-y-2 text-sm text-muted-foreground list-disc list-inside">
           <li>
-            Make sure <code className="bg-muted px-1 rounded">pip</code> is available in your PATH
+            {t`Make sure`} <code className="bg-muted px-1 rounded">pip</code>{' '}
+            {t`is available in your PATH`}
           </li>
           <li>
-            Try using <code className="bg-muted px-1 rounded">pip3 install modelaudit</code> if{' '}
-            <code className="bg-muted px-1 rounded">pip</code> doesn't work
+            {t`If`} <code className="bg-muted px-1 rounded">pip</code> {t`doesn't work, try using`}{' '}
+            <code className="bg-muted px-1 rounded">pip3 install modelaudit</code>
           </li>
-          <li>If using a virtual environment, ensure it's activated</li>
-          <li>After installation, you may need to restart the Promptfoo server</li>
+          <li>{t`If using a virtual environment, ensure it's activated`}</li>
+          <li>{t`After installation, you may need to restart the Promptfoo server`}</li>
         </ul>
 
         <div className="mt-6 pt-4 border-t border-border/50 text-sm text-muted-foreground">
-          Need help?{' '}
+          {t`Need help?`}{' '}
           <a
             href="https://github.com/promptfoo/promptfoo/issues"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            Open an issue on GitHub
-          </a>{' '}
-          or check the{' '}
+          >{t`Open an issue on GitHub`}</a>{' '}
+          {t`or check the`}{' '}
           <a
             href="https://www.promptfoo.dev/docs/model-audit/#installation"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            installation guide
-          </a>
+          >{t`installation guide`}</a>
           .
         </div>
       </CardContent>

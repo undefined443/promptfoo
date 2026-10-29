@@ -9,6 +9,7 @@ import {
 import { useApiHealth } from '@app/hooks/useApiHealth';
 import { useTelemetry } from '@app/hooks/useTelemetry';
 import { useToast } from '@app/hooks/useToast';
+import { t } from '@lingui/core/macro';
 import {
   AGENTIC_STRATEGIES_SET,
   ALL_STRATEGIES,
@@ -415,7 +416,7 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
 
   return (
     <PageWrapper
-      title="Strategies"
+      title={t`Strategies`}
       description={
         <div className="max-w-[1200px]">
           <p className="mb-4">
@@ -427,10 +428,10 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
               to="https://www.promptfoo.dev/docs/red-team/strategies/"
               target="_blank"
             >
-              Learn More
+              {t`Learn More`}
             </RouterLink>
           </p>
-          <p>Choose the red team strategies to guide how attacks are generated and executed.</p>
+          <p>{t`Choose the red team strategies to guide how attacks are generated and executed.`}</p>
         </div>
       }
       onNext={onNext}
@@ -443,12 +444,11 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
         <Alert variant="warning" className="sticky top-0 z-10 -mx-3 mb-3 rounded-none shadow-sm">
           <AlertTriangle className="size-4" />
           <AlertContent>
-            <AlertTitle>Remote Generation Disabled</AlertTitle>
+            <AlertTitle>{t`Remote Generation Disabled`}</AlertTitle>
             <AlertDescription>
-              Some strategies require remote generation and are currently unavailable. These
-              strategies include GOAT, GCG, audio, video, and other advanced attack techniques. To
-              enable them, unset the <code>PROMPTFOO_DISABLE_REMOTE_GENERATION</code> or{' '}
-              <code>PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION</code> environment variables.
+              {t`Some strategies require remote generation and are currently unavailable. These strategies include GOAT, GCG, audio, video, and other advanced attack techniques. To enable them, unset the`}{' '}
+              <code>PROMPTFOO_DISABLE_REMOTE_GENERATION</code> {t`or`}{' '}
+              <code>PROMPTFOO_DISABLE_REDTEAM_REMOTE_GENERATION</code> {t`environment variables.`}
             </AlertDescription>
           </AlertContent>
         </Alert>
@@ -459,12 +459,8 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
         <Alert variant="warning" className="sticky top-0 z-[9] -mx-3 mb-3 rounded-none shadow-sm">
           <AlertTriangle className="size-4" />
           <AlertContent>
-            <AlertTitle>Performance Warning: Too Many Strategies Selected</AlertTitle>
-            <AlertDescription>
-              Selecting many strategies is usually not efficient and will significantly increase
-              evaluation time and cost. It's recommended to use the preset configurations or select
-              only the strategies specifically needed for your use case.
-            </AlertDescription>
+            <AlertTitle>{t`Performance Warning: Too Many Strategies Selected`}</AlertTitle>
+            <AlertDescription>{t`Selecting many strategies is usually not efficient and will significantly increase evaluation time and cost. It's recommended to use the preset configurations or select only the strategies specifically needed for your use case.`}</AlertDescription>
           </AlertContent>
         </Alert>
       )}
@@ -491,9 +487,9 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
                   isAdvancedOpen ? 'rotate-90' : ''
                 }`}
               />
-              <span className="font-medium">Show Advanced Strategies</span>
+              <span className="font-medium">{t`Show Advanced Strategies`}</span>
               <span className="text-sm text-muted-foreground">
-                ({selectedAdvancedStrategiesCount} selected)
+                ({selectedAdvancedStrategiesCount} {t`selected)`}
               </span>
             </CollapsibleTrigger>
             <CollapsibleContent>
@@ -517,7 +513,7 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
               {/* Multi-modal strategies */}
               {categorizedStrategies.multiModal.length > 0 && (
                 <StrategySection
-                  title="Multi-modal Strategies"
+                  title={t`Multi-modal Strategies`}
                   description="Test handling of non-text content including audio, video, and images"
                   strategies={categorizedStrategies.multiModal}
                   selectedIds={selectedStrategyIds}
@@ -534,8 +530,8 @@ export default function Strategies({ onNext, onBack }: StrategiesProps) {
               {/* Other strategies */}
               {categorizedStrategies.other.length > 0 && (
                 <StrategySection
-                  title="Other Strategies"
-                  description="Additional specialized strategies for specific attack vectors and edge cases"
+                  title={t`Other Strategies`}
+                  description={t`Additional specialized strategies for specific attack vectors and edge cases`}
                   strategies={categorizedStrategies.other}
                   selectedIds={selectedStrategyIds}
                   onToggle={handleStrategyToggle}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Chip } from '@app/components/ui/chip';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
+import { t } from '@lingui/core/macro';
 import { Check, Copy } from 'lucide-react';
 
 interface EvalIdChipProps {
@@ -52,7 +53,7 @@ export const EvalIdChip = ({ evalId, onCopy }: EvalIdChipProps) => {
           {evalId}
         </Chip>
       </TooltipTrigger>
-      <TooltipContent>{copied ? 'Copied!' : 'Click to copy ID'}</TooltipContent>
+      <TooltipContent>{copied ? t`Copied!` : t`Click to copy ID`}</TooltipContent>
     </Tooltip>
   );
 };

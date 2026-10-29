@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { usePageMeta } from '@app/hooks/usePageMeta';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import Datasets from './Datasets';
 import type { TestCasesWithMetadata } from '@promptfoo/types';
@@ -38,7 +39,7 @@ function DatasetsPageContent() {
 }
 
 export default function DatasetsPage() {
-  usePageMeta({ title: 'Datasets', description: 'Prompt test case collections' });
+  usePageMeta({ title: t`Datasets`, description: t`Prompt test case collections` });
   return (
     <ErrorBoundary name="Datasets Page">
       <DatasetsPageContent />

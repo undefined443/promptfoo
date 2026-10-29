@@ -20,6 +20,7 @@ import { useTelemetry } from '@app/hooks/useTelemetry';
 import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { makeDefaultPolicyName, makeInlinePolicyId } from '@promptfoo/redteam/plugins/policy/utils';
 import { Pencil, Plus, Trash2, Upload } from 'lucide-react';
 import { useRedTeamConfig } from '../../hooks/useRedTeamConfig';
@@ -648,7 +649,7 @@ export const CustomPoliciesSection = () => {
                   <Pencil className="size-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Edit</TooltipContent>
+              <TooltipContent>{t`Edit`}</TooltipContent>
             </Tooltip>
             <TestCaseGenerateButton
               onClick={() => handleGenerateTestCase(row.original)}
@@ -690,12 +691,12 @@ export const CustomPoliciesSection = () => {
     <>
       <Button size="sm" onClick={handleAddPolicy}>
         <Plus className="mr-2 size-4" />
-        Add Policy
+        {t`Add Policy`}
       </Button>
       <Button variant="outline" size="sm" asChild disabled={isUploadingCsv}>
         <label className="cursor-pointer">
           <Upload className="mr-2 size-4" />
-          {isUploadingCsv ? 'Uploading...' : 'Upload CSV'}
+          {isUploadingCsv ? t`Uploading...` : t`Upload CSV`}
           <input
             type="file"
             hidden
@@ -716,7 +717,8 @@ export const CustomPoliciesSection = () => {
           onClick={handleDeleteSelected}
         >
           <Trash2 className="mr-2 size-4" />
-          Delete ({selectedCount})
+          {t`Delete (`}
+          {selectedCount})
         </Button>
       )}
     </>
@@ -741,7 +743,7 @@ export const CustomPoliciesSection = () => {
             getRowId={(row) => row.id}
             toolbarActions={toolbarActions}
             showToolbar
-            emptyMessage="No custom policies configured. Add your first policy using the 'Add Policy' button above."
+            emptyMessage={t`No custom policies configured. Add your first policy using the 'Add Policy' button above.`}
           />
         </div>
 
@@ -762,20 +764,21 @@ export const CustomPoliciesSection = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Delete {selectedCount} polic{selectedCount === 1 ? 'y' : 'ies'}?
+              {t`Delete`} {selectedCount} polic{selectedCount === 1 ? 'y' : 'ies'}?
             </DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete the selected polic
-              {selectedCount === 1 ? 'y' : 'ies'}? This action cannot be undone.
+              {t`Are you sure you want to delete the selected polic`}
+              {selectedCount === 1 ? 'y' : 'ies'}
+              {t`? This action cannot be undone.`}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={handleCancelDelete}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete}>
               <Trash2 className="mr-2 size-4" />
-              Delete
+              {t`Delete`}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -786,12 +789,12 @@ export const CustomPoliciesSection = () => {
         <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>
-              {policyDialog.mode === 'create' ? 'Add New Policy' : 'Edit Policy'}
+              {policyDialog.mode === 'create' ? t`Add New Policy` : t`Edit Policy`}
             </DialogTitle>
           </DialogHeader>
           <div className="flex flex-col gap-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="policy-name">Name</Label>
+              <Label htmlFor="policy-name">{t`Name`}</Label>
               <Input
                 id="policy-name"
                 value={policyDialog.formData.name}
@@ -802,14 +805,14 @@ export const CustomPoliciesSection = () => {
                     errors: { ...prev.errors, name: undefined },
                   }))
                 }
-                placeholder="e.g., Data Privacy Policy"
+                placeholder={t`e.g., Data Privacy Policy`}
               />
               {policyDialog.errors.name && (
                 <HelperText error>{policyDialog.errors.name}</HelperText>
               )}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="policy-text">Policy Text</Label>
+              <Label htmlFor="policy-text">{t`Policy Text`}</Label>
               <Textarea
                 id="policy-text"
                 value={policyDialog.formData.policyText}
@@ -821,7 +824,7 @@ export const CustomPoliciesSection = () => {
                   }))
                 }
                 rows={8}
-                placeholder="Enter the policy text that describes what should be checked..."
+                placeholder={t`Enter the policy text that describes what should be checked...`}
               />
               {policyDialog.errors.policyText && (
                 <HelperText error>{policyDialog.errors.policyText}</HelperText>
@@ -830,7 +833,7 @@ export const CustomPoliciesSection = () => {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={handleClosePolicyDialog}>
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button
               onClick={handleSavePolicy}
@@ -838,7 +841,7 @@ export const CustomPoliciesSection = () => {
                 !policyDialog.formData.name.trim() || !policyDialog.formData.policyText.trim()
               }
             >
-              Save
+              {t`Save`}
             </Button>
           </DialogFooter>
         </DialogContent>

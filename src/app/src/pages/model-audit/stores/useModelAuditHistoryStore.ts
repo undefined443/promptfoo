@@ -1,4 +1,5 @@
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { create } from 'zustand';
 
 import type { ListScansQuery } from '../../../../../types/api/modelAudit';
@@ -87,7 +88,7 @@ export const useModelAuditHistoryStore = create<ModelAuditHistoryState>()((set, 
       ) {
         return;
       }
-      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch history';
+      const errorMessage = error instanceof Error ? error.message : t`Failed to fetch history`;
       set({
         historyError: errorMessage,
       });
@@ -132,7 +133,7 @@ export const useModelAuditHistoryStore = create<ModelAuditHistoryState>()((set, 
       if (error instanceof Error && error.name === 'AbortError') {
         throw error;
       }
-      const errorMessage = error instanceof Error ? error.message : 'Failed to fetch history';
+      const errorMessage = error instanceof Error ? error.message : t`Failed to fetch history`;
       set({ historyError: errorMessage });
       throw error;
     }
@@ -188,7 +189,7 @@ export const useModelAuditHistoryStore = create<ModelAuditHistoryState>()((set, 
         throw new Error('Failed to delete scan');
       }
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to delete scan';
+      const errorMessage = error instanceof Error ? error.message : t`Failed to delete scan`;
       // Roll back only this deletion, preserving other in-flight deletions and updates.
       set((state) => {
         const historicalScans = [...state.historicalScans];

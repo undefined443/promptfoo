@@ -8,6 +8,7 @@ import {
   CollapsibleTrigger,
 } from '@app/components/ui/collapsible';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { AlertCircle, ChevronDown, ChevronUp, RefreshCw } from 'lucide-react';
 
 interface Props {
@@ -70,11 +71,9 @@ class ErrorBoundary extends React.Component<Props, State> {
             <AlertCircle className="size-4" />
             <AlertContent>
               <AlertTitle>
-                Something went wrong {this.props.name ? `in ${this.props.name}` : ''}.
+                {t`Something went wrong`} {this.props.name ? `in ${this.props.name}` : ''}.
               </AlertTitle>
-              <AlertDescription className="text-muted-foreground">
-                Please try reloading the page.
-              </AlertDescription>
+              <AlertDescription className="text-muted-foreground">{t`Please try reloading the page.`}</AlertDescription>
             </AlertContent>
             <Button
               variant="outline"
@@ -83,7 +82,7 @@ class ErrorBoundary extends React.Component<Props, State> {
               className="shrink-0 gap-1"
             >
               <RefreshCw className="size-3" />
-              Reload Page
+              {t`Reload Page`}
             </Button>
           </Alert>
 
@@ -95,12 +94,12 @@ class ErrorBoundary extends React.Component<Props, State> {
                     {this.state.showDetails ? (
                       <>
                         <ChevronUp className="size-4" />
-                        Hide Error Details
+                        {t`Hide Error Details`}
                       </>
                     ) : (
                       <>
                         <ChevronDown className="size-4" />
-                        Show Error Details
+                        {t`Show Error Details`}
                       </>
                     )}
                   </Button>
@@ -112,13 +111,13 @@ class ErrorBoundary extends React.Component<Props, State> {
                       'bg-zinc-100 dark:bg-zinc-900',
                     )}
                   >
-                    <h6 className="text-base font-semibold mb-2">Error Details:</h6>
+                    <h6 className="text-base font-semibold mb-2">{t`Error Details:`}</h6>
                     <pre className="m-0 whitespace-pre-wrap text-red-700 dark:text-red-400">
                       {this.state.error?.name}: {this.state.error?.message}
                     </pre>
                     {this.state.error?.stack && (
                       <>
-                        <h6 className="text-base font-semibold mt-4 mb-2">Stack Trace:</h6>
+                        <h6 className="text-base font-semibold mt-4 mb-2">{t`Stack Trace:`}</h6>
                         <pre className="m-0 whitespace-pre-wrap text-muted-foreground">
                           {this.state.error.stack}
                         </pre>
@@ -126,7 +125,7 @@ class ErrorBoundary extends React.Component<Props, State> {
                     )}
                     {this.state.errorInfo && (
                       <>
-                        <h6 className="text-base font-semibold mt-4 mb-2">Component Stack:</h6>
+                        <h6 className="text-base font-semibold mt-4 mb-2">{t`Component Stack:`}</h6>
                         <pre className="m-0 whitespace-pre-wrap text-muted-foreground">
                           {this.state.errorInfo.componentStack}
                         </pre>

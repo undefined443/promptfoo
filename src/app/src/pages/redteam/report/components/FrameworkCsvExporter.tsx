@@ -1,5 +1,6 @@
 import { Button } from '@app/components/ui/button';
 import { DownloadIcon } from '@app/components/ui/icons';
+import { t } from '@lingui/core/macro';
 import { formatASRForDisplay } from '@promptfoo/app/src/utils/redteam';
 import { calculateAttackSuccessRate } from '@promptfoo/presentation/redteamMetrics';
 import {
@@ -177,7 +178,7 @@ const CSVExporter = ({
   return (
     <Button onClick={exportToCSV} className="print-hide">
       <DownloadIcon className="mr-2 size-4" />
-      Export framework results to CSV
+      {t`Export framework results to CSV`}
     </Button>
   );
 };

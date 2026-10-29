@@ -31,6 +31,7 @@ import YamlEditor from '@app/pages/eval-creator/components/YamlEditor';
 import { useRedteamJobStore } from '@app/stores/redteamJobStore';
 import { callApi } from '@app/utils/api';
 import { checkEmailStatus } from '@app/utils/emailVerification';
+import { t } from '@lingui/core/macro';
 import { isFoundationModelProvider } from '@promptfoo/providers/constants';
 import { REDTEAM_DEFAULTS, strategyDisplayNames } from '@promptfoo/redteam/constants';
 import {
@@ -310,17 +311,17 @@ export default function Review({
               clearJob();
             } else if (job.status === 'error') {
               setLogs(job.logs || []);
-              showToast('Previous job failed. Check logs for details.', 'error');
+              showToast(t`Previous job failed. Check logs for details.`, 'error');
               clearJob();
             }
           } else {
             // Server reported a running job but we couldn't fetch it
-            showToast('Could not reconnect to running job.', 'error');
+            showToast(t`Could not reconnect to running job.`, 'error');
             clearJob();
           }
         } catch (error) {
           console.error('Failed to recover job:', error);
-          showToast('Failed to reconnect to running job.', 'error');
+          showToast(t`Failed to reconnect to running job.`, 'error');
           clearJob();
         }
       } else if (savedJobId) {
@@ -334,9 +335,9 @@ export default function Review({
 
             if (job.status === 'complete' && job.evalId) {
               setEvalId(job.evalId);
-              showToast('Your evaluation completed!', 'success');
+              showToast(t`Your evaluation completed!`, 'success');
             } else if (job.status === 'error') {
-              showToast('Previous job failed. Check logs for details.', 'error');
+              showToast(t`Previous job failed. Check logs for details.`, 'error');
             }
           }
         } catch {
@@ -502,7 +503,7 @@ export default function Review({
             pollIntervalRef.current = null;
             setIsRunning(false);
             clearJob();
-            showToast('Job was interrupted. Please try again.', 'error');
+            showToast(t`Job was interrupted. Please try again.`, 'error');
             return;
           }
 
@@ -529,12 +530,12 @@ export default function Review({
             } else if (status.status === 'complete') {
               console.warn('No evaluation result was generated');
               showToast(
-                'The evaluation completed but no results were generated. Please check the logs for details.',
+                t`The evaluation completed but no results were generated. Please check the logs for details.`,
                 'warning',
               );
             } else {
               showToast(
-                'An error occurred during evaluation. Please check the logs for details.',
+                t`An error occurred during evaluation. Please check the logs for details.`,
                 'error',
               );
             }
@@ -663,7 +664,7 @@ export default function Review({
     } catch (error) {
       console.error('Error running redteam:', error);
       setIsRunning(false);
-      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      const errorMessage = error instanceof Error ? error.message : t`Unknown error`;
       showToast(
         `An error occurred while starting the evaluation: ${errorMessage}. Please try again.`,
         'error',
@@ -684,10 +685,10 @@ export default function Review({
 
       setIsRunning(false);
       clearJob();
-      showToast('Cancel request submitted', 'success');
+      showToast(t`Cancel request submitted`, 'success');
     } catch (error) {
       console.error('Error cancelling job:', error);
-      showToast('Failed to cancel job', 'error');
+      showToast(t`Failed to cancel job`, 'error');
     }
   };
 
@@ -700,7 +701,7 @@ export default function Review({
       }, 500);
     } catch (error) {
       console.error('Error canceling existing job:', error);
-      showToast('Failed to cancel existing job', 'error');
+      showToast(t`Failed to cancel existing job`, 'error');
     }
   };
 
@@ -713,26 +714,29 @@ export default function Review({
   }, []);
 
   return (
-    <PageWrapper title="Review & Run" onBack={onBack}>
+    <PageWrapper title={t`Review & Run`} onBack={onBack}>
       <div>
         <div className="mb-8">
-          <Label htmlFor="description">Description</Label>
+          <Label htmlFor="description">{t`Description`}</Label>
           <Input
             id="description"
-            placeholder="My Red Team Configuration"
+            placeholder={t`My Red Team Configuration`}
             value={config.description}
             onChange={handleDescriptionChange}
             autoFocus
           />
         </div>
 
-        <h2 className="mb-6 text-xl font-semibold">Configuration Summary</h2>
+        <h2 className="mb-6 text-xl font-semibold">{t`Configuration Summary`}</h2>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {/* Plugins Card */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Plugins ({pluginSummary.length})</CardTitle>
+              <CardTitle className="text-lg">
+                {t`Plugins (`}
+                {pluginSummary.length})
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
@@ -767,15 +771,10 @@ export default function Review({
                 <>
                   <Alert variant="warning" className="mt-4">
                     <AlertContent>
-                      <AlertDescription>
-                        You haven't selected any plugins. Plugins are the vulnerabilities that the
-                        red team will search for.
-                      </AlertDescription>
+                      <AlertDescription>{t`You haven't selected any plugins. Plugins are the vulnerabilities that the red team will search for.`}</AlertDescription>
                     </AlertContent>
                   </Alert>
-                  <Button onClick={navigateToPlugins} className="mt-4">
-                    Add a plugin
-                  </Button>
+                  <Button onClick={navigateToPlugins} className="mt-4">{t`Add a plugin`}</Button>
                 </>
               )}
             </CardContent>
@@ -784,7 +783,10 @@ export default function Review({
           {/* Strategies Card */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-lg">Strategies ({strategySummary.length})</CardTitle>
+              <CardTitle className="text-lg">
+                {t`Strategies (`}
+                {strategySummary.length})
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-wrap gap-2">
@@ -836,16 +838,13 @@ export default function Review({
                 <>
                   <Alert variant="warning" className="mt-4">
                     <AlertContent>
-                      <AlertDescription>
-                        The basic strategy is great for an end-to-end setup test, but don't expect
-                        any findings. Once you've verified that the setup is working, add another
-                        strategy.
-                      </AlertDescription>
+                      <AlertDescription>{t`The basic strategy is great for an end-to-end setup test, but don't expect any findings. Once you've verified that the setup is working, add another strategy.`}</AlertDescription>
                     </AlertContent>
                   </Alert>
-                  <Button onClick={navigateToStrategies} className="mt-4">
-                    Add more strategies
-                  </Button>
+                  <Button
+                    onClick={navigateToStrategies}
+                    className="mt-4"
+                  >{t`Add more strategies`}</Button>
                 </>
               )}
             </CardContent>
@@ -855,7 +854,10 @@ export default function Review({
           {customPolicies.length > 0 && (
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Custom Policies ({customPolicies.length})</CardTitle>
+                <CardTitle className="text-lg">
+                  {t`Custom Policies (`}
+                  {customPolicies.length})
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="max-h-[400px] space-y-2 overflow-y-auto">
@@ -921,7 +923,10 @@ export default function Review({
           {intents.length > 0 && (
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-lg">Intents ({intents.length})</CardTitle>
+                <CardTitle className="text-lg">
+                  {t`Intents (`}
+                  {intents.length})
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
@@ -938,9 +943,7 @@ export default function Review({
                             {display}
                           </p>
                           {isMultiStep && (
-                            <p className="mt-0.5 text-xs text-muted-foreground">
-                              Multi-step intent
-                            </p>
+                            <p className="mt-0.5 text-xs text-muted-foreground">{t`Multi-step intent`}</p>
                           )}
                           <Button
                             variant="ghost"
@@ -961,7 +964,7 @@ export default function Review({
                       onClick={() => setExpanded(!expanded)}
                       className="mt-2 px-0"
                     >
-                      {expanded ? 'Show Less' : `Show ${intents.length - 5} More`}
+                      {expanded ? t`Show Less` : t`Show ${intents.length - 5} More`}
                     </Button>
                   )}
                 </div>
@@ -978,7 +981,7 @@ export default function Review({
               <div className="flex min-w-0 flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
                 <div className="flex min-w-0 items-center gap-2">
                   <Info className="size-4 shrink-0 text-muted-foreground" />
-                  <h3 className="min-w-0 text-lg font-semibold">Application Details</h3>
+                  <h3 className="min-w-0 text-lg font-semibold">{t`Application Details`}</h3>
                 </div>
                 {config.purpose && (
                   <Badge
@@ -990,13 +993,14 @@ export default function Review({
                         : 'border-green-500 text-green-600',
                     )}
                   >
-                    {config.purpose.length < 100 ? 'Needs more detail' : 'Configured'}
+                    {config.purpose.length < 100 ? t`Needs more detail` : t`Configured`}
                   </Badge>
                 )}
                 {!config.purpose && (
-                  <Badge variant="outline" className="border-destructive text-xs text-destructive">
-                    Not configured
-                  </Badge>
+                  <Badge
+                    variant="outline"
+                    className="border-destructive text-xs text-destructive"
+                  >{t`Not configured`}</Badge>
                 )}
               </div>
               <ChevronDown
@@ -1024,8 +1028,8 @@ export default function Review({
                       }}
                     >
                       {expandedPurposeSections.size === parsedPurposeSections.length
-                        ? 'Collapse All'
-                        : 'Expand All'}
+                        ? t`Collapse All`
+                        : t`Expand All`}
                     </Button>
                   </div>
                 )}
@@ -1036,22 +1040,20 @@ export default function Review({
                     <Alert variant="warning">
                       <AlertContent>
                         <AlertDescription>
-                          Application details are required to generate a high quality red team. Go
-                          to the Application Details section and add a purpose.{' '}
+                          {t`Application details are required to generate a high quality red team. Go to the Application Details section and add a purpose.`}{' '}
                           <Link
                             className="underline"
                             target="_blank"
                             rel="noopener noreferrer"
                             to="https://www.promptfoo.dev/docs/red-team/troubleshooting/best-practices/#1-provide-comprehensive-application-details"
-                          >
-                            Learn more about red team best practices.
-                          </Link>
+                          >{t`Learn more about red team best practices.`}</Link>
                         </AlertDescription>
                       </AlertContent>
                     </Alert>
-                    <Button onClick={navigateToPurpose} className="mt-4">
-                      Add application details
-                    </Button>
+                    <Button
+                      onClick={navigateToPurpose}
+                      className="mt-4"
+                    >{t`Add application details`}</Button>
                   </div>
                 ) : null}
 
@@ -1093,7 +1095,7 @@ export default function Review({
                     {config.purpose}
                   </p>
                 ) : (
-                  <p className="text-sm text-muted-foreground">Not specified</p>
+                  <p className="text-sm text-muted-foreground">{t`Not specified`}</p>
                 )}
                 {config.purpose &&
                   parsedPurposeSections.length === 0 &&
@@ -1103,13 +1105,13 @@ export default function Review({
                       className="mt-1 text-xs text-primary hover:underline"
                       onClick={() => setIsPurposeExpanded(!isPurposeExpanded)}
                     >
-                      {isPurposeExpanded ? 'Show less' : 'Show more'}
+                      {isPurposeExpanded ? t`Show less` : t`Show more`}
                     </button>
                   )}
 
                 {config.testGenerationInstructions && (
                   <div className="mt-4">
-                    <h4 className="mb-2 text-sm font-medium">Test Generation Instructions</h4>
+                    <h4 className="mb-2 text-sm font-medium">{t`Test Generation Instructions`}</h4>
                     <p
                       onClick={() => setIsTestInstructionsExpanded(!isTestInstructionsExpanded)}
                       className={cn(
@@ -1126,7 +1128,7 @@ export default function Review({
                           className="mt-1 text-xs text-primary hover:underline"
                           onClick={() => setIsTestInstructionsExpanded(!isTestInstructionsExpanded)}
                         >
-                          {isTestInstructionsExpanded ? 'Show less' : 'Show more'}
+                          {isTestInstructionsExpanded ? t`Show less` : t`Show more`}
                         </button>
                       )}
                   </div>
@@ -1141,10 +1143,10 @@ export default function Review({
               <div className="flex min-w-0 flex-1 flex-col items-start gap-2 sm:flex-row sm:items-center">
                 <div className="flex min-w-0 items-center gap-2">
                   <Sliders className="size-4 shrink-0 text-muted-foreground" />
-                  <h3 className="min-w-0 text-lg font-semibold">Advanced Configuration</h3>
+                  <h3 className="min-w-0 text-lg font-semibold">{t`Advanced Configuration`}</h3>
                 </div>
                 <Badge variant="outline" className="text-xs">
-                  Optional
+                  {t`Optional`}
                 </Badge>
               </div>
               <ChevronDown
@@ -1156,10 +1158,7 @@ export default function Review({
             </CollapsibleTrigger>
             <CollapsibleContent>
               <div className="p-4">
-                <p className="mb-6 text-sm text-muted-foreground">
-                  Configure advanced options that apply to all test cases. These settings are for
-                  power users who need fine-grained control over their red team evaluation.
-                </p>
+                <p className="mb-6 text-sm text-muted-foreground">{t`Configure advanced options that apply to all test cases. These settings are for power users who need fine-grained control over their red team evaluation.`}</p>
                 <DefaultTestVariables />
               </div>
             </CollapsibleContent>
@@ -1170,7 +1169,7 @@ export default function Review({
             <CollapsibleTrigger className="flex w-full items-center justify-between p-4 hover:bg-muted/50">
               <div className="flex items-center gap-2">
                 <Play className="size-4 text-muted-foreground" />
-                <h3 className="text-lg font-semibold">Run Options</h3>
+                <h3 className="text-lg font-semibold">{t`Run Options`}</h3>
               </div>
               <ChevronDown
                 className={cn(
@@ -1217,18 +1216,15 @@ export default function Review({
 
         <Separator className="my-8" />
 
-        <h2 className="mb-6 text-xl font-semibold">Run Your Scan</h2>
+        <h2 className="mb-6 text-xl font-semibold">{t`Run Your Scan`}</h2>
 
         <EstimationsDisplay config={config} />
 
         <Card className="p-6">
           <div className="mb-8">
-            <h3 className="mb-2 text-lg font-semibold">Option 1: Save and Run via CLI</h3>
-            <p className="mb-4 text-muted-foreground">
-              Save your configuration and run it from the command line. Full control over the
-              evaluation process, good for larger scans:
-            </p>
-            <Code>promptfoo redteam run</Code>
+            <h3 className="mb-2 text-lg font-semibold">{t`Option 1: Save and Run via CLI`}</h3>
+            <p className="mb-4 text-muted-foreground">{t`Save your configuration and run it from the command line. Full control over the evaluation process, good for larger scans:`}</p>
+            <Code>{t`promptfoo redteam run`}</Code>
             <div className="mt-4 flex gap-3">
               <Button
                 onClick={handleSaveYaml}
@@ -1236,7 +1232,7 @@ export default function Review({
                 className="gap-2"
               >
                 <Save className="size-4" />
-                Save YAML
+                {t`Save YAML`}
               </Button>
               <Button
                 variant="outline"
@@ -1245,7 +1241,7 @@ export default function Review({
                 className="gap-2"
               >
                 <Eye className="size-4" />
-                View YAML
+                {t`View YAML`}
               </Button>
             </div>
           </div>
@@ -1253,20 +1249,17 @@ export default function Review({
           <Separator className="my-6" />
 
           <div>
-            <h3 className="mb-2 text-lg font-semibold">Option 2: Run Directly in Browser</h3>
-            <p className="mb-4 text-muted-foreground">
-              Run the red team evaluation right here. Simpler but less powerful than the CLI, good
-              for tests and small scans:
-            </p>
+            <h3 className="mb-2 text-lg font-semibold">{t`Option 2: Run Directly in Browser`}</h3>
+            <p className="mb-4 text-muted-foreground">{t`Run the red team evaluation right here. Simpler but less powerful than the CLI, good for tests and small scans:`}</p>
             {apiHealthStatus !== 'connected' && !isCheckingApiHealth && (
               <Alert variant="warning" className="mb-4">
                 <AlertContent>
                   <AlertDescription>
                     {apiHealthStatus === 'blocked'
-                      ? 'Cannot connect to Promptfoo Cloud. The "Run Now" option requires a connection to Promptfoo Cloud.'
+                      ? t`Cannot connect to Promptfoo Cloud. The "Run Now" option requires a connection to Promptfoo Cloud.`
                       : apiHealthStatus === 'disabled'
-                        ? 'Remote generation is disabled. The "Run Now" option is not available.'
-                        : 'Checking connection status...'}
+                        ? t`Remote generation is disabled. The "Run Now" option is not available.`
+                        : t`Checking connection status...`}
                   </AlertDescription>
                 </AlertContent>
               </Alert>
@@ -1285,7 +1278,7 @@ export default function Review({
                         className="gap-2"
                       >
                         {isRunning ? <Spinner className="size-4" /> : <Play className="size-4" />}
-                        {isRunning ? 'Running...' : 'Run Now'}
+                        {isRunning ? t`Running...` : t`Run Now`}
                       </Button>
                     </span>
                   </TooltipTrigger>
@@ -1294,7 +1287,7 @@ export default function Review({
                 {isRunning && (
                   <Button variant="destructive" onClick={handleCancel} className="gap-2">
                     <X className="size-4" />
-                    Cancel
+                    {t`Cancel`}
                   </Button>
                 )}
                 {evalId && (
@@ -1302,13 +1295,13 @@ export default function Review({
                     <Button asChild className="gap-2 bg-green-600 hover:bg-green-700">
                       <a href={REDTEAM_ROUTES.REPORT_DETAIL(evalId)}>
                         <BarChart2 className="size-4" />
-                        View Report
+                        {t`View Report`}
                       </a>
                     </Button>
                     <Button asChild className="gap-2 bg-green-600 hover:bg-green-700">
                       <a href={EVAL_ROUTES.DETAIL(evalId)}>
                         <Search className="size-4" />
-                        View Probes
+                        {t`View Probes`}
                       </a>
                     </Button>
                   </>
@@ -1323,7 +1316,7 @@ export default function Review({
         <Dialog open={isYamlDialogOpen} onOpenChange={setIsYamlDialogOpen}>
           <DialogContent className="max-w-6xl w-[90vw] overflow-hidden">
             <DialogHeader>
-              <DialogTitle>YAML Configuration</DialogTitle>
+              <DialogTitle>{t`YAML Configuration`}</DialogTitle>
             </DialogHeader>
             <div className="min-w-0 overflow-auto">
               <YamlEditor initialYaml={yamlContent} readOnly />
@@ -1343,12 +1336,9 @@ export default function Review({
         >
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Job Already Running</DialogTitle>
+              <DialogTitle>{t`Job Already Running`}</DialogTitle>
             </DialogHeader>
-            <p className="text-muted-foreground">
-              There is already a red team evaluation running. Would you like to cancel it and start
-              a new one?
-            </p>
+            <p className="text-muted-foreground">{t`There is already a red team evaluation running. Would you like to cancel it and start a new one?`}</p>
             <DialogFooter>
               <Button
                 variant="outline"
@@ -1357,9 +1347,9 @@ export default function Review({
                   confirmedRunTargetRef.current = null;
                 }}
               >
-                Cancel
+                {t`Cancel`}
               </Button>
-              <Button onClick={handleCancelExistingAndRun}>Cancel Existing & Run New</Button>
+              <Button onClick={handleCancelExistingAndRun}>{t`Cancel Existing & Run New`}</Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>

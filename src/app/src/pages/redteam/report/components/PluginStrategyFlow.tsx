@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 // PluginStrategyFlow.tsx
 
 import React, { useMemo } from 'react';
@@ -286,7 +287,7 @@ const PluginStrategyFlow = ({ failuresByPlugin, passesByPlugin }: PluginStrategy
   if (data.nodes.length === 0 || data.links.length === 0) {
     return (
       <div className="mt-4 text-center">
-        <p className="text-muted-foreground">No data available to display the strategy flow.</p>
+        <p className="text-muted-foreground">{t`No data available to display the strategy flow.`}</p>
       </div>
     );
   }

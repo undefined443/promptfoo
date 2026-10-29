@@ -8,6 +8,7 @@ import { ShiftKeyProvider } from '@app/contexts/ShiftKeyContext';
 import { usePageMeta } from '@app/hooks/usePageMeta';
 import useApiConfig from '@app/stores/apiConfig';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { type ResultLightweightWithLabel } from '@promptfoo/types';
 import { useLocation, useNavigate } from 'react-router';
 import { io as SocketIOClient } from 'socket.io-client';
@@ -367,7 +368,7 @@ export default function Eval({ fetchId }: EvalOptions) {
     }
 
     if (!filters) {
-      showToast('Invalid filter parameter in URL: filters must be valid JSON', 'error');
+      showToast(t`Invalid filter parameter in URL: filters must be valid JSON`, 'error');
       return;
     }
 
@@ -494,7 +495,7 @@ export default function Eval({ fetchId }: EvalOptions) {
 
   usePageMeta({
     title: config?.description || evalId || 'Eval',
-    description: 'View evaluation results',
+    description: t`View evaluation results`,
   });
 
   /**
@@ -515,7 +516,7 @@ export default function Eval({ fetchId }: EvalOptions) {
   // ================================
 
   if (failed) {
-    return <div className="notice">404 Eval not found</div>;
+    return <div className="notice">{t`404 Eval not found`}</div>;
   }
 
   if (!loaded) {
@@ -524,7 +525,7 @@ export default function Eval({ fetchId }: EvalOptions) {
         <div>
           <Spinner className="size-5" />
         </div>
-        <div>Waiting for eval data</div>
+        <div>{t`Waiting for eval data`}</div>
       </div>
     );
   }

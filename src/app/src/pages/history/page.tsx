@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { usePageMeta } from '@app/hooks/usePageMeta';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import History from './History';
 import type { StandaloneEval } from '@promptfoo/types/standaloneEval';
@@ -45,7 +46,7 @@ function HistoryPageContent({ showDatasetColumn = true }: HistoryPageProps) {
 }
 
 export default function HistoryPage({ showDatasetColumn = true }: HistoryPageProps) {
-  usePageMeta({ title: 'History', description: 'Evaluation history' });
+  usePageMeta({ title: t`History`, description: t`Evaluation history` });
 
   return (
     <ErrorBoundary name="History Page">

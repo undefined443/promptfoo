@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { AlertCircle, AlertTriangle, CheckCircle, Info, X } from 'lucide-react';
 import { ToastContext, type ToastProviderProps, type ToastSeverity } from './ToastContextDef';
 
@@ -55,7 +56,7 @@ const ToastNotification = React.memo(
             type="button"
             onClick={onClose}
             className="shrink-0 p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/10 transition-colors"
-            aria-label="Dismiss"
+            aria-label={t`Dismiss`}
           >
             <X className="size-4" />
           </button>

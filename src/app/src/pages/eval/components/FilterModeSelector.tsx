@@ -7,6 +7,7 @@ import {
 } from '@app/components/ui/select';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import type { EvalResultsFilterMode } from '@promptfoo/types';
 
 interface FilterModeSelectorProps {
@@ -15,39 +16,47 @@ interface FilterModeSelectorProps {
   showDifferentOption?: boolean;
 }
 
-const BASE_OPTIONS: { value: EvalResultsFilterMode; label: string; tooltip: string }[] = [
-  { value: 'all', label: 'All results', tooltip: 'Show all test results' },
-  { value: 'failures', label: 'Failures only', tooltip: 'Show only tests that failed assertions' },
-  { value: 'passes', label: 'Passes only', tooltip: 'Show only tests that passed all assertions' },
-  { value: 'errors', label: 'Errors only', tooltip: 'Show only tests that encountered errors' },
-  {
-    value: 'different',
-    label: 'Different outputs',
-    tooltip: 'Show only tests with different outputs across providers',
-  },
-  { value: 'highlights', label: 'Highlights only', tooltip: 'Show only highlighted results' },
-  {
-    value: 'user-rated',
-    label: 'User-rated only',
-    tooltip: 'Show only results with manual user ratings (thumbs up/down)',
-  },
-];
-
-const TOGGLE_LABELS: Record<EvalResultsFilterMode, string> = {
-  all: 'All',
-  failures: 'Failures',
-  passes: 'Passes',
-  errors: 'Errors',
-  different: 'Different',
-  highlights: 'Highlights',
-  'user-rated': 'User-rated',
-};
-
 export const FilterModeSelector = ({
   filterMode,
   onChange,
   showDifferentOption = true,
 }: FilterModeSelectorProps) => {
+  const BASE_OPTIONS: { value: EvalResultsFilterMode; label: string; tooltip: string }[] = [
+    { value: 'all', label: t`All results`, tooltip: t`Show all test results` },
+    {
+      value: 'failures',
+      label: t`Failures only`,
+      tooltip: t`Show only tests that failed assertions`,
+    },
+    {
+      value: 'passes',
+      label: t`Passes only`,
+      tooltip: t`Show only tests that passed all assertions`,
+    },
+    { value: 'errors', label: t`Errors only`, tooltip: t`Show only tests that encountered errors` },
+    {
+      value: 'different',
+      label: t`Different outputs`,
+      tooltip: t`Show only tests with different outputs across providers`,
+    },
+    { value: 'highlights', label: t`Highlights only`, tooltip: t`Show only highlighted results` },
+    {
+      value: 'user-rated',
+      label: t`User-rated only`,
+      tooltip: t`Show only results with manual user ratings (thumbs up/down)`,
+    },
+  ];
+
+  const TOGGLE_LABELS: Record<EvalResultsFilterMode, string> = {
+    all: t`All`,
+    failures: t`Failures`,
+    passes: t`Passes`,
+    errors: t`Errors`,
+    different: t`Different`,
+    highlights: t`Highlights`,
+    'user-rated': t`User-rated`,
+  };
+
   const options = showDifferentOption
     ? BASE_OPTIONS
     : BASE_OPTIONS.filter((o) => o.value !== 'different');
@@ -57,8 +66,8 @@ export const FilterModeSelector = ({
       {/* Mobile: dropdown */}
       <div className="md:hidden">
         <Select value={filterMode} onValueChange={onChange}>
-          <SelectTrigger aria-label="Filter results" className="w-[140px] h-8 text-xs">
-            <SelectValue placeholder="All results" />
+          <SelectTrigger aria-label={t`Filter results`} className="w-[140px] h-8 text-xs">
+            <SelectValue placeholder={t`All results`} />
           </SelectTrigger>
           <SelectContent>
             {options.map((option) => (

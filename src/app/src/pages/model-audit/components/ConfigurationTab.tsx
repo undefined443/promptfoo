@@ -4,6 +4,7 @@ import { PlayArrowIcon, SettingsIcon } from '@app/components/ui/icons';
 import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import InstallationGuide from './InstallationGuide';
 import PathSelector from './PathSelector';
 
@@ -94,10 +95,10 @@ export default function ConfigurationTab({
       )}
 
       <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h2 className="text-2xl font-semibold tracking-tight">Select Models</h2>
+        <h2 className="text-2xl font-semibold tracking-tight">{t`Select Models`}</h2>
         <Button variant="outline" onClick={onShowOptions}>
           <SettingsIcon className="size-4 mr-2" />
-          Advanced Options
+          {t`Advanced Options`}
         </Button>
       </div>
 
@@ -142,9 +143,11 @@ export default function ConfigurationTab({
             <AlertContent>
               <AlertDescription className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <span className="min-w-0">{error}</span>
-                <Button type="button" variant="destructive" onClick={onClearError}>
-                  Dismiss
-                </Button>
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={onClearError}
+                >{t`Dismiss`}</Button>
               </AlertDescription>
             </AlertContent>
           </Alert>

@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@app/components/ui/select';
+import { t } from '@lingui/core/macro';
 import { type Inputs, normalizeInputDefinition } from '@promptfoo/contracts';
 
 interface VariableSelectionDialogProps {
@@ -47,20 +48,17 @@ export default function VariableSelectionDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Select Main Input Variable</DialogTitle>
-          <DialogDescription>
-            Your configuration has multiple input variables. Select which variable should be used
-            for the conversational session test. The test will send two messages using this variable
-            to verify session persistence.
-          </DialogDescription>
+          <DialogTitle>{t`Select Main Input Variable`}</DialogTitle>
+          <DialogDescription>{t`Your configuration has multiple input variables. Select which variable should be used for the conversational session test. The test will send two messages using this variable to verify session persistence.`}</DialogDescription>
         </DialogHeader>
         <div className="py-4">
-          <Label htmlFor="main-variable" className="mb-2 block text-sm font-medium">
-            Main Input Variable
-          </Label>
+          <Label
+            htmlFor="main-variable"
+            className="mb-2 block text-sm font-medium"
+          >{t`Main Input Variable`}</Label>
           <Select value={selectedVariable} onValueChange={onSelectedVariableChange}>
             <SelectTrigger id="main-variable">
-              <SelectValue placeholder="Select a variable" />
+              <SelectValue placeholder={t`Select a variable`} />
             </SelectTrigger>
             <SelectContent>
               {variables.map((varName) => {
@@ -77,17 +75,13 @@ export default function VariableSelectionDialog({
               })}
             </SelectContent>
           </Select>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Other variables will use test values (e.g., test_user_id, test_session_token).
-          </p>
+          <p className="mt-2 text-xs text-muted-foreground">{t`Other variables will use test values (e.g., test_user_id, test_session_token).`}</p>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {t`Cancel`}
           </Button>
-          <Button onClick={onConfirm} disabled={!selectedVariable}>
-            Run Test
-          </Button>
+          <Button onClick={onConfirm} disabled={!selectedVariable}>{t`Run Test`}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

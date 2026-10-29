@@ -2,9 +2,11 @@ import React from 'react';
 
 import { TooltipProvider } from '@app/components/ui/tooltip';
 import { useTelemetry } from '@app/hooks/useTelemetry';
+import { i18n } from '@lingui/core';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import { messages as zhMessages } from '../../../../../locales/zh-CN.po';
 import ProviderTypeSelector from './ProviderTypeSelector';
 
 import type { ProviderOptions } from '../../types';
@@ -20,6 +22,27 @@ vi.mock('@app/hooks/useTelemetry', () => ({
 }));
 
 describe('ProviderTypeSelector', () => {
+  it('finds providers using translated descriptions without changing their configuration', async () => {
+    i18n.load('zh-CN', zhMessages);
+    i18n.activate('zh-CN');
+    try {
+      const user = userEvent.setup();
+      const setProvider = vi.fn();
+      renderWithTooltipProvider(
+        <ProviderTypeSelector provider={undefined} setProvider={setProvider} />,
+      );
+      await user.type(screen.getByRole('searchbox'), '自定义 Python 脚本');
+      expect(screen.getByText('自定义 Python 脚本或集成')).toBeInTheDocument();
+      await user.click(screen.getByText('Python').closest('[role="button"]')!);
+      expect(setProvider).toHaveBeenCalledWith(
+        expect.objectContaining({ id: 'file:///path/to/custom_provider.py' }),
+        'python',
+      );
+    } finally {
+      i18n.activate('en');
+    }
+  });
+
   it.each([
     ['Together AI', 'together', 'togetherai:meta-llama/Llama-3.3-70B-Instruct-Turbo', {}],
     ['Hugging Face', 'huggingface', 'huggingface:chat:meta-llama/Meta-Llama-3-70B-Instruct', {}],

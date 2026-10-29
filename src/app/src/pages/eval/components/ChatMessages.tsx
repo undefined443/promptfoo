@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { cn } from '@app/lib/utils';
 import { resolveAudioSource, resolveImageSource } from '@app/utils/media';
+import { t } from '@lingui/core/macro';
 import invariant from '@promptfoo/util/invariant';
 import { Crosshair, Swords } from 'lucide-react';
 
@@ -68,7 +69,7 @@ const ChatMessage = ({ message, index }: { message: Message; index: number }) =>
           <div>
             <audio controls className="w-full max-w-[500px]" data-testid="audio">
               <source src={audioSource.src} type={audioSource.type || 'audio/mpeg'} />
-              Your browser does not support the audio element.
+              {t`Your browser does not support the audio element.`}
             </audio>
           </div>
         );
@@ -106,7 +107,7 @@ const ChatMessage = ({ message, index }: { message: Message; index: number }) =>
                 }
                 type="video/mp4"
               />
-              Your browser does not support the video element.
+              {t`Your browser does not support the video element.`}
             </video>
           </div>
         );
@@ -129,13 +130,17 @@ const ChatMessage = ({ message, index }: { message: Message; index: number }) =>
                     data-testid="audio-with-transcript"
                   >
                     <source src={audioSource?.src} type={audioSource?.type || 'audio/mpeg'} />
-                    Your browser does not support the audio element.
+                    {t`Your browser does not support the audio element.`}
                   </audio>
                 </div>
               )}
               {hasImage && (
                 <div className="mb-2">
-                  <img src={imageSrc} alt="Input" className="max-w-full max-h-[300px] rounded-lg" />
+                  <img
+                    src={imageSrc}
+                    alt={t`Input`}
+                    className="max-w-full max-h-[300px] rounded-lg"
+                  />
                 </div>
               )}
               <p className={textClasses}>{loadedMessage.content}</p>
@@ -169,7 +174,7 @@ const ChatMessage = ({ message, index }: { message: Message; index: number }) =>
       >
         {isUser && <Swords className="size-3" />}
         {isAssistant && <Crosshair className="size-3" />}
-        <span>{isUser ? 'Prompt' : 'Response'}</span>
+        <span>{isUser ? t`Prompt` : t`Response`}</span>
       </div>
 
       {/* Bubble */}

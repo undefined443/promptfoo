@@ -12,6 +12,7 @@ import {
 import { Input } from '@app/components/ui/input';
 import { Spinner } from '@app/components/ui/spinner';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { Check, Copy } from 'lucide-react';
 import logger from '../../../../../logger';
 
@@ -107,12 +108,12 @@ const ShareModal = ({ open, onClose, evalId, onShare }: ShareModalProps) => {
       <Dialog open={open} onOpenChange={(isOpen) => !isOpen && handleClose()}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle>Error</DialogTitle>
+            <DialogTitle>{t`Error`}</DialogTitle>
           </DialogHeader>
           <DialogDescription className="text-destructive">{error}</DialogDescription>
           <DialogFooter>
             <Button onClick={handleClose} variant="outline">
-              Close
+              {t`Close`}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -126,13 +127,13 @@ const ShareModal = ({ open, onClose, evalId, onShare }: ShareModalProps) => {
         {showNeedsSignup ? (
           <>
             <DialogHeader>
-              <DialogTitle>Share Evaluation</DialogTitle>
+              <DialogTitle>{t`Share Evaluation`}</DialogTitle>
             </DialogHeader>
             <DialogDescription className="py-4">
-              You need to be logged in to your Promptfoo cloud account to share your evaluation.
+              {t`You need to be logged in to your Promptfoo cloud account to share your evaluation.`}
               <br />
               <br />
-              Sign up for free or login to your existing account at{' '}
+              {t`Sign up for free or login to your existing account at`}{' '}
               <a
                 href="https://promptfoo.app"
                 target="_blank"
@@ -144,17 +145,15 @@ const ShareModal = ({ open, onClose, evalId, onShare }: ShareModalProps) => {
             </DialogDescription>
             <DialogFooter>
               <Button onClick={handleClose} variant="outline">
-                Close
+                {t`Close`}
               </Button>
-              <Button onClick={handleConfirm} disabled={isLoading}>
-                Take me there
-              </Button>
+              <Button onClick={handleConfirm} disabled={isLoading}>{t`Take me there`}</Button>
             </DialogFooter>
           </>
         ) : shareUrl ? (
           <>
             <DialogHeader>
-              <DialogTitle>Your eval is ready to share</DialogTitle>
+              <DialogTitle>{t`Your eval is ready to share`}</DialogTitle>
             </DialogHeader>
             <div className="py-4 space-y-3">
               <div className="flex items-center gap-2">
@@ -163,29 +162,27 @@ const ShareModal = ({ open, onClose, evalId, onShare }: ShareModalProps) => {
                   type="button"
                   onClick={handleCopyClick}
                   className="p-2 rounded hover:bg-muted transition-colors"
-                  aria-label="Copy share URL"
+                  aria-label={t`Copy share URL`}
                 >
                   {copied ? <Check className="size-5" /> : <Copy className="size-5" />}
                 </button>
               </div>
-              <p className="text-xs text-muted-foreground">
-                This URL is accessible to users with access to your organization.
-              </p>
+              <p className="text-xs text-muted-foreground">{t`This URL is accessible to users with access to your organization.`}</p>
             </div>
             <DialogFooter>
               <Button onClick={handleClose} variant="outline">
-                Close
+                {t`Close`}
               </Button>
             </DialogFooter>
           </>
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>Share Evaluation</DialogTitle>
+              <DialogTitle>{t`Share Evaluation`}</DialogTitle>
             </DialogHeader>
             <div className="flex items-center gap-3 py-4">
               <Spinner size="sm" />
-              <p className="text-muted-foreground">Generating share link...</p>
+              <p className="text-muted-foreground">{t`Generating share link...`}</p>
             </div>
           </>
         )}

@@ -1,4 +1,5 @@
 import { DropdownMenuItem, DropdownMenuItemIcon } from '@app/components/ui/dropdown-menu';
+import { t } from '@lingui/core/macro';
 import { GitCompareArrows } from 'lucide-react';
 
 interface CompareEvalMenuItemProps {
@@ -11,7 +12,7 @@ function CompareEvalMenuItem({ onClick }: CompareEvalMenuItemProps) {
       <DropdownMenuItemIcon>
         <GitCompareArrows className="size-4" />
       </DropdownMenuItemIcon>
-      Compare with another eval
+      {t`Compare with another eval`}
     </DropdownMenuItem>
   );
 }

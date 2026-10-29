@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
 import { useTelemetry } from '@app/hooks/useTelemetry';
+import { t } from '@lingui/core/macro';
 import { useRedTeamConfig } from '../../hooks/useRedTeamConfig';
 import { useRedTeamTargetConfigValidation } from '../../hooks/useRedTeamTargetConfigValidation';
 import LoadExampleButton from '../LoadExampleButton';
@@ -107,7 +108,7 @@ export default function TargetTypeSelection({ onNext, onBack }: TargetTypeSelect
   const hasTargetName = Boolean(selectedTarget?.label?.trim());
 
   const getNextButtonText = () => {
-    return 'Next';
+    return t`Next`;
   };
 
   const isNextButtonDisabled = () => {
@@ -116,18 +117,18 @@ export default function TargetTypeSelection({ onNext, onBack }: TargetTypeSelect
 
   const getNextButtonTooltip = () => {
     if (!hasTargetName) {
-      return 'Please enter a target name';
+      return t`Please enter a target name`;
     }
     if (!isValidSelection()) {
-      return 'Please select a target type';
+      return t`Please select a target type`;
     }
     return undefined;
   };
 
   return (
     <PageWrapper
-      title="Target Setup"
-      description="Configure the AI system you want to test"
+      title={t`Target Setup`}
+      description={t`Configure the AI system you want to test`}
       onNext={handleNext}
       onBack={onBack}
       nextLabel={getNextButtonText()}
@@ -138,7 +139,7 @@ export default function TargetTypeSelection({ onNext, onBack }: TargetTypeSelect
         {/* Quick Start */}
         <div className="flex flex-col items-start gap-3 rounded-lg border border-border bg-muted px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <p className="text-sm text-foreground">
-            New to red teaming? Load an example to explore the setup.
+            {t`New to red teaming? Load an example to explore the setup.`}
           </p>
           <LoadExampleButton />
         </div>
@@ -146,13 +147,13 @@ export default function TargetTypeSelection({ onNext, onBack }: TargetTypeSelect
         {/* Target Name */}
         <div className="space-y-2">
           <Label htmlFor="target-name" className="text-sm font-semibold">
-            Target Name <span className="text-destructive">*</span>
+            {t`Target Name`} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="target-name"
             className="max-w-md"
             value={selectedTarget?.label ?? ''}
-            placeholder="e.g. support-agent or booking-assistant"
+            placeholder={t`e.g. support-agent or booking-assistant`}
             onChange={(e) => {
               const newTarget = { ...selectedTarget, label: e.target.value };
               setSelectedTarget(newTarget);
@@ -164,7 +165,7 @@ export default function TargetTypeSelection({ onNext, onBack }: TargetTypeSelect
 
         {/* Target Type Selection */}
         <section className="space-y-4">
-          <Label className="text-sm font-semibold">Select Target Type</Label>
+          <Label className="text-sm font-semibold">{t`Select Target Type`}</Label>
 
           <ProviderTypeSelector
             provider={selectedTarget}

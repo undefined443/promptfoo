@@ -10,6 +10,7 @@ import {
 } from '@app/components/ui/dialog';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
+import { t } from '@lingui/core/macro';
 import AssertsForm from './AssertsForm';
 import VarsForm from './VarsForm';
 import type { Assertion, TestCase } from '@promptfoo/types';
@@ -62,7 +63,7 @@ const TestCaseForm = ({ open, onAdd, varsList, initialValues, onCancel }: TestCa
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onCancel()}>
       <DialogContent className="flex max-h-[85vh] max-w-4xl flex-col overflow-hidden">
         <DialogHeader>
-          <DialogTitle>{initialValues ? 'Edit Test Case' : 'Add Test Case'}</DialogTitle>
+          <DialogTitle>{initialValues ? t`Edit Test Case` : t`Add Test Case`}</DialogTitle>
         </DialogHeader>
 
         <div
@@ -72,13 +73,13 @@ const TestCaseForm = ({ open, onAdd, varsList, initialValues, onCancel }: TestCa
           <div className="space-y-2">
             <div className="flex items-baseline gap-1.5">
               <Label htmlFor="test-case-description" className="text-lg font-semibold">
-                Description
+                {t`Description`}
               </Label>
-              <span className="text-xs text-muted-foreground">(optional)</span>
+              <span className="text-xs text-muted-foreground">{t`(optional)`}</span>
             </div>
             <Input
               id="test-case-description"
-              placeholder="Enter a description for this test case"
+              placeholder={t`Enter a description for this test case`}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -101,15 +102,13 @@ const TestCaseForm = ({ open, onAdd, varsList, initialValues, onCancel }: TestCa
 
         <DialogFooter data-testid="test-case-dialog-footer" className="shrink-0 gap-2 sm:gap-0">
           <Button variant="outline" onClick={onCancel}>
-            Cancel
+            {t`Cancel`}
           </Button>
           {!initialValues && (
-            <Button variant="secondary" onClick={() => handleAdd(false)}>
-              Add Another
-            </Button>
+            <Button variant="secondary" onClick={() => handleAdd(false)}>{t`Add Another`}</Button>
           )}
           <Button onClick={() => handleAdd(true)}>
-            {initialValues ? 'Update Test Case' : 'Add Test Case'}
+            {initialValues ? t`Update Test Case` : t`Add Test Case`}
           </Button>
         </DialogFooter>
       </DialogContent>

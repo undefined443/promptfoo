@@ -7,6 +7,7 @@ import { cn } from '@app/lib/utils';
 import { callApi } from '@app/utils/api';
 import { formatDataGridDate } from '@app/utils/date';
 import { formatASRForDisplay } from '@app/utils/redteam';
+import { t } from '@lingui/core/macro';
 import { Link } from 'react-router';
 import type { EvalSummary } from '@promptfoo/types';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -107,7 +108,7 @@ export default function ReportsTable({ onReportSelected }: ReportsTableProps) {
         accessorKey: 'description',
         header: 'Name',
         cell: ({ getValue, row }) => {
-          const description = getValue<string>() || 'Untitled Evaluation';
+          const description = getValue<string>() || t`Untitled Evaluation`;
           return (
             <Link
               to={REDTEAM_ROUTES.REPORT_DETAIL(row.original.evalId)}
@@ -197,7 +198,7 @@ export default function ReportsTable({ onReportSelected }: ReportsTableProps) {
       data={reports}
       isLoading={isLoading}
       error={error}
-      emptyMessage="No red team reports found. Run a red team evaluation to get started."
+      emptyMessage={t`No red team reports found. Run a red team evaluation to get started.`}
       onRowClick={(row) => onReportSelected(row.evalId)}
       initialSorting={[{ id: 'createdAt', desc: true }]}
       globalFilterLabel="Search reports"

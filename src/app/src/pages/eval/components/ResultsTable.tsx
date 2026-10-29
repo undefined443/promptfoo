@@ -29,6 +29,7 @@ import {
   getPrimaryTokenUsageLabel,
   getTokenUsageTotal,
 } from '@app/utils/tokenUsage';
+import { t } from '@lingui/core/macro';
 import { FILE_METADATA_KEY, HUMAN_ASSERTION_TYPE } from '@promptfoo/providers/constants';
 import {
   type EvalResultsFilterMode,
@@ -95,13 +96,13 @@ function StorageRefAudioPlayer({ data, format = 'mp3' }: { data: string; format?
       : `data:audio/${format};base64,${data}`;
 
   if (!audioUrl) {
-    return <span className="text-xs text-destructive">Failed to load audio</span>;
+    return <span className="text-xs text-destructive">{t`Failed to load audio`}</span>;
   }
 
   return (
     <audio key={audioUrl} controls style={{ maxWidth: '100%', height: '32px' }}>
       <source src={audioUrl} type={`audio/${format}`} />
-      Your browser does not support the audio element.
+      {t`Your browser does not support the audio element.`}
     </audio>
   );
 }
@@ -217,7 +218,7 @@ function TableHeader({
               <span className="line-clamp-3">{text}</span>
             </button>
           </TooltipTrigger>
-          <TooltipContent>View prompt</TooltipContent>
+          <TooltipContent>{t`View prompt`}</TooltipContent>
         </Tooltip>
       ) : (
         <TruncatedText text={text} maxLength={maxLength} />
@@ -238,13 +239,13 @@ function TableHeader({
                   to={ROUTES.PROMPT_DETAIL(resourceId)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="View other evals and datasets for this prompt"
+                  aria-label={t`View other evals and datasets for this prompt`}
                   className="action"
                 >
                   <ExternalLink className="size-4" />
                 </Link>
               </TooltipTrigger>
-              <TooltipContent>View other evals and datasets for this prompt</TooltipContent>
+              <TooltipContent>{t`View other evals and datasets for this prompt`}</TooltipContent>
             </Tooltip>
           )}
         </>
@@ -327,7 +328,7 @@ function renderMediaVariableCell({
     mediaType === 'audio' && audioSource ? (
       <audio controls style={{ maxWidth: '100%' }}>
         <source src={audioSource.src} type={audioSource.type || 'audio/mpeg'} />
-        Your browser does not support the audio element.
+        {t`Your browser does not support the audio element.`}
       </audio>
     ) : mediaType === 'video' ? (
       <video controls style={{ maxWidth: '100%', maxHeight: '200px' }}>
@@ -341,7 +342,7 @@ function renderMediaVariableCell({
           }
           type={`video/${format || 'mp4'}`}
         />
-        Your browser does not support the video element.
+        {t`Your browser does not support the video element.`}
       </video>
     ) : mediaType === 'image' && imageSrc && toggleLightbox ? (
       renderImageCellContent({
@@ -367,7 +368,7 @@ function renderMediaVariableCell({
             {mediaMetadata.path} ({mediaType}/{format})
           </span>
         </TooltipTrigger>
-        <TooltipContent>Original file path</TooltipContent>
+        <TooltipContent>{t`Original file path`}</TooltipContent>
       </Tooltip>
     </div>
   );
@@ -422,9 +423,7 @@ function renderDecodedVariableCell({
       ) : isImageContent ? (
         <div>
           {typeof value === 'string' && isMediaRef(value) ? (
-            <span className="text-xs text-muted-foreground">
-              Image preview not yet supported for storage refs
-            </span>
+            <span className="text-xs text-muted-foreground">{t`Image preview not yet supported for storage refs`}</span>
           ) : (
             cellContent
           )}
@@ -435,7 +434,7 @@ function renderDecodedVariableCell({
 
       {metadataOriginal && (
         <div className="mt-1.5 text-muted-foreground text-[0.8em]">
-          <strong>Original (decoded):</strong>{' '}
+          <strong>{t`Original (decoded):`}</strong>{' '}
           <TruncatedText text={String(metadataOriginal)} maxLength={maxTextLength} />
         </div>
       )}
@@ -593,7 +592,7 @@ function renderRequestMetric({
 
   return (
     <div>
-      <strong>{isRedteam ? 'Probes:' : 'Requests:'}</strong> {metrics.tokenUsage.numRequests}
+      <strong>{isRedteam ? t`Probes:` : t`Requests:`}</strong> {metrics.tokenUsage.numRequests}
     </div>
   );
 }
@@ -613,7 +612,7 @@ function renderAssertMetric({
 
   return (
     <div>
-      <strong>Asserts:</strong> {numGoodAsserts[idx]}/{numAsserts[idx]} passed
+      <strong>{t`Asserts:`}</strong> {numGoodAsserts[idx]}/{numAsserts[idx]} {t`passed`}
     </div>
   );
 }
@@ -643,12 +642,12 @@ function renderCostMetric({
 
   return (
     <div>
-      <strong>Total Cost:</strong>{' '}
+      <strong>{t`Total Cost:`}</strong>{' '}
       <Tooltip>
         <TooltipTrigger asChild>
           <span className="cursor-help">${totalCost}</span>
         </TooltipTrigger>
-        <TooltipContent>{`Average: $${averageCost} per test`}</TooltipContent>
+        <TooltipContent>{t`Average: $${averageCost} per test`}</TooltipContent>
       </Tooltip>
       {filteredMetrics?.cost && testCount?.filtered
         ? renderFilteredSuffix(
@@ -705,13 +704,15 @@ function renderTokenMetrics({
   return (
     <>
       <div>
-        <strong>Total Tokens:</strong> {formatMetricValue(totalTokens)}
+        <strong>{t`Total Tokens:`}</strong> {formatMetricValue(totalTokens)}
         {filteredTokens === undefined
           ? null
           : renderFilteredSuffix(formatMetricValue(filteredTokens))}
       </div>
       <div>
-        <strong>{getPrimaryTokenUsageLabel(isRedteam)} Tokens:</strong>{' '}
+        <strong>
+          {getPrimaryTokenUsageLabel(isRedteam)} {t`Tokens:`}
+        </strong>{' '}
         {formatMetricValue(primaryTokens)}
         {filteredPrimaryTokens === undefined
           ? null
@@ -719,7 +720,7 @@ function renderTokenMetrics({
       </div>
       {attackerTokens > 0 ? (
         <div>
-          <strong>Attacker Tokens:</strong> {formatMetricValue(attackerTokens)}
+          <strong>{t`Attacker Tokens:`}</strong> {formatMetricValue(attackerTokens)}
           {filteredAttackerTokens === undefined
             ? null
             : renderFilteredSuffix(formatMetricValue(filteredAttackerTokens))}
@@ -727,7 +728,7 @@ function renderTokenMetrics({
       ) : null}
       {gradingTokens > 0 ? (
         <div>
-          <strong>Grading Tokens:</strong> {formatMetricValue(gradingTokens)}
+          <strong>{t`Grading Tokens:`}</strong> {formatMetricValue(gradingTokens)}
           {filteredGradingTokens === undefined
             ? null
             : renderFilteredSuffix(formatMetricValue(filteredGradingTokens))}
@@ -736,19 +737,21 @@ function renderTokenMetrics({
       {incurredAccounting ? (
         <>
           <div>
-            <strong>Incurred Tokens:</strong> {formatMetricValue(incurredAccounting.incurredTokens)}
+            <strong>{t`Incurred Tokens:`}</strong>{' '}
+            {formatMetricValue(incurredAccounting.incurredTokens)}
           </div>
           <div>
-            <strong>Cached Savings:</strong> {formatMetricValue(incurredAccounting.cachedSavings)}
+            <strong>{t`Cached Savings:`}</strong>{' '}
+            {formatMetricValue(incurredAccounting.cachedSavings)}
           </div>
           <div>
-            <strong>Actual Target Requests:</strong>{' '}
+            <strong>{t`Actual Target Requests:`}</strong>{' '}
             {formatMetricValue(incurredAccounting.actualRequests)}
           </div>
         </>
       ) : null}
       <div>
-        <strong>Avg Tokens:</strong> {formatMetricValue(totalAverage)}
+        <strong>{t`Avg Tokens:`}</strong> {formatMetricValue(totalAverage)}
         {filteredAverage === undefined
           ? null
           : renderFilteredSuffix(formatMetricValue(filteredAverage))}
@@ -781,7 +784,7 @@ function renderLatencyMetric({
 
   return (
     <div>
-      <strong>Avg Latency:</strong>{' '}
+      <strong>{t`Avg Latency:`}</strong>{' '}
       <Tooltip>
         <TooltipTrigger asChild>
           <span className="cursor-help" aria-label={exactTotalMs}>
@@ -807,7 +810,7 @@ function renderTokensPerSecondMetric(metrics: PromptMetrics['total']): React.Rea
 
   return (
     <div>
-      <strong>Tokens/Sec:</strong> {formatMetricValue(tokPerSec)}
+      <strong>{t`Tokens/Sec:`}</strong> {formatMetricValue(tokPerSec)}
     </div>
   );
 }
@@ -1142,20 +1145,21 @@ function PromptColumnHeader({
           <div className={getPassRateClassName(passRates[idx])}>
             {passRates[idx]?.filtered === null ? (
               <>
-                <strong>{passRates[idx]?.total?.toFixed(2) ?? '0.00'}% passing</strong> (
-                {passingTestCounts[idx]?.total}/{testCounts[idx]?.total} cases)
+                <strong>{t`${passRates[idx]?.total?.toFixed(2) ?? '0.00'}% passing`}</strong> (
+                {t`${String(passingTestCounts[idx]?.total)}/${String(testCounts[idx]?.total)} cases`}
+                )
               </>
             ) : (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <span>
-                    <strong>{passRates[idx]?.filtered?.toFixed(2)}% passing</strong> (
-                    {passingTestCounts[idx]?.filtered}/{testCounts[idx]?.filtered} filtered,{' '}
-                    {passingTestCounts[idx]?.total}/{testCounts[idx]?.total} total)
+                    <strong>{t`${String(passRates[idx]?.filtered?.toFixed(2))}% passing`}</strong> (
+                    {t`${String(passingTestCounts[idx]?.filtered)}/${String(testCounts[idx]?.filtered)} filtered, ${String(passingTestCounts[idx]?.total)}/${String(testCounts[idx]?.total)} total`}
+                    )
                   </span>
                 </TooltipTrigger>
                 <TooltipContent>
-                  {`Filtered: ${passingTestCounts[idx]?.filtered}/${testCounts[idx]?.filtered} passing (${passRates[idx]?.filtered?.toFixed(2)}%). Total: ${passingTestCounts[idx]?.total}/${testCounts[idx]?.total} passing (${passRates[idx]?.total?.toFixed(2)}%)`}
+                  {t`Filtered: ${String(passingTestCounts[idx]?.filtered)}/${String(testCounts[idx]?.filtered)} passing (${String(passRates[idx]?.filtered?.toFixed(2))}%). Total: ${String(passingTestCounts[idx]?.total)}/${String(testCounts[idx]?.total)} passing (${String(passRates[idx]?.total?.toFixed(2))}%)`}
                 </TooltipContent>
               </Tooltip>
             )}
@@ -1168,7 +1172,7 @@ function PromptColumnHeader({
             onClick={() => setFilterMode('errors')}
           >
             <div className="highlight fail">
-              <strong>Errors:</strong> {metrics?.testErrorCount || 0}
+              <strong>{t`Errors:`}</strong> {metrics?.testErrorCount || 0}
             </div>
           </button>
         ) : null}
@@ -1205,7 +1209,7 @@ function PromptColumnHeader({
             checked={failureFilter[columnId] || false}
             onCheckedChange={(checked) => onFailureFilterToggle(columnId, checked === true)}
           />
-          <span>Show failures</span>
+          <span>{t`Show failures`}</span>
         </label>
       )}
     </div>
@@ -1347,7 +1351,7 @@ function renderImageCellContent({
         <div className="lightbox" onClick={() => toggleLightbox()}>
           <img
             src={lightboxImage}
-            alt="Lightbox"
+            alt={t`Lightbox`}
             style={{
               maxWidth: '90%',
               maxHeight: '90vh',
@@ -1358,7 +1362,7 @@ function renderImageCellContent({
       )}
       {originalImageText ? (
         <div className="mt-1.5 text-muted-foreground text-[0.8em]">
-          <strong>Original (image text):</strong>{' '}
+          <strong>{t`Original (image text):`}</strong>{' '}
           <TruncatedText text={originalImageText} maxLength={maxTextLength} />
         </div>
       ) : null}
@@ -1553,7 +1557,7 @@ function ResultsTableHeader({
         <button
           type="button"
           onClick={() => setStickyHeader(false)}
-          aria-label="Dismiss sticky header"
+          aria-label={t`Dismiss sticky header`}
           className="inline-flex size-7 cursor-pointer items-center justify-center rounded-md bg-muted text-muted-foreground transition-colors hover:bg-foreground/10 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
           <X className="size-4" />
@@ -1718,7 +1722,7 @@ function ResultsTable({
 
       setTable(newTable);
       if (inComparisonMode) {
-        showToast('Ratings are not saved in comparison mode', 'warning');
+        showToast(t`Ratings are not saved in comparison mode`, 'warning');
       } else {
         try {
           await saveManualRating({
@@ -2023,7 +2027,7 @@ function ResultsTable({
       return [
         columnHelper.group({
           id: 'vars',
-          header: () => <span className="font-bold">Variables</span>,
+          header: () => <span className="font-bold">{t`Variables`}</span>,
           columns: head.vars.map((varName, idx) =>
             columnHelper.accessor((row: EvaluateTableRow) => row.vars[idx], {
               id: `Variable ${idx + 1}`,
@@ -2069,7 +2073,7 @@ function ResultsTable({
     return [
       columnHelper.group({
         id: 'transformDisplayVars',
-        header: () => <span className="font-bold">Variables</span>,
+        header: () => <span className="font-bold">{t`Variables`}</span>,
         columns: transformDisplayVarKeys.map((varName) =>
           columnHelper.accessor(
             (row: EvaluateTableRow) => {
@@ -2124,7 +2128,7 @@ function ResultsTable({
     return [
       columnHelper.group({
         id: 'prompts',
-        header: () => <span className="font-bold">Outputs</span>,
+        header: () => <span className="font-bold">{t`Outputs`}</span>,
         columns: head.prompts.map((prompt, idx) =>
           columnHelper.accessor((row: EvaluateTableRow) => formatRowOutput(row.outputs[idx]), {
             id: `Prompt ${idx + 1}`,
@@ -2156,9 +2160,9 @@ function ResultsTable({
                 <ErrorBoundary
                   name={`EvalOutputCell-${info.row.index}-${idx}`}
                   fallback={
-                    <div style={{ padding: '20px', color: 'red', fontSize: '12px' }}>
-                      Error loading cell
-                    </div>
+                    <div
+                      style={{ padding: '20px', color: 'red', fontSize: '12px' }}
+                    >{t`Error loading cell`}</div>
                   }
                 >
                   <EvalOutputCell
@@ -2187,7 +2191,7 @@ function ResultsTable({
                   />
                 </ErrorBoundary>
               ) : (
-                <div className="cell" aria-label="No output for this prompt" />
+                <div className="cell" aria-label={t`No output for this prompt`} />
               );
             },
             size: PROMPT_COLUMN_SIZE_PX,
@@ -2225,7 +2229,7 @@ function ResultsTable({
       return {
         accessorFn: (row: EvaluateTableRow) => row.test.description || '',
         id: 'description',
-        header: () => <span className="font-bold">Description</span>,
+        header: () => <span className="font-bold">{t`Description`}</span>,
         cell: (info: CellContext<EvaluateTableRow, unknown>) => (
           <div className="cell">
             <TruncatedText text={String(info.getValue())} maxLength={maxTextLength} />
@@ -2449,7 +2453,7 @@ function ResultsTable({
     <>
       {filteredResultsCount === 0 && !isFetching && isFilteringActive && (
         <div className="p-5 text-center bg-black/[0.03] dark:bg-white/[0.03] rounded my-5">
-          <p>No results found for the current filters.</p>
+          <p>{t`No results found for the current filters.`}</p>
         </div>
       )}
       <div className="h-4" />
@@ -2514,36 +2518,19 @@ function ResultsTable({
       </div>
       <div className="pagination sticky bottom-0 z-10 flex w-screen shrink-0 flex-col items-stretch gap-3 border-t border-border bg-background px-4 py-2 shadow-lg -mx-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4">
         <div>
-          Showing{' '}
-          {filteredResultsCount === 0 ? (
-            <span className="font-semibold">0</span>
-          ) : (
-            <>
-              <span className="font-semibold">
-                {pagination.pageIndex * pagination.pageSize + 1}
-              </span>{' '}
-              to{' '}
-              <span className="font-semibold">
-                {Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredResultsCount)}
-              </span>{' '}
-              of <span className="font-semibold">{filteredResultsCount}</span>
-            </>
-          )}{' '}
-          results
+          {filteredResultsCount === 0
+            ? t`Showing 0 results`
+            : t`Showing ${pagination.pageIndex * pagination.pageSize + 1} to ${Math.min((pagination.pageIndex + 1) * pagination.pageSize, filteredResultsCount)} of ${filteredResultsCount} results`}
         </div>
 
         {filteredResultsCount > 0 && (
-          <div>
-            Page{' '}
-            <span className="font-semibold">{reactTable.getState().pagination.pageIndex + 1}</span>{' '}
-            of <span className="font-semibold">{pageCount}</span>
-          </div>
+          <div>{t`Page ${reactTable.getState().pagination.pageIndex + 1} of ${pageCount}`}</div>
         )}
 
         <div className="flex flex-wrap items-center gap-2">
           {/* PAGE SIZE SELECTOR */}
           <div className="flex items-center gap-2">
-            <span className="whitespace-nowrap">Results per page:</span>
+            <span className="whitespace-nowrap">{t`Results per page:`}</span>
             <Select
               value={String(pagination.pageSize)}
               onValueChange={(value) => {
@@ -2555,7 +2542,7 @@ function ResultsTable({
               }}
               disabled={filteredResultsCount <= 10}
             >
-              <SelectTrigger aria-label="Results per page" className="w-20 h-8">
+              <SelectTrigger aria-label={t`Results per page`} className="w-20 h-8">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -2579,7 +2566,7 @@ function ResultsTable({
               pageCount <= 1 && 'opacity-50 pointer-events-none',
             )}
           >
-            <span className="whitespace-nowrap">Go to:</span>
+            <span className="whitespace-nowrap">{t`Go to:`}</span>
             <NumberInput
               value={pagination.pageIndex + 1}
               onChange={(v) => {
@@ -2593,7 +2580,7 @@ function ResultsTable({
                 }
               }}
               className="w-[60px] h-8 text-center"
-              aria-label="Go to page"
+              aria-label={t`Go to page`}
               min={1}
               max={pageCount || 1}
               disabled={pageCount === 1}
@@ -2606,7 +2593,7 @@ function ResultsTable({
               variant="outline"
               size="icon"
               className="rounded-r-none"
-              aria-label="Previous page"
+              aria-label={t`Previous page`}
               onClick={() => {
                 setPagination((prev) => ({
                   ...prev,
@@ -2623,7 +2610,7 @@ function ResultsTable({
               variant="outline"
               size="icon"
               className="rounded-l-none -ml-px"
-              aria-label="Next page"
+              aria-label={t`Next page`}
               onClick={() => {
                 setPagination((prev) => ({
                   ...prev,

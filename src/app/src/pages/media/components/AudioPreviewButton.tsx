@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Pause, Play, Volume2 } from 'lucide-react';
 import { AudioWaveform } from './AudioWaveform';
 
@@ -168,7 +169,7 @@ export function AudioPreviewButton({
             ? 'pointer-events-auto opacity-100'
             : 'pointer-events-none opacity-0',
         )}
-        aria-label={isPlaying ? 'Pause audio preview' : 'Play audio preview'}
+        aria-label={isPlaying ? t`Pause audio preview` : t`Play audio preview`}
       >
         <div
           className={cn(
@@ -190,15 +191,13 @@ export function AudioPreviewButton({
       {isPlaying && (
         <div className="absolute bottom-2 left-2 flex items-center gap-1.5 px-2 py-1 bg-purple-600/80 rounded text-white text-xs">
           <Volume2 className="h-3 w-3" />
-          <span>Preview</span>
+          <span>{t`Preview`}</span>
         </div>
       )}
 
       {/* Hover hint */}
       {isHovering && !isPlaying && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/60 rounded text-white text-xs whitespace-nowrap">
-          Click to preview
-        </div>
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 px-2 py-1 bg-black/60 rounded text-white text-xs whitespace-nowrap">{t`Click to preview`}</div>
       )}
     </div>
   );

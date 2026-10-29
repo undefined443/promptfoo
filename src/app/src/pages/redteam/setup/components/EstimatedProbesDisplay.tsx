@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Info } from 'lucide-react';
 import { getEstimatedProbes } from './strategies/utils';
 
@@ -28,7 +29,7 @@ export default function EstimatedProbesDisplay({
     <div
       className={cn('mb-6 flex items-center gap-2 rounded-lg border border-border p-4', className)}
     >
-      <span className="text-muted-foreground">Estimated Probes:</span>
+      <span className="text-muted-foreground">{t`Estimated Probes:`}</span>
       <span className="font-bold text-primary">{estimatedProbes.toLocaleString()}</span>
       <Tooltip>
         <TooltipTrigger asChild>

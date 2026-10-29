@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Eye, EyeOff } from 'lucide-react';
 
 export interface SensitiveTextFieldProps {
@@ -61,7 +62,7 @@ const SensitiveTextField: React.FC<SensitiveTextFieldProps> = ({
           className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
           onClick={() => setShowValue(!showValue)}
           onMouseDown={(e) => e.preventDefault()}
-          aria-label="toggle password visibility"
+          aria-label={t`toggle password visibility`}
           disabled={disabled}
         >
           {showValue ? <EyeOff className="size-4" /> : <Eye className="size-4" />}

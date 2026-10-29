@@ -1,4 +1,5 @@
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { useQuery } from '@tanstack/react-query';
 
 export type ApiHealthStatus = 'unknown' | 'connected' | 'blocked' | 'disabled';
@@ -30,7 +31,7 @@ export function useApiHealth() {
       } catch {
         return {
           status: 'blocked',
-          message: 'Network error: Unable to check API health',
+          message: t`Network error: Unable to check API health`,
         };
       }
     },

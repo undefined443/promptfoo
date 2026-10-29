@@ -21,6 +21,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { highlightJSON } from '@app/lib/codeHighlight';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { AlertCircle, AlignLeft, ChevronDown, Code2, Eye, EyeOff, Server } from 'lucide-react';
 
 import type { ProviderOptions } from '../../types';
@@ -310,24 +311,22 @@ const A2AEndpointConfiguration = ({
     return (
       <div className="mt-6 space-y-4 rounded-lg border border-border p-4">
         <div>
-          <h4 className="font-medium">Authorization</h4>
-          <p className="text-sm text-muted-foreground">
-            Configure common A2A authentication without manually editing headers.
-          </p>
+          <h4 className="font-medium">{t`Authorization`}</h4>
+          <p className="text-sm text-muted-foreground">{t`Configure common A2A authentication without manually editing headers.`}</p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="a2a-auth-type">Authentication Type</Label>
+          <Label htmlFor="a2a-auth-type">{t`Authentication Type`}</Label>
           <Select value={auth?.type ?? 'no_auth'} onValueChange={handleA2AAuthTypeChange}>
             <SelectTrigger id="a2a-auth-type">
-              <SelectValue placeholder="Select authentication type" />
+              <SelectValue placeholder={t`Select authentication type`} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="no_auth">No Auth</SelectItem>
-              <SelectItem value="bearer">Bearer Token</SelectItem>
-              <SelectItem value="basic">Basic Auth</SelectItem>
-              <SelectItem value="api_key">API Key</SelectItem>
-              <SelectItem value="oauth">OAuth 2.0</SelectItem>
+              <SelectItem value="no_auth">{t`No Auth`}</SelectItem>
+              <SelectItem value="bearer">{t`Bearer Token`}</SelectItem>
+              <SelectItem value="basic">{t`Basic Auth`}</SelectItem>
+              <SelectItem value="api_key">{t`API Key`}</SelectItem>
+              <SelectItem value="oauth">{t`OAuth 2.0`}</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -335,11 +334,11 @@ const A2AEndpointConfiguration = ({
         {auth?.type === 'bearer' && (
           <SecretInput
             id="a2a-bearer-token"
-            label="Bearer Token"
+            label={t`Bearer Token`}
             value={auth.token ?? ''}
             onChange={(value) => updateA2AAuthField('token', value)}
             placeholder="{{A2A_API_KEY}}"
-            helperText="Sent as an Authorization: Bearer header."
+            helperText={t`Sent as an Authorization: Bearer header.`}
             required
           />
         )}
@@ -348,7 +347,7 @@ const A2AEndpointConfiguration = ({
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="a2a-basic-username">
-                Username <span className="text-destructive">*</span>
+                {t`Username`} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="a2a-basic-username"
@@ -358,7 +357,7 @@ const A2AEndpointConfiguration = ({
             </div>
             <SecretInput
               id="a2a-basic-password"
-              label="Password"
+              label={t`Password`}
               value={auth.password ?? ''}
               onChange={(value) => updateA2AAuthField('password', value)}
               required
@@ -369,34 +368,34 @@ const A2AEndpointConfiguration = ({
         {auth?.type === 'api_key' && (
           <div className="grid gap-4 md:grid-cols-3">
             <div className="space-y-2">
-              <Label htmlFor="a2a-api-key-placement">Placement</Label>
+              <Label htmlFor="a2a-api-key-placement">{t`Placement`}</Label>
               <Select
                 value={auth.placement ?? 'header'}
                 onValueChange={(value) => updateA2AAuthField('placement', value)}
               >
                 <SelectTrigger id="a2a-api-key-placement">
-                  <SelectValue placeholder="Select placement" />
+                  <SelectValue placeholder={t`Select placement`} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="header">Header</SelectItem>
-                  <SelectItem value="query">Query Parameter</SelectItem>
+                  <SelectItem value="header">{t`Header`}</SelectItem>
+                  <SelectItem value="query">{t`Query Parameter`}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
               <Label htmlFor="a2a-api-key-name">
-                Key Name <span className="text-destructive">*</span>
+                {t`Key Name`} <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="a2a-api-key-name"
                 value={auth.keyName ?? 'X-API-Key'}
                 onChange={(e) => updateA2AAuthField('keyName', e.target.value)}
-                placeholder={auth.placement === 'query' ? 'api_key' : 'X-API-Key'}
+                placeholder={auth.placement === 'query' ? 'api_key' : t`X-API-Key`}
               />
             </div>
             <SecretInput
               id="a2a-api-key-value"
-              label="API Key Value"
+              label={t`API Key Value`}
               value={auth.value ?? ''}
               onChange={(value) => updateA2AAuthField('value', value)}
               placeholder="{{A2A_API_KEY}}"
@@ -409,7 +408,7 @@ const A2AEndpointConfiguration = ({
           <div className="space-y-4">
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="a2a-oauth-grant-type">Grant Type</Label>
+                <Label htmlFor="a2a-oauth-grant-type">{t`Grant Type`}</Label>
                 <Select
                   value={auth.grantType ?? 'client_credentials'}
                   onValueChange={(value) =>
@@ -417,30 +416,28 @@ const A2AEndpointConfiguration = ({
                   }
                 >
                   <SelectTrigger id="a2a-oauth-grant-type">
-                    <SelectValue placeholder="Select grant type" />
+                    <SelectValue placeholder={t`Select grant type`} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="client_credentials">Client Credentials</SelectItem>
-                    <SelectItem value="password">Username & Password</SelectItem>
+                    <SelectItem value="client_credentials">{t`Client Credentials`}</SelectItem>
+                    <SelectItem value="password">{t`Username & Password`}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="a2a-oauth-token-url">Token URL</Label>
+                <Label htmlFor="a2a-oauth-token-url">{t`Token URL`}</Label>
                 <Input
                   id="a2a-oauth-token-url"
                   value={auth.tokenUrl ?? ''}
                   onChange={(e) => updateA2AAuthField('tokenUrl', e.target.value)}
                   placeholder="https://agent.example.com/oauth/token"
                 />
-                <p className="text-sm text-muted-foreground">
-                  Optional when the Agent Card exposes an auth realm that supports discovery.
-                </p>
+                <p className="text-sm text-muted-foreground">{t`Optional when the Agent Card exposes an auth realm that supports discovery.`}</p>
               </div>
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="a2a-oauth-client-id">Client ID</Label>
+                <Label htmlFor="a2a-oauth-client-id">{t`Client ID`}</Label>
                 <Input
                   id="a2a-oauth-client-id"
                   value={auth.clientId ?? ''}
@@ -450,7 +447,7 @@ const A2AEndpointConfiguration = ({
               </div>
               <SecretInput
                 id="a2a-oauth-client-secret"
-                label="Client Secret"
+                label={t`Client Secret`}
                 value={auth.clientSecret ?? ''}
                 onChange={(value) => updateA2AAuthField('clientSecret', value)}
                 placeholder="{{A2A_CLIENT_SECRET}}"
@@ -460,7 +457,7 @@ const A2AEndpointConfiguration = ({
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="a2a-oauth-username">
-                    Username <span className="text-destructive">*</span>
+                    {t`Username`} <span className="text-destructive">*</span>
                   </Label>
                   <Input
                     id="a2a-oauth-username"
@@ -470,7 +467,7 @@ const A2AEndpointConfiguration = ({
                 </div>
                 <SecretInput
                   id="a2a-oauth-password"
-                  label="Password"
+                  label={t`Password`}
                   value={auth.password ?? ''}
                   onChange={(value) => updateA2AAuthField('password', value)}
                   required
@@ -478,14 +475,14 @@ const A2AEndpointConfiguration = ({
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="a2a-oauth-scopes">Scopes</Label>
+              <Label htmlFor="a2a-oauth-scopes">{t`Scopes`}</Label>
               <Input
                 id="a2a-oauth-scopes"
                 value={Array.isArray(auth.scopes) ? auth.scopes.join(', ') : (auth.scopes ?? '')}
                 onChange={(e) => updateA2AAuthField('scopes', parseA2AScopes(e.target.value))}
-                placeholder="agent:invoke, tasks:read"
+                placeholder={t`agent:invoke, tasks:read`}
               />
-              <p className="text-sm text-muted-foreground">Comma-separated OAuth scopes.</p>
+              <p className="text-sm text-muted-foreground">{t`Comma-separated OAuth scopes.`}</p>
             </div>
           </div>
         )}
@@ -497,23 +494,22 @@ const A2AEndpointConfiguration = ({
     <div className="mt-4">
       <h3 className="mb-4 flex items-center gap-2 text-lg font-semibold">
         <Server className="size-5 text-primary" />
-        A2A Provider
+        {t`A2A Provider`}
       </h3>
 
       <div className="rounded-lg border border-border p-4">
         <div className="space-y-2">
           <Label htmlFor="a2a-target-id">
-            Provider ID <span className="text-destructive">*</span>
+            {t`Provider ID`} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="a2a-target-id"
             value={targetId}
             onChange={handleTargetIdChange}
-            placeholder="a2a or a2a:https://agent.example.com/a2a/v1"
+            placeholder={t`a2a or a2a:https://agent.example.com/a2a/v1`}
           />
           <p className="text-sm text-muted-foreground">
-            Agent2Agent (A2A) HTTP+JSON endpoint configuration. Promptfoo sends test prompts as A2A
-            messages and reads final messages, task artifacts, or streaming events. See{' '}
+            {t`Agent2Agent (A2A) HTTP+JSON endpoint configuration. Promptfoo sends test prompts as A2A messages and reads final messages, task artifacts, or streaming events. See`}{' '}
             <a
               href={A2A_DOC_URL}
               target="_blank"
@@ -528,36 +524,29 @@ const A2AEndpointConfiguration = ({
 
         <div className="mt-6 space-y-4 rounded-lg border border-border p-4">
           <div>
-            <h4 className="font-medium">Connection</h4>
-            <p className="text-sm text-muted-foreground">
-              Start with an Agent Card when available. Use an endpoint URL only to override
-              discovery or connect directly.
-            </p>
+            <h4 className="font-medium">{t`Connection`}</h4>
+            <p className="text-sm text-muted-foreground">{t`Start with an Agent Card when available. Use an endpoint URL only to override discovery or connect directly.`}</p>
           </div>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="a2a-agent-card-url">Agent Card URL</Label>
+              <Label htmlFor="a2a-agent-card-url">{t`Agent Card URL`}</Label>
               <Input
                 id="a2a-agent-card-url"
                 value={a2aConfig.agentCardUrl ?? ''}
                 onChange={(e) => updateA2AField('agentCardUrl', e.target.value)}
                 placeholder="https://agent.example.com/.well-known/agent-card.json"
               />
-              <p className="text-sm text-muted-foreground">
-                Recommended. Used to discover the HTTP+JSON endpoint, tenant, and protocol version.
-              </p>
+              <p className="text-sm text-muted-foreground">{t`Recommended. Used to discover the HTTP+JSON endpoint, tenant, and protocol version.`}</p>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="a2a-url">A2A Endpoint URL</Label>
+              <Label htmlFor="a2a-url">{t`A2A Endpoint URL`}</Label>
               <Input
                 id="a2a-url"
                 value={a2aConfig.url ?? ''}
                 onChange={(e) => updateA2AField('url', e.target.value)}
                 placeholder="https://agent.example.com/a2a/v1"
               />
-              <p className="text-sm text-muted-foreground">
-                Optional override. Used for /message:send, /message:stream, and task polling.
-              </p>
+              <p className="text-sm text-muted-foreground">{t`Optional override. Used for /message:send, /message:stream, and task polling.`}</p>
             </div>
           </div>
         </div>
@@ -566,7 +555,7 @@ const A2AEndpointConfiguration = ({
 
         <div className="mt-6 space-y-2">
           <div className="flex items-center justify-between">
-            <Label htmlFor="a2a-config-json">Advanced Configuration (JSON)</Label>
+            <Label htmlFor="a2a-config-json">{t`Advanced Configuration (JSON)`}</Label>
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -577,11 +566,11 @@ const A2AEndpointConfiguration = ({
                   className="h-7 px-2"
                 >
                   <AlignLeft className="size-4" />
-                  <span className="ml-1 text-xs">Format</span>
+                  <span className="ml-1 text-xs">{t`Format`}</span>
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                {bodyError || advancedConfigError ? 'Fix JSON errors first' : 'Format JSON'}
+                {bodyError || advancedConfigError ? t`Fix JSON errors first` : t`Format JSON`}
               </TooltipContent>
             </Tooltip>
           </div>
@@ -594,7 +583,7 @@ const A2AEndpointConfiguration = ({
             <CollapsibleTrigger className="flex w-full items-center justify-between rounded-lg bg-muted/50 px-3 py-2 text-left transition-colors hover:bg-muted data-[state=open]:rounded-b-none">
               <span className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Code2 className="size-4" />
-                Examples
+                {t`Examples`}
               </span>
               <ChevronDown
                 className={cn(
@@ -606,26 +595,22 @@ const A2AEndpointConfiguration = ({
             <CollapsibleContent>
               <div className="space-y-3 border-t border-border p-3">
                 <div>
-                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    A2A Provider Examples
-                  </p>
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t`A2A Provider Examples`}</p>
                   <ul className="space-y-1 text-sm text-muted-foreground">
                     <li>
                       <code className="rounded bg-muted px-1.5 py-0.5 text-xs">
                         a2a:https://agent.example.com/a2a/v1
                       </code>{' '}
-                      - Endpoint shorthand
+                      {t`- Endpoint shorthand`}
                     </li>
                     <li>
-                      <code className="rounded bg-muted px-1.5 py-0.5 text-xs">a2a</code> - Use
-                      config.url or config.agentCardUrl
+                      <code className="rounded bg-muted px-1.5 py-0.5 text-xs">a2a</code>{' '}
+                      {t`- Use config.url or config.agentCardUrl`}
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    JSON Config Example
-                  </p>
+                  <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t`JSON Config Example`}</p>
                   <pre className="rounded bg-muted p-2 text-xs">
                     {JSON.stringify(A2A_CONFIG_EXAMPLE, null, 2)}
                   </pre>
@@ -667,10 +652,7 @@ const A2AEndpointConfiguration = ({
               </AlertContent>
             </Alert>
           ) : (
-            <HelperText>
-              Optional JSON merged with the fields above. Use it for headers, custom message
-              templates, mode, tenant, protocol version, polling, timeouts, and transformResponse.
-            </HelperText>
+            <HelperText>{t`Optional JSON merged with the fields above. Use it for headers, custom message templates, mode, tenant, protocol version, polling, timeouts, and transformResponse.`}</HelperText>
           )}
         </div>
       </div>

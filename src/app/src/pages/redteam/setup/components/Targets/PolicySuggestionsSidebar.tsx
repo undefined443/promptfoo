@@ -5,6 +5,7 @@ import { Card, CardContent } from '@app/components/ui/card';
 import { Spinner } from '@app/components/ui/spinner';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Lightbulb, Plus, RefreshCw, ThumbsDown } from 'lucide-react';
 import type { PolicyObject } from '@promptfoo/redteam/types';
 
@@ -29,14 +30,14 @@ export const PolicySuggestionsSidebar: React.FC<PolicySuggestionsSidebarProps> =
       <div className="shrink-0 border-b border-border bg-muted/50 p-4">
         <div className="flex items-center gap-2">
           <Lightbulb className="size-5 text-muted-foreground" />
-          <h3 className="flex-1 font-semibold">Suggested Policies</h3>
+          <h3 className="flex-1 font-semibold">{t`Suggested Policies`}</h3>
           {suggestedPolicies.length > 0 && (
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
                   variant="ghost"
                   size="icon"
-                  aria-label="Regenerate suggestions"
+                  aria-label={t`Regenerate suggestions`}
                   className="size-7 text-muted-foreground hover:text-foreground"
                   onClick={onGeneratePolicies}
                   disabled={isGeneratingPolicies}
@@ -44,7 +45,7 @@ export const PolicySuggestionsSidebar: React.FC<PolicySuggestionsSidebarProps> =
                   <RefreshCw className={cn('size-3.5', isGeneratingPolicies && 'animate-spin')} />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Regenerate suggestions</TooltipContent>
+              <TooltipContent>{t`Regenerate suggestions`}</TooltipContent>
             </Tooltip>
           )}
         </div>
@@ -55,12 +56,10 @@ export const PolicySuggestionsSidebar: React.FC<PolicySuggestionsSidebarProps> =
         {/* Show generate button when not generating and no suggestions */}
         {!isGeneratingPolicies && suggestedPolicies.length === 0 && (
           <div className="px-2 py-8">
-            <p className="mb-4 text-center text-sm text-muted-foreground">
-              Generate policy suggestions based on your application.
-            </p>
+            <p className="mb-4 text-center text-sm text-muted-foreground">{t`Generate policy suggestions based on your application.`}</p>
             <Button className="w-full" onClick={onGeneratePolicies} disabled={isGeneratingPolicies}>
               <Lightbulb className="mr-2 size-4" />
-              Generate Suggestions
+              {t`Generate Suggestions`}
             </Button>
           </div>
         )}
@@ -68,9 +67,7 @@ export const PolicySuggestionsSidebar: React.FC<PolicySuggestionsSidebarProps> =
         {isGeneratingPolicies && suggestedPolicies.length === 0 && (
           <div className="flex flex-col items-center gap-4 py-8">
             <Spinner className="size-8" />
-            <p className="text-center text-sm text-muted-foreground">
-              Analyzing your application to generate relevant policies...
-            </p>
+            <p className="text-center text-sm text-muted-foreground">{t`Analyzing your application to generate relevant policies...`}</p>
           </div>
         )}
 
@@ -104,7 +101,7 @@ export const PolicySuggestionsSidebar: React.FC<PolicySuggestionsSidebarProps> =
                           <ThumbsDown className="size-4" />
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Dismiss suggestion</TooltipContent>
+                      <TooltipContent>{t`Dismiss suggestion`}</TooltipContent>
                     </Tooltip>
                   </div>
                 </CardContent>

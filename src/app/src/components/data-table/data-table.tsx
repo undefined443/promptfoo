@@ -6,6 +6,7 @@ import { Skeleton } from '@app/components/ui/skeleton';
 import { Spinner } from '@app/components/ui/spinner';
 import { useIsPrinting } from '@app/hooks/useIsPrinting';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   flexRender,
   getCoreRowModel,
@@ -390,7 +391,7 @@ export function DataTable<TData, TValue = unknown>({
           checked={table.getIsAllRowsSelected()}
           indeterminate={table.getIsSomeRowsSelected()}
           onChange={table.getToggleAllRowsSelectedHandler()}
-          aria-label="Select all"
+          aria-label={t`Select all`}
         />
       ),
       cell: ({ row }) => (
@@ -398,7 +399,7 @@ export function DataTable<TData, TValue = unknown>({
           checked={row.getIsSelected()}
           disabled={!row.getCanSelect()}
           onChange={row.getToggleSelectedHandler()}
-          aria-label="Select row"
+          aria-label={t`Select row`}
         />
       ),
       size: 40,
@@ -425,7 +426,7 @@ export function DataTable<TData, TValue = unknown>({
               e.stopPropagation();
               row.toggleExpanded();
             }}
-            aria-label={row.getIsExpanded() ? 'Collapse row' : 'Expand row'}
+            aria-label={row.getIsExpanded() ? t`Collapse row` : t`Expand row`}
             aria-expanded={row.getIsExpanded()}
             className="flex items-center justify-center size-6 rounded hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
@@ -721,7 +722,7 @@ export function DataTable<TData, TValue = unknown>({
         )}
         <div className="flex flex-col items-center justify-center h-[400px] gap-3">
           <Spinner className="size-8" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">Loading data...</p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">{t`Loading data...`}</p>
         </div>
       </div>
     );
@@ -747,7 +748,7 @@ export function DataTable<TData, TValue = unknown>({
         )}
         <div className="flex flex-col items-center justify-center h-[400px] gap-3 rounded-xl bg-destructive/10 border border-destructive/20">
           <AlertTriangle className="size-12 text-destructive" />
-          <h3 className="text-lg font-semibold text-destructive">Error loading data</h3>
+          <h3 className="text-lg font-semibold text-destructive">{t`Error loading data`}</h3>
           <p className="text-sm text-muted-foreground max-w-md text-center">{error}</p>
         </div>
       </div>
@@ -777,7 +778,7 @@ export function DataTable<TData, TValue = unknown>({
         )}
         <div className="flex flex-col items-center justify-center h-[400px] gap-3 rounded-xl bg-zinc-100/50 dark:bg-zinc-800/50">
           <Search className="size-12 text-zinc-400 dark:text-zinc-500" />
-          <h3 className="text-lg font-semibold">No data found</h3>
+          <h3 className="text-lg font-semibold">{t`No data found`}</h3>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 max-w-md text-center">
             {emptyMessage}
           </p>
@@ -946,7 +947,7 @@ export function DataTable<TData, TValue = unknown>({
       <td colSpan={visibleColumnCount} className="h-[200px] text-center">
         <div className="flex flex-col items-center justify-center gap-2">
           <Search className="size-8 text-zinc-400 dark:text-zinc-500" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">No results match your search</p>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">{t`No results match your search`}</p>
         </div>
       </td>
     </tr>

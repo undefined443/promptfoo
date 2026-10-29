@@ -14,6 +14,7 @@ import {
 import { Spinner } from '@app/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@app/components/ui/tabs';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   AlertCircle,
   ArrowDownAZ,
@@ -49,18 +50,18 @@ interface MediaFiltersProps {
 }
 
 const typeOptions: { value: MediaTypeFilter; label: string; icon: typeof ImageIcon }[] = [
-  { value: 'all', label: 'All', icon: LayoutGrid },
-  { value: 'image', label: 'Images', icon: ImageIcon },
-  { value: 'video', label: 'Videos', icon: Video },
-  { value: 'audio', label: 'Audio', icon: Music },
-  { value: 'other', label: 'Other', icon: FileIcon },
+  { value: 'all', label: t`All`, icon: LayoutGrid },
+  { value: 'image', label: t`Images`, icon: ImageIcon },
+  { value: 'video', label: t`Videos`, icon: Video },
+  { value: 'audio', label: t`Audio`, icon: Music },
+  { value: 'other', label: t`Other`, icon: FileIcon },
 ];
 
 const sortOptions = [
-  { value: 'createdAt:desc', label: 'Newest first', field: 'createdAt', order: 'desc' },
-  { value: 'createdAt:asc', label: 'Oldest first', field: 'createdAt', order: 'asc' },
-  { value: 'sizeBytes:desc', label: 'Largest first', field: 'sizeBytes', order: 'desc' },
-  { value: 'sizeBytes:asc', label: 'Smallest first', field: 'sizeBytes', order: 'asc' },
+  { value: 'createdAt:desc', label: t`Newest first`, field: 'createdAt', order: 'desc' },
+  { value: 'createdAt:asc', label: t`Oldest first`, field: 'createdAt', order: 'asc' },
+  { value: 'sizeBytes:desc', label: t`Largest first`, field: 'sizeBytes', order: 'desc' },
+  { value: 'sizeBytes:asc', label: t`Smallest first`, field: 'sizeBytes', order: 'asc' },
 ] as const;
 
 export function MediaFilters({
@@ -159,7 +160,7 @@ export function MediaFilters({
                 !evalFilter && 'text-muted-foreground',
               )}
             >
-              <span className="truncate text-sm">{selectedEvalLabel || 'All Evaluations'}</span>
+              <span className="truncate text-sm">{selectedEvalLabel || t`All Evaluations`}</span>
               <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
@@ -167,7 +168,7 @@ export function MediaFilters({
             <div className="flex items-center border-b px-3 py-2">
               <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
               <Input
-                placeholder="Search evaluations..."
+                placeholder={t`Search evaluations...`}
                 value={evalSearchQuery}
                 onChange={(e) => onEvalSearchQueryChange(e.target.value)}
                 className="h-8 border-0 p-0 shadow-none focus-visible:ring-0"
@@ -186,7 +187,7 @@ export function MediaFilters({
             <div
               id="eval-filter-listbox"
               role="listbox"
-              aria-label="Evaluations"
+              aria-label={t`Evaluations`}
               className="max-h-[300px] overflow-y-auto p-1"
             >
               {/* All Evaluations option */}
@@ -206,24 +207,22 @@ export function MediaFilters({
                 }}
               >
                 <Check className={cn('mr-2 h-4 w-4', evalFilter ? 'opacity-0' : 'opacity-100')} />
-                <span>All Evaluations</span>
+                <span>{t`All Evaluations`}</span>
               </button>
 
               {/* Filtered eval options */}
               {evalsLoading ? (
                 <div className="flex items-center justify-center gap-2 py-6 text-sm text-muted-foreground">
                   <Spinner className="h-4 w-4" />
-                  Loading evaluations...
+                  {t`Loading evaluations...`}
                 </div>
               ) : evalsError ? (
                 <div className="flex items-center justify-center gap-2 py-6 text-sm text-destructive">
                   <AlertCircle className="h-4 w-4" />
-                  Failed to load evaluations
+                  {t`Failed to load evaluations`}
                 </div>
               ) : evals.length === 0 ? (
-                <div className="py-6 text-center text-sm text-muted-foreground">
-                  No evaluations found
-                </div>
+                <div className="py-6 text-center text-sm text-muted-foreground">{t`No evaluations found`}</div>
               ) : (
                 evals.map((e) => (
                   <button
@@ -255,8 +254,8 @@ export function MediaFilters({
               {evalsTruncated && !evalsLoading && !evalsError && (
                 <div className="border-t px-2 py-1.5 text-xs text-muted-foreground">
                   {evalSearchQuery
-                    ? `Showing first ${evals.length} matches`
-                    : `Showing first ${evals.length} evaluations — type to search all`}
+                    ? t`Showing first ${evals.length} matches`
+                    : t`Showing first ${evals.length} evaluations — type to search all`}
                 </div>
               )}
             </div>

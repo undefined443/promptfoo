@@ -4,6 +4,7 @@ import { Badge } from '@app/components/ui/badge';
 import { Card, CardContent } from '@app/components/ui/card';
 import { cn } from '@app/lib/utils';
 import { isValidUrl } from '@app/utils/isValidUrl';
+import { t } from '@lingui/core/macro';
 import { Check, ClipboardCopy, File, Globe, Link } from 'lucide-react';
 import { ellipsize } from '../../../../../util/text';
 
@@ -189,7 +190,7 @@ export default function Citations({
   return (
     <div className="my-6">
       <h3 className="text-base font-medium mb-4 flex items-center">
-        Citations
+        {t`Citations`}
         <span className="ml-2 text-sm text-muted-foreground">({processedCitations.length})</span>
       </h3>
 

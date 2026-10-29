@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Check, Copy } from 'lucide-react';
 
 interface CopyButtonProps extends Omit<React.ComponentProps<'button'>, 'value'> {
@@ -54,7 +55,7 @@ export function CopyButton({
         'p-1 rounded hover:bg-black/10 dark:hover:bg-white/10 transition-colors cursor-pointer',
         className,
       )}
-      aria-label={copied ? 'Copied' : 'Copy'}
+      aria-label={copied ? t`Copied` : t`Copy`}
       {...props}
     >
       {copied ? (

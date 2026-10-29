@@ -9,6 +9,7 @@ import {
 import { CopyButton } from '@app/components/ui/copy-button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@app/components/ui/dialog';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { ChevronDown } from 'lucide-react';
 import type { GradingResult, ResultSuggestion } from '@promptfoo/types';
 
@@ -74,11 +75,8 @@ export default function SuggestionsDialog({
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Defending Against Indirect Prompt Injection Attacks With Spotlighting"
-          </a>
-          . Spotlighting helps improve LLMs' ability to distinguish between multiple sources of
-          input.
+          >{t`"Defending Against Indirect Prompt Injection Attacks With Spotlighting"`}</a>
+          {t`. Spotlighting helps improve LLMs' ability to distinguish between multiple sources of input.`}
         </p>
       );
     }
@@ -92,127 +90,97 @@ export default function SuggestionsDialog({
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Defending Against Indirect Prompt Injection Attacks With Spotlighting"
-          </a>
-          . Encoding helps improve LLMs' ability to distinguish between multiple sources of input.
+          >{t`"Defending Against Indirect Prompt Injection Attacks With Spotlighting"`}</a>
+          {t`. Encoding helps improve LLMs' ability to distinguish between multiple sources of input.`}
         </p>
       );
     }
     if (type === 'constitutional-politics') {
       return (
         <p className="mb-4 text-sm text-muted-foreground">
-          This suggestion adds a policy statement to the system prompt instructing the assistant to
-          avoid expressing political opinions or making political statements. This approach is based
-          on strategies from research on{' '}
+          {t`This suggestion adds a policy statement to the system prompt instructing the assistant to avoid expressing political opinions or making political statements. This approach is based on strategies from research on`}{' '}
           <a
             href="https://arxiv.org/abs/2212.08073"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Constitutional AI"
-          </a>
-          , which involves embedding policies directly into prompts to guide assistant behavior.
+          >{t`"Constitutional AI"`}</a>
+          {t`, which involves embedding policies directly into prompts to guide assistant behavior.`}
         </p>
       );
     }
     if (type === 'access-control') {
       return (
-        <p className="mb-4 text-sm text-muted-foreground">
-          This issue requires enforcing proper access control at the API or application logic layer.
-          Prompt modifications alone cannot mitigate Broken Function Level Authorization (BFLA)
-          vulnerabilities.
-        </p>
+        <p className="mb-4 text-sm text-muted-foreground">{t`This issue requires enforcing proper access control at the API or application logic layer. Prompt modifications alone cannot mitigate Broken Function Level Authorization (BFLA) vulnerabilities.`}</p>
       );
     }
     if (type === 'constitutional-imitation') {
       return (
         <p className="mb-4 text-sm text-muted-foreground">
-          This suggestion adds a policy statement to the system prompt instructing the assistant to
-          avoid imitating or impersonating entities while still allowing factual information. This
-          approach is based on strategies from research on{' '}
+          {t`This suggestion adds a policy statement to the system prompt instructing the assistant to avoid imitating or impersonating entities while still allowing factual information. This approach is based on strategies from research on`}{' '}
           <a
             href="https://arxiv.org/abs/2212.08073"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Constitutional AI"
-          </a>
-          , which involves embedding policies directly into prompts to guide assistant behavior.
+          >{t`"Constitutional AI"`}</a>
+          {t`, which involves embedding policies directly into prompts to guide assistant behavior.`}
         </p>
       );
     }
     if (type === 'constitutional-competition') {
       return (
         <p className="mb-4 text-sm text-muted-foreground">
-          This suggestion adds a policy statement to the system prompt providing guidelines for
-          discussing competitors based on Constitutional AI principles. The policy enforces either
-          neutral, factual discussion or complete avoidance of competitor mentions, depending on
-          configuration. This approach is based on research on{' '}
+          {t`This suggestion adds a policy statement to the system prompt providing guidelines for discussing competitors based on Constitutional AI principles. The policy enforces either neutral, factual discussion or complete avoidance of competitor mentions, depending on configuration. This approach is based on research on`}{' '}
           <a
             href="https://arxiv.org/abs/2212.08073"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Constitutional AI"
-          </a>
-          , which involves embedding policies directly into prompts to guide assistant behavior.
+          >{t`"Constitutional AI"`}</a>
+          {t`, which involves embedding policies directly into prompts to guide assistant behavior.`}
         </p>
       );
     }
     if (type === 'constitutional-delegation') {
       return (
         <p className="mb-4 text-sm text-muted-foreground">
-          This suggestion adds clear role boundaries and delegation requirements to prevent the
-          assistant from making unauthorized commitments or agreements. This approach combines{' '}
+          {t`This suggestion adds clear role boundaries and delegation requirements to prevent the assistant from making unauthorized commitments or agreements. This approach combines`}{' '}
           <a
             href="https://arxiv.org/abs/2212.08073"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Constitutional AI"
-          </a>{' '}
-          principles with explicit delegation rules.
+          >{t`"Constitutional AI"`}</a>{' '}
+          {t`principles with explicit delegation rules.`}
         </p>
       );
     }
     if (type === 'structured-validation') {
       return (
         <p className="mb-4 text-sm text-muted-foreground">
-          This suggestion implements a structured validation framework based on the
-          Chain-of-Verification approach described in{' '}
+          {t`This suggestion implements a structured validation framework based on the Chain-of-Verification approach described in`}{' '}
           <a
             href="https://arxiv.org/abs/2306.00024"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Self-Verification Improves Few-Shot Clinical Reasoning"
-          </a>
-          . This methodology helps prevent overreliance on incorrect assumptions while maintaining
-          helpful interactions through systematic verification steps.
+          >{t`"Self-Verification Improves Few-Shot Clinical Reasoning"`}</a>
+          {t`. This methodology helps prevent overreliance on incorrect assumptions while maintaining helpful interactions through systematic verification steps.`}
         </p>
       );
     }
     if (type === 'constitutional-religion') {
       return (
         <p className="mb-4 text-sm text-muted-foreground">
-          This suggestion adds guidelines for maintaining strict neutrality based on the Principle
-          of Neutrality described in{' '}
+          {t`This suggestion adds guidelines for maintaining strict neutrality based on the Principle of Neutrality described in`}{' '}
           <a
             href="https://arxiv.org/abs/2310.07521"
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary hover:underline"
-          >
-            "Constitutional AI: A Survey on Constitutional AI"
-          </a>
-          . It ensures factual, balanced information while avoiding theological interpretations
-          through academically-grounded principles.
+          >{t`"Constitutional AI: A Survey on Constitutional AI"`}</a>
+          {t`. It ensures factual, balanced information while avoiding theological interpretations through academically-grounded principles.`}
         </p>
       );
     }
@@ -223,7 +191,7 @@ export default function SuggestionsDialog({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
-          <DialogTitle className="text-xl">Suggestions</DialogTitle>
+          <DialogTitle className="text-xl">{t`Suggestions`}</DialogTitle>
         </DialogHeader>
 
         <div className="max-h-[60vh] space-y-4 overflow-y-auto p-1">
@@ -244,7 +212,7 @@ export default function SuggestionsDialog({
                     >
                       <CollapsibleTrigger asChild>
                         <button className="flex w-full items-center justify-between px-1 py-2 text-sm hover:bg-muted/50">
-                          <span>View suggested prompt</span>
+                          <span>{t`View suggested prompt`}</span>
                           <ChevronDown
                             className={cn(
                               'size-4 transition-transform',

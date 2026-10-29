@@ -20,6 +20,7 @@ import { EVAL_ROUTES, ROUTES } from '@app/constants/routes';
 import { useToast } from '@app/hooks/useToast';
 import { useStore as useMainStore } from '@app/stores/evalConfig';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { displayNameOverrides } from '@promptfoo/redteam/constants/metadata';
 import { formatPolicyIdentifierAsMetric } from '@promptfoo/redteam/plugins/policy/utils';
 import invariant from '@promptfoo/util/invariant';
@@ -195,7 +196,7 @@ export function ResultsChartsSection({
   const toggleButton = (
     <Button variant="ghost" size="sm" onClick={() => setRenderResultsCharts((prev) => !prev)}>
       <BarChart className="size-4 mr-2" />
-      {renderResultsCharts ? 'Hide Charts' : 'Show Charts'}
+      {renderResultsCharts ? t`Hide Charts` : t`Show Charts`}
     </Button>
   );
 
@@ -219,12 +220,9 @@ export function ResultsChartsSection({
             <Alert variant="info" className="mt-4 items-start">
               <BarChart className="size-4 mt-0.5" />
               <AlertContent>
-                <AlertTitle>Charts are unavailable for this evaluation</AlertTitle>
+                <AlertTitle>{t`Charts are unavailable for this evaluation`}</AlertTitle>
                 <AlertDescription className="space-y-3">
-                  <p>
-                    We can show charts when the results include comparable prompts and chartable
-                    scores.
-                  </p>
+                  <p>{t`We can show charts when the results include comparable prompts and chartable scores.`}</p>
                   <ul className="list-disc pl-5 space-y-1">
                     {resultsChartsUnavailableReasons.map((reason) => (
                       <li key={reason}>{reason}</li>
@@ -457,7 +455,7 @@ export default function ResultsView({
 
   const columnData = React.useMemo(() => {
     return [
-      ...(hasAnyDescriptions ? [{ value: 'description', label: 'Description' }] : []),
+      ...(hasAnyDescriptions ? [{ value: 'description', label: t`Description` }] : []),
       ...head.vars.map((_, idx) => ({
         value: `Variable ${idx + 1}`,
         label: `Var ${idx + 1}: ${
@@ -678,7 +676,7 @@ export default function ResultsView({
 
   const handleDeleteEvalClick = () => {
     if (!evalId) {
-      showToast('Cannot delete: Eval ID not found', 'error');
+      showToast(t`Cannot delete: Eval ID not found`, 'error');
       return;
     }
 
@@ -702,7 +700,7 @@ export default function ResultsView({
         throw new Error(data.error || 'Failed to delete eval');
       }
 
-      showToast('Eval deleted', 'success');
+      showToast(t`Eval deleted`, 'success');
 
       // Navigate to next eval or home
       const nextEvalId = getNextEvalAfterDelete();
@@ -774,7 +772,7 @@ export default function ResultsView({
     <>
       <DropdownMenuItem onClick={() => setEditNameDialogOpen(true)}>
         <Edit className="size-4 mr-2" />
-        Edit name
+        {t`Edit name`}
       </DropdownMenuItem>
       <DropdownMenuItem
         disabled={!config}
@@ -787,25 +785,25 @@ export default function ResultsView({
         }}
       >
         <Play className="size-4 mr-2" />
-        Edit and re-run
+        {t`Edit and re-run`}
       </DropdownMenuItem>
       <CompareEvalMenuItem onClick={() => setCompareDialogOpen(true)} />
       <DropdownMenuItem onClick={() => setConfigModalOpen(true)}>
         <Eye className="size-4 mr-2" />
-        View YAML
+        {t`View YAML`}
       </DropdownMenuItem>
       <DownloadMenuItem onClick={() => setDownloadDialogOpen(true)} />
       <DropdownMenuItem onClick={() => setCopyDialogOpen(true)}>
         <Copy className="size-4 mr-2" />
-        Copy
+        {t`Copy`}
       </DropdownMenuItem>
       <DropdownMenuItem onClick={handleShareButtonClick} disabled={shareLoading}>
         {shareLoading ? <Spinner className="size-4 mr-2" /> : <Share className="size-4 mr-2" />}
-        Share
+        {t`Share`}
       </DropdownMenuItem>
       <DropdownMenuItem onClick={handleDeleteEvalClick} className="text-destructive">
         <Trash2 className="size-4 mr-2" />
-        Delete
+        {t`Delete`}
       </DropdownMenuItem>
     </>
   );
@@ -842,6 +840,7 @@ export default function ResultsView({
                 <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-border/50">
                   <div className="flex flex-wrap gap-2 items-center">
                     <SearchInput
+                      placeholder={t`Search...`}
                       value={searchInputValue}
                       onChange={(value) => {
                         setSearchInputValue(value);
@@ -866,15 +865,15 @@ export default function ResultsView({
                           onClick={() => setViewSettingsModalOpen(true)}
                         >
                           <Settings className="size-4 mr-2" />
-                          Table Settings
+                          {t`Table Settings`}
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>Edit table view settings</TooltipContent>
+                      <TooltipContent>{t`Edit table view settings`}</TooltipContent>
                     </Tooltip>
                     {chartsToggleButton}
                   </div>
                   <div className="flex flex-wrap gap-2 items-center">
-                    <span className="sr-only">Display:</span>
+                    <span className="sr-only">{t`Display:`}</span>
                     <FilterModeSelector
                       filterMode={filterMode}
                       onChange={handleFilterModeChange}
@@ -888,7 +887,7 @@ export default function ResultsView({
                     )}
                     {debouncedSearchText && (
                       <Badge variant="secondary" className="text-xs h-5 gap-1">
-                        Search:{' '}
+                        {t`Search:`}{' '}
                         {debouncedSearchText.length > MAX_SEARCH_BADGE_LENGTH
                           ? debouncedSearchText.substring(0, MAX_SEARCH_BADGE_LENGTH) + '...'
                           : debouncedSearchText}
@@ -903,7 +902,7 @@ export default function ResultsView({
                     )}
                     {filterMode !== 'all' && (
                       <Badge variant="secondary" className="text-xs h-5 gap-1">
-                        Filter: {filterMode}
+                        {t`Filter:`} {filterMode}
                         <button
                           type="button"
                           onClick={() => setFilterMode('all')}
@@ -938,7 +937,7 @@ export default function ResultsView({
                         </TooltipTrigger>
                         <TooltipContent>
                           {userRatedResultsCount} output{userRatedResultsCount === 1 ? '' : 's'}{' '}
-                          with user ratings. Click to filter.
+                          {t`with user ratings. Click to filter.`}
                         </TooltipContent>
                       </Tooltip>
                     )}
@@ -978,7 +977,7 @@ export default function ResultsView({
             fallback={
               <div className="flex flex-col gap-3 justify-center items-center h-36">
                 <Spinner className="size-5" />
-                <span className="text-sm text-muted-foreground">Loading report...</span>
+                <span className="text-sm text-muted-foreground">{t`Loading report...`}</span>
               </div>
             }
           >
@@ -997,7 +996,7 @@ export default function ResultsView({
         open={compareDialogOpen}
         onClose={() => setCompareDialogOpen(false)}
         onEvalSelected={handleComparisonEvalSelected}
-        description="Only evals with the same dataset can be compared."
+        description={t`Only evals with the same dataset can be compared.`}
         focusedEvalId={currentEvalId}
         filterByDatasetId
         focusedDatasetId={currentDatasetId}
@@ -1012,19 +1011,19 @@ export default function ResultsView({
       <ConfirmEvalNameDialog
         open={editNameDialogOpen}
         onClose={() => setEditNameDialogOpen(false)}
-        title="Edit Eval Name"
-        label="Description"
+        title={t`Edit Eval Name`}
+        label={t`Description`}
         currentName={config?.description || ''}
-        actionButtonText="Save"
+        actionButtonText={t`Save`}
         onConfirm={handleSaveEvalName}
       />
       <ConfirmEvalNameDialog
         open={copyDialogOpen}
         onClose={() => setCopyDialogOpen(false)}
-        title="Copy Evaluation"
-        label="Description"
+        title={t`Copy Evaluation`}
+        label={t`Description`}
         currentName={`${config?.description || 'Evaluation'} (Copy)`}
-        actionButtonText="Create Copy"
+        actionButtonText={t`Create Copy`}
         onConfirm={handleCopyEval}
         showSizeWarning={totalResultsCount > 10000}
         itemCount={totalResultsCount}
@@ -1040,18 +1039,18 @@ export default function ResultsView({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Trash2 className="size-5 text-destructive" />
-              Delete eval?
+              {t`Delete eval?`}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <Alert variant="warning">
               <AlertContent>
-                <AlertDescription>This action cannot be undone.</AlertDescription>
+                <AlertDescription>{t`This action cannot be undone.`}</AlertDescription>
               </AlertContent>
             </Alert>
-            <p className="text-sm text-muted-foreground">You are about to permanently delete:</p>
+            <p className="text-sm text-muted-foreground">{t`You are about to permanently delete:`}</p>
             <div className="mt-2 p-3 bg-muted/50 rounded-md border border-border">
-              <p className="font-medium">{config?.description || evalId || 'Unnamed eval'}</p>
+              <p className="font-medium">{config?.description || evalId || t`Unnamed eval`}</p>
               <div className="flex gap-2 mt-1 text-sm text-muted-foreground">
                 <span>
                   {totalResultsCount.toLocaleString()} result{totalResultsCount === 1 ? '' : 's'}
@@ -1069,18 +1068,18 @@ export default function ResultsView({
               onClick={() => setDeleteDialogOpen(false)}
               disabled={isDeleting}
             >
-              Cancel
+              {t`Cancel`}
             </Button>
             <Button variant="destructive" onClick={handleConfirmDelete} disabled={isDeleting}>
               {isDeleting ? (
                 <>
                   <Spinner className="size-4 mr-2" />
-                  Deleting...
+                  {t`Deleting...`}
                 </>
               ) : (
                 <>
                   <Trash2 className="size-4 mr-2" />
-                  Delete
+                  {t`Delete`}
                 </>
               )}
             </Button>

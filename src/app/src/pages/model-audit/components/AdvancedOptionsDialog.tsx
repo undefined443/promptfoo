@@ -18,6 +18,7 @@ import { Label } from '@app/components/ui/label';
 import { NumberInput } from '@app/components/ui/number-input';
 import { Spinner } from '@app/components/ui/spinner';
 import { Switch } from '@app/components/ui/switch';
+import { t } from '@lingui/core/macro';
 import { DEFAULT_SCAN_OPTIONS } from '../stores';
 
 import type { ScannerCatalogEntry, ScanOptions } from '../ModelAudit.types';
@@ -116,8 +117,8 @@ export default function AdvancedOptionsDialog({
     <Dialog open={open} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="flex max-h-[90vh] max-w-2xl flex-col overflow-hidden">
         <DialogHeader>
-          <DialogTitle>Advanced Scan Options</DialogTitle>
-          <DialogDescription>Configure additional options for your security scan</DialogDescription>
+          <DialogTitle>{t`Advanced Scan Options`}</DialogTitle>
+          <DialogDescription>{t`Configure additional options for your security scan`}</DialogDescription>
         </DialogHeader>
 
         <div
@@ -127,15 +128,13 @@ export default function AdvancedOptionsDialog({
           {/* Blacklist Patterns */}
           <div className="space-y-3">
             <div>
-              <h3 className="text-sm font-semibold">Blacklist Patterns</h3>
-              <p className="text-sm text-muted-foreground mt-1">
-                Add patterns for disallowed model names (regex supported)
-              </p>
+              <h3 className="text-sm font-semibold">{t`Blacklist Patterns`}</h3>
+              <p className="text-sm text-muted-foreground mt-1">{t`Add patterns for disallowed model names (regex supported)`}</p>
             </div>
             <div className="flex gap-2">
               <Input
-                aria-label="Add pattern"
-                placeholder="Add pattern"
+                aria-label={t`Add pattern`}
+                placeholder={t`Add pattern`}
                 value={blacklistInput}
                 onChange={(e) => setBlacklistInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleAddBlacklist()}
@@ -147,7 +146,7 @@ export default function AdvancedOptionsDialog({
                 disabled={!blacklistInput.trim()}
                 variant="secondary"
               >
-                Add
+                {t`Add`}
               </Button>
             </div>
             {localOptions.blacklist.length > 0 && (
@@ -172,7 +171,7 @@ export default function AdvancedOptionsDialog({
           {/* Timeout */}
           <div className="space-y-3">
             <div>
-              <h3 className="text-sm font-semibold">Scan Timeout</h3>
+              <h3 className="text-sm font-semibold">{t`Scan Timeout`}</h3>
             </div>
             <NumberInput
               fullWidth
@@ -198,10 +197,10 @@ export default function AdvancedOptionsDialog({
           {/* Max Size */}
           <div className="space-y-3">
             <div>
-              <h3 className="text-sm font-semibold">Maximum Size Limit</h3>
+              <h3 className="text-sm font-semibold">{t`Maximum Size Limit`}</h3>
             </div>
             <Input
-              placeholder="e.g., 1GB, 500MB"
+              placeholder={t`e.g., 1GB, 500MB`}
               value={localOptions.maxSize || ''}
               onChange={(e) =>
                 setLocalOptions({
@@ -211,8 +210,8 @@ export default function AdvancedOptionsDialog({
               }
             />
             <HelperText>
-              Format examples: <strong>500MB</strong>, <strong>2GB</strong>, <strong>1.5TB</strong>,{' '}
-              <strong>100KB</strong>
+              {t`Format examples:`} <strong>{t`500MB`}</strong>, <strong>{t`2GB`}</strong>,{' '}
+              <strong>{t`1.5TB`}</strong>, <strong>{t`100KB`}</strong>
             </HelperText>
           </div>
 
@@ -224,22 +223,21 @@ export default function AdvancedOptionsDialog({
               onCheckedChange={(checked) => setLocalOptions({ ...localOptions, strict: checked })}
             />
             <div className="space-y-1 leading-none">
-              <Label htmlFor="strict-mode" className="text-sm font-semibold cursor-pointer">
-                Strict Mode
-              </Label>
-              <p className="text-sm text-muted-foreground">
-                Fail on warnings, scan all file types, strict license validation
-              </p>
+              <Label
+                htmlFor="strict-mode"
+                className="text-sm font-semibold cursor-pointer"
+              >{t`Strict Mode`}</Label>
+              <p className="text-sm text-muted-foreground">{t`Fail on warnings, scan all file types, strict license validation`}</p>
             </div>
           </div>
 
           <div className="space-y-3">
             <div>
-              <h3 className="text-sm font-semibold">Scanner Selection</h3>
+              <h3 className="text-sm font-semibold">{t`Scanner Selection`}</h3>
             </div>
             <Input
-              aria-label="Filter scanners"
-              placeholder="Filter scanners"
+              aria-label={t`Filter scanners`}
+              placeholder={t`Filter scanners`}
               value={scannerFilter}
               onChange={(e) => setScannerFilter(e.target.value)}
             />
@@ -247,7 +245,7 @@ export default function AdvancedOptionsDialog({
             {isLoadingScanners && (
               <div className="flex items-center gap-2 rounded-lg border border-border p-4 text-sm text-muted-foreground">
                 <Spinner size="sm" />
-                Loading scanners...
+                {t`Loading scanners...`}
               </div>
             )}
 
@@ -258,9 +256,9 @@ export default function AdvancedOptionsDialog({
             {!isLoadingScanners && !scannerCatalogError && scannerCatalog.length > 0 && (
               <div className="overflow-hidden rounded-lg border border-border">
                 <div className="grid grid-cols-[minmax(0,1fr)_6rem_6rem] border-b border-border bg-muted/40 px-3 py-2 text-xs font-medium text-muted-foreground">
-                  <span>Scanner</span>
-                  <span className="text-center">Only</span>
-                  <span className="text-center">Exclude</span>
+                  <span>{t`Scanner`}</span>
+                  <span className="text-center">{t`Only`}</span>
+                  <span className="text-center">{t`Exclude`}</span>
                 </div>
                 <div className="max-h-72 overflow-y-auto">
                   {filteredScanners.map((scanner) => (
@@ -295,9 +293,7 @@ export default function AdvancedOptionsDialog({
                     </div>
                   ))}
                   {filteredScanners.length === 0 && (
-                    <div className="px-3 py-4 text-sm text-muted-foreground">
-                      No scanners match this filter.
-                    </div>
+                    <div className="px-3 py-4 text-sm text-muted-foreground">{t`No scanners match this filter.`}</div>
                   )}
                 </div>
               </div>
@@ -307,9 +303,9 @@ export default function AdvancedOptionsDialog({
 
         <DialogFooter data-testid="advanced-options-dialog-footer" className="shrink-0">
           <Button onClick={onClose} variant="outline">
-            Cancel
+            {t`Cancel`}
           </Button>
-          <Button onClick={handleSave}>Save Options</Button>
+          <Button onClick={handleSave}>{t`Save Options`}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

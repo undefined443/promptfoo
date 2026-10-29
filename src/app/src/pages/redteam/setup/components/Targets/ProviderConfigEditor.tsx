@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Alert, AlertContent, AlertDescription } from '@app/components/ui/alert';
+import { t } from '@lingui/core/macro';
 import deepEqual from 'fast-deep-equal';
 import { AlertTriangle } from 'lucide-react';
 import { useRedTeamConfig } from '../../hooks/useRedTeamConfig';
@@ -263,16 +264,17 @@ function ProviderConfigEditor({
       } else if (!updatedTarget.config.request) {
         setBodyError(
           <>
-            Request body must contain <code>{'{{prompt}}'}</code> - this is where promptfoo will
-            inject the attack payload. Replace the user input value with <code>{'{{prompt}}'}</code>
-            . Promptfoo uses Nunjucks templating to replace <code>{'{{prompt}}'}</code> with the
-            actual test content.{' '}
+            {t`Request body must contain`} <code>{'{{prompt}}'}</code>{' '}
+            {t`- this is where promptfoo will inject the attack payload. Replace the user input value with`}{' '}
+            <code>{'{{prompt}}'}</code>
+            {t`. Promptfoo uses Nunjucks templating to replace`} <code>{'{{prompt}}'}</code>{' '}
+            {t`with the actual test content.`}{' '}
             <a
               href="https://www.promptfoo.dev/docs/configuration/guide/#using-nunjucks-templates"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Learn more
+              {t`Learn more`}
             </a>
           </>,
         );
@@ -702,17 +704,15 @@ function ProviderConfigEditor({
           <AlertTriangle className="size-4" />
           <AlertContent>
             <AlertDescription>
-              GitHub retired GitHub Models, including its inference API, on July 30, 2026, so{' '}
-              <code>github:</code> targets no longer run. Pick another provider and configure its
-              own endpoint and credentials — see the{' '}
+              {t`GitHub retired GitHub Models, including its inference API, on July 30, 2026, so`}{' '}
+              <code>github:</code>{' '}
+              {t`targets no longer run. Pick another provider and configure its own endpoint and credentials — see the`}{' '}
               <a
                 href="https://www.promptfoo.dev/docs/providers/github"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-primary hover:underline"
-              >
-                GitHub Models documentation
-              </a>
+              >{t`GitHub Models documentation`}</a>
               .
             </AlertDescription>
           </AlertContent>

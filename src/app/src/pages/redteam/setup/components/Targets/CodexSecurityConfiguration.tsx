@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Alert, AlertContent, AlertDescription } from '@app/components/ui/alert';
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
+import { t } from '@lingui/core/macro';
 import { Info } from 'lucide-react';
 
 import type { ProviderOptions } from '../../types';
@@ -169,11 +170,11 @@ export default function CodexSecurityConfiguration({
         <Info className="size-4" />
         <AlertContent>
           <AlertDescription>
-            <p className="font-semibold">Codex Security SDK</p>
+            <p className="font-semibold">{t`Codex Security SDK`}</p>
             <p className="mt-1">
-              Compare repository scans, finding validation, model reasoning, and estimated cost.
-              Install <code>promptfoo</code> and <code>@openai/codex-security@^0.2.0</code>{' '}
-              together, then use an existing Codex login or OpenAI API key.
+              {t`Compare repository scans, finding validation, model reasoning, and estimated cost. Install`}{' '}
+              <code>promptfoo</code> and <code>@openai/codex-security@^0.2.0</code>{' '}
+              {t`together, then use an existing Codex login or OpenAI API key.`}
             </p>
           </AlertDescription>
         </AlertContent>
@@ -181,7 +182,7 @@ export default function CodexSecurityConfiguration({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor="codex-security-operation">Security operation</Label>
+          <Label htmlFor="codex-security-operation">{t`Security operation`}</Label>
           <select
             id="codex-security-operation"
             className={SELECT_CLASS_NAME}
@@ -189,9 +190,7 @@ export default function CodexSecurityConfiguration({
             onChange={(event) => updateOperation(event.target.value)}
           >
             {operation === '' && (
-              <option value="" disabled>
-                Unsupported security operation
-              </option>
+              <option value="" disabled>{t`Unsupported security operation`}</option>
             )}
             {CODEX_SECURITY_OPERATION_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -202,7 +201,7 @@ export default function CodexSecurityConfiguration({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="codex-security-model">Model</Label>
+          <Label htmlFor="codex-security-model">{t`Model`}</Label>
           <Input
             id="codex-security-model"
             value={model}
@@ -219,7 +218,7 @@ export default function CodexSecurityConfiguration({
 
         <div className="space-y-2 sm:col-span-2">
           <Label htmlFor="codex-security-repository">
-            Repository path <span className="text-destructive">*</span>
+            {t`Repository path`} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="codex-security-repository"
@@ -229,28 +228,24 @@ export default function CodexSecurityConfiguration({
               updateCanonicalSetting('repository', 'working_dir', event.target.value)
             }
           />
-          <p className="text-sm text-muted-foreground">
-            Use the same authorized repository for every model or scan-depth comparison.
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Use the same authorized repository for every model or scan-depth comparison.`}</p>
         </div>
 
         {isRepositoryScan && (
           <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="codex-security-paths">Scoped paths</Label>
+            <Label htmlFor="codex-security-paths">{t`Scoped paths`}</Label>
             <Input
               id="codex-security-paths"
               value={scopedPaths}
-              placeholder="src/auth, src/api"
+              placeholder={t`src/auth, src/api`}
               onChange={(event) => updateScopedPaths(event.target.value)}
             />
-            <p className="text-sm text-muted-foreground">
-              Optional comma-separated repository paths. Leave blank to scan the entire repository.
-            </p>
+            <p className="text-sm text-muted-foreground">{t`Optional comma-separated repository paths. Leave blank to scan the entire repository.`}</p>
           </div>
         )}
 
         <div className="space-y-2">
-          <Label htmlFor="codex-security-reasoning">Reasoning effort</Label>
+          <Label htmlFor="codex-security-reasoning">{t`Reasoning effort`}</Label>
           <select
             id="codex-security-reasoning"
             className={SELECT_CLASS_NAME}
@@ -264,9 +259,7 @@ export default function CodexSecurityConfiguration({
             }
           >
             {reasoning === '' && (
-              <option value="" disabled>
-                Unsupported reasoning effort
-              </option>
+              <option value="" disabled>{t`Unsupported reasoning effort`}</option>
             )}
             {CODEX_SECURITY_REASONING_OPTIONS.map((effort) => (
               <option key={effort} value={effort}>
@@ -277,7 +270,7 @@ export default function CodexSecurityConfiguration({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="codex-security-auth">Authentication</Label>
+          <Label htmlFor="codex-security-auth">{t`Authentication`}</Label>
           <select
             id="codex-security-auth"
             className={SELECT_CLASS_NAME}
@@ -285,9 +278,7 @@ export default function CodexSecurityConfiguration({
             onChange={(event) => updateCustomTarget('auth', event.target.value)}
           >
             {auth === '' && (
-              <option value="" disabled>
-                Unsupported authentication method
-              </option>
+              <option value="" disabled>{t`Unsupported authentication method`}</option>
             )}
             {CODEX_SECURITY_AUTH_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -299,7 +290,7 @@ export default function CodexSecurityConfiguration({
 
         {isScan && (
           <div className="space-y-2">
-            <Label htmlFor="codex-security-max-cost">Maximum cost (USD)</Label>
+            <Label htmlFor="codex-security-max-cost">{t`Maximum cost (USD)`}</Label>
             <Input
               id="codex-security-max-cost"
               type="number"
@@ -321,11 +312,11 @@ export default function CodexSecurityConfiguration({
                 checked={config.working_tree === true}
                 onChange={(event) => updateWorkingTree(event.target.checked)}
               />
-              <span>Scan uncommitted working-tree changes.</span>
+              <span>{t`Scan uncommitted working-tree changes.`}</span>
             </label>
 
             <div className="space-y-2">
-              <Label htmlFor="codex-security-base-ref">Base Git reference</Label>
+              <Label htmlFor="codex-security-base-ref">{t`Base Git reference`}</Label>
               <Input
                 id="codex-security-base-ref"
                 value={typeof config.base_ref === 'string' ? config.base_ref : ''}
@@ -336,7 +327,7 @@ export default function CodexSecurityConfiguration({
 
             {!config.working_tree && (
               <div className="space-y-2">
-                <Label htmlFor="codex-security-head-ref">Head Git reference</Label>
+                <Label htmlFor="codex-security-head-ref">{t`Head Git reference`}</Label>
                 <Input
                   id="codex-security-head-ref"
                   value={typeof config.head_ref === 'string' ? config.head_ref : ''}
@@ -350,11 +341,11 @@ export default function CodexSecurityConfiguration({
 
         {isFindingOperation && (
           <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor="codex-security-finding-file">Finding file</Label>
+            <Label htmlFor="codex-security-finding-file">{t`Finding file`}</Label>
             <Input
               id="codex-security-finding-file"
               value={typeof config.finding_file === 'string' ? config.finding_file : ''}
-              placeholder="Optional; otherwise the evaluation prompt supplies the finding"
+              placeholder={t`Optional; otherwise the evaluation prompt supplies the finding`}
               onChange={(event) => updateOptionalString('finding_file', event.target.value)}
             />
           </div>
@@ -362,7 +353,7 @@ export default function CodexSecurityConfiguration({
       </div>
 
       <p className="text-sm text-muted-foreground">
-        Provider ID: <code>{selectedTarget.id}</code>
+        {t`Provider ID:`} <code>{selectedTarget.id}</code>
       </p>
     </div>
   );

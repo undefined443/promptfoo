@@ -9,6 +9,7 @@ import { Switch } from '@app/components/ui/switch';
 import { Textarea } from '@app/components/ui/textarea';
 import { highlightJS } from '@app/lib/codeHighlight';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import dedent from 'dedent';
 import {
   DEFAULT_WEBSOCKET_STREAM_RESPONSE,
@@ -76,10 +77,10 @@ const WebSocketEndpointConfiguration = ({
   }, [formattedProtocols]);
   return (
     <div className="mt-4">
-      <h3 className="mb-4 text-lg font-semibold">Custom WebSocket Endpoint Configuration</h3>
+      <h3 className="mb-4 text-lg font-semibold">{t`Custom WebSocket Endpoint Configuration`}</h3>
       <div className="rounded-lg border border-border p-4">
         <div className="space-y-2">
-          <Label htmlFor="websocket-url">WebSocket URL</Label>
+          <Label htmlFor="websocket-url">{t`WebSocket URL`}</Label>
           <Input
             id="websocket-url"
             value={urlInput}
@@ -100,7 +101,7 @@ const WebSocketEndpointConfiguration = ({
         </div>
 
         <div className="mt-4 space-y-2">
-          <Label htmlFor="message-template">Message Template</Label>
+          <Label htmlFor="message-template">{t`Message Template`}</Label>
           <Textarea
             id="message-template"
             value={selectedTarget.config.messageTemplate ?? ''}
@@ -110,7 +111,7 @@ const WebSocketEndpointConfiguration = ({
         </div>
 
         <div className="mt-4 space-y-2">
-          <Label htmlFor="websocket-protocols">WebSocket Subprotocols</Label>
+          <Label htmlFor="websocket-protocols">{t`WebSocket Subprotocols`}</Label>
           <Input
             id="websocket-protocols"
             value={protocolsInput}
@@ -125,15 +126,13 @@ const WebSocketEndpointConfiguration = ({
               isProtocolsInputFocused.current = false;
               setProtocolsInput(formattedProtocols);
             }}
-            placeholder="json, graphql-transport-ws"
+            placeholder={t`json, graphql-transport-ws`}
           />
-          <p className="text-sm text-muted-foreground">
-            Optional comma-separated subprotocols to request during the WebSocket handshake.
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Optional comma-separated subprotocols to request during the WebSocket handshake.`}</p>
           {hasRawWebSocketProtocolHeader(selectedTarget.config.headers) && (
             <p className="text-sm text-muted-foreground">
-              If your <code>Sec-WebSocket-Protocol</code> header is a negotiated subprotocol, move
-              it here. Leave it in headers only when your endpoint expects a raw header.
+              {t`If your`} <code>Sec-WebSocket-Protocol</code>{' '}
+              {t`header is a negotiated subprotocol, move it here. Leave it in headers only when your endpoint expects a raw header.`}
             </p>
           )}
         </div>
@@ -141,7 +140,7 @@ const WebSocketEndpointConfiguration = ({
         <div className="mt-4">
           <NumberInput
             fullWidth
-            label="Timeout (ms)"
+            label={t`Timeout (ms)`}
             onBlur={() => {
               if (
                 selectedTarget.config.timeoutMs === undefined ||
@@ -159,11 +158,8 @@ const WebSocketEndpointConfiguration = ({
         </div>
 
         <div className="mt-4 space-y-2">
-          <Label htmlFor="stream-response">Stream Response</Label>
-          <p className="text-sm text-muted-foreground">
-            Configure your WebSocket to stream responses instead of returning a single response per
-            prompt.
-          </p>
+          <Label htmlFor="stream-response">{t`Stream Response`}</Label>
+          <p className="text-sm text-muted-foreground">{t`Configure your WebSocket to stream responses instead of returning a single response per prompt.`}</p>
           <Switch
             id="stream-response"
             checked={streamResponse}
@@ -182,9 +178,9 @@ const WebSocketEndpointConfiguration = ({
 
         {streamResponse ? (
           <div className="mt-4 space-y-2">
-            <Label htmlFor="stream-response-transform">Stream Response Transform</Label>
+            <Label htmlFor="stream-response-transform">{t`Stream Response Transform`}</Label>
             <p className="text-sm text-muted-foreground">
-              Extract specific data from the WebSocket messages. See{' '}
+              {t`Extract specific data from the WebSocket messages. See`}{' '}
               <a
                 href="https://www.promptfoo.dev/docs/providers/websocket/#streaming-responses"
                 target="_blank"
@@ -193,7 +189,7 @@ const WebSocketEndpointConfiguration = ({
               >
                 docs
               </a>{' '}
-              for more information.
+              {t`for more information.`}
             </p>
             <div className="relative rounded-md border border-border bg-card">
               <Editor
@@ -218,7 +214,7 @@ const WebSocketEndpointConfiguration = ({
           </div>
         ) : (
           <div className="mt-4 space-y-2">
-            <Label htmlFor="response-transform">Response Transform</Label>
+            <Label htmlFor="response-transform">{t`Response Transform`}</Label>
             <Input
               id="response-transform"
               value={selectedTarget.config.transformResponse ?? ''}

@@ -5,6 +5,7 @@ import { NumberInput } from '@app/components/ui/number-input';
 import { Switch } from '@app/components/ui/switch';
 import { TagInput } from '@app/components/ui/tag-input';
 import { COMMON_LANGUAGE_NAMES, normalizeLanguage } from '@app/constants/languages';
+import { t } from '@lingui/core/macro';
 import { REDTEAM_DEFAULTS } from '@promptfoo/redteam/constants';
 import { Config } from '../types';
 import type { RedteamRunOptions } from '@promptfoo/types';
@@ -32,8 +33,8 @@ export const RUNOPTIONS_TEXT = {
   languages: {
     helper:
       'Specify languages for multilingual test generation. Supports ISO 639-1, ISO 639-2/T, and ISO 639-2/B codes.',
-    label: 'Test Languages',
-    placeholder: "Type language name or ISO code (e.g., 'French' or 'fr')",
+    label: t`Test Languages`,
+    placeholder: t`Type language name or ISO code (e.g., 'French' or 'fr')`,
   },
 } as const;
 
@@ -83,7 +84,7 @@ export const NumberOfTestCasesInput = ({
   return (
     <NumberInput
       fullWidth
-      label="Number of test cases"
+      label={t`Number of test cases`}
       value={value}
       min={1}
       onChange={(v) => {
@@ -140,7 +141,7 @@ export const MaxCharsPerMessageInput = ({
   return (
     <NumberInput
       fullWidth
-      label="Max chars per message"
+      label={t`Max chars per message`}
       value={value}
       min={1}
       onChange={(v) => {
@@ -196,7 +197,7 @@ export const DelayBetweenAPICallsInput = ({
   const input = (
     <NumberInput
       fullWidth
-      label="Delay between API calls"
+      label={t`Delay between API calls`}
       value={value}
       disabled={isDisabled}
       onChange={(v) => {
@@ -266,7 +267,7 @@ export const MaxNumberOfConcurrentRequestsInput = ({
   const input = (
     <NumberInput
       fullWidth
-      label="Max concurrent requests"
+      label={t`Max concurrent requests`}
       value={value}
       disabled={isDisabled}
       onChange={(v) => {
@@ -381,12 +382,8 @@ export const RunOptionsContent = ({
           onCheckedChange={(checked) => updateRunOption('verbose', checked)}
         />
         <div className="flex flex-col">
-          <Label htmlFor="debug-mode" className="cursor-pointer">
-            Debug mode
-          </Label>
-          <span className="text-sm text-muted-foreground">
-            Show additional debug information in logs
-          </span>
+          <Label htmlFor="debug-mode" className="cursor-pointer">{t`Debug mode`}</Label>
+          <span className="text-sm text-muted-foreground">{t`Show additional debug information in logs`}</span>
         </div>
       </div>
 

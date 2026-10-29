@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import '@app/lib/prism';
 import 'prismjs/themes/prism.css';
 
@@ -44,12 +45,12 @@ const HttpAdvancedConfiguration: React.FC<HttpAdvancedConfigurationProps> = ({
       <div className="mt-8">
         <Tabs defaultValue={TabValue.SessionManagement}>
           <TabsList className="grid !h-auto w-full grid-cols-2 gap-1 overflow-visible md:grid-cols-3 xl:inline-flex xl:!h-10 xl:w-auto xl:gap-0">
-            <TabsTrigger value={TabValue.SessionManagement}>Session Management</TabsTrigger>
-            <TabsTrigger value={TabValue.Authorization}>Authorization</TabsTrigger>
-            <TabsTrigger value={TabValue.RequestTransform}>Request Transform</TabsTrigger>
-            <TabsTrigger value={TabValue.TokenEstimation}>Token Estimation</TabsTrigger>
-            <TabsTrigger value={TabValue.TlsHttpsConfig}>TLS/HTTPS Config</TabsTrigger>
-            <TabsTrigger value={TabValue.HttpStatusCode}>HTTP Status Code</TabsTrigger>
+            <TabsTrigger value={TabValue.SessionManagement}>{t`Session Management`}</TabsTrigger>
+            <TabsTrigger value={TabValue.Authorization}>{t`Authorization`}</TabsTrigger>
+            <TabsTrigger value={TabValue.RequestTransform}>{t`Request Transform`}</TabsTrigger>
+            <TabsTrigger value={TabValue.TokenEstimation}>{t`Token Estimation`}</TabsTrigger>
+            <TabsTrigger value={TabValue.TlsHttpsConfig}>{t`TLS/HTTPS Config`}</TabsTrigger>
+            <TabsTrigger value={TabValue.HttpStatusCode}>{t`HTTP Status Code`}</TabsTrigger>
           </TabsList>
 
           <div className="mt-2 rounded-lg border border-border bg-card p-4">

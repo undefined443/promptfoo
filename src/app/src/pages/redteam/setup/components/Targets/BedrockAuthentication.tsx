@@ -1,5 +1,6 @@
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
+import { t } from '@lingui/core/macro';
 
 import type { ProviderOptions } from '../../types';
 
@@ -64,7 +65,7 @@ export default function BedrockAuthentication({
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="bedrock-auth-method">Authentication</Label>
+        <Label htmlFor="bedrock-auth-method">{t`Authentication`}</Label>
         <select
           id="bedrock-auth-method"
           className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background"
@@ -72,31 +73,31 @@ export default function BedrockAuthentication({
           onChange={(e) => changeMethod(e.target.value as AuthMethod)}
           aria-describedby="bedrock-auth-help"
         >
-          <option value="default">Default (environment / AWS credential chain)</option>
-          <option value="profile">Named AWS profile</option>
-          <option value="keys">AWS access keys</option>
-          <option value="bearer">Bedrock bearer token</option>
+          <option value="default">{t`Default (environment / AWS credential chain)`}</option>
+          <option value="profile">{t`Named AWS profile`}</option>
+          <option value="keys">{t`AWS access keys`}</option>
+          <option value="bearer">{t`Bedrock bearer token`}</option>
           {method === 'custom' && (
-            <option value="custom">Custom endpoint authentication (YAML)</option>
+            <option value="custom">{t`Custom endpoint authentication (YAML)`}</option>
           )}
         </select>
         <p id="bedrock-auth-help" className="text-sm text-muted-foreground">
-          Changing the authentication method removes the other credential fields from this target.
+          {t`Changing the authentication method removes the other credential fields from this target.`}
           {method === 'default' && (
             <>
               {' '}
-              Uses <code>AWS_BEARER_TOKEN_BEDROCK</code> when set; otherwise uses AWS credentials
-              from the environment or default credential chain on the server.
+              {t`Uses`} <code>AWS_BEARER_TOKEN_BEDROCK</code>{' '}
+              {t`when set; otherwise uses AWS credentials from the environment or default credential chain on the server.`}
             </>
           )}
           {method === 'custom' &&
-            ' Automatic authentication is disabled by apiKeyRequired: false. Any explicit authentication headers are still sent.'}
+            t` Automatic authentication is disabled by apiKeyRequired: false. Any explicit authentication headers are still sent.`}
         </p>
       </div>
 
       {method === 'profile' && (
         <div className="space-y-2">
-          <Label htmlFor="bedrock-profile">AWS Profile</Label>
+          <Label htmlFor="bedrock-profile">{t`AWS Profile`}</Label>
           <Input
             id="bedrock-profile"
             value={config.profile ?? ''}
@@ -105,13 +106,11 @@ export default function BedrockAuthentication({
           />
           <p className="text-sm text-muted-foreground">
             {isHttpApi
-              ? 'AWS credential profile on the server used to generate refreshable Bedrock tokens. Overrides environment bearer tokens.'
-              : 'SSO profile from ~/.aws/config on the server. Unset AWS_BEARER_TOKEN_BEDROCK to use this profile with native Bedrock APIs.'}
+              ? t`AWS credential profile on the server used to generate refreshable Bedrock tokens. Overrides environment bearer tokens.`
+              : t`SSO profile from ~/.aws/config on the server. Unset AWS_BEARER_TOKEN_BEDROCK to use this profile with native Bedrock APIs.`}
           </p>
           {!config.profile?.trim() && (
-            <p role="alert" className="text-sm text-destructive">
-              Enter an AWS profile name.
-            </p>
+            <p role="alert" className="text-sm text-destructive">{t`Enter an AWS profile name.`}</p>
           )}
         </div>
       )}
@@ -137,22 +136,22 @@ export default function BedrockAuthentication({
             </div>
           ))}
           {(!config.accessKeyId?.trim() || !config.secretAccessKey?.trim()) && (
-            <p role="alert" className="text-sm text-destructive">
-              Enter both an AWS access key ID and secret access key.
-            </p>
+            <p
+              role="alert"
+              className="text-sm text-destructive"
+            >{t`Enter both an AWS access key ID and secret access key.`}</p>
           )}
           <p className="text-sm text-muted-foreground">
-            Include a session token for temporary AWS credentials. Copied credentials must be
-            replaced when they expire; prefer a profile or role for automatic renewal.
+            {t`Include a session token for temporary AWS credentials. Copied credentials must be replaced when they expire; prefer a profile or role for automatic renewal.`}
             {!isHttpApi &&
-              ' Unset AWS_BEARER_TOKEN_BEDROCK when using access keys with native Bedrock APIs.'}
+              t` Unset AWS_BEARER_TOKEN_BEDROCK when using access keys with native Bedrock APIs.`}
           </p>
         </>
       )}
 
       {method === 'bearer' && (
         <div className="space-y-2">
-          <Label htmlFor="bedrock-bearer-token">Bedrock Bearer Token</Label>
+          <Label htmlFor="bedrock-bearer-token">{t`Bedrock Bearer Token`}</Label>
           <Input
             id="bedrock-bearer-token"
             type="password"
@@ -160,27 +159,18 @@ export default function BedrockAuthentication({
             value={config.apiKey ?? ''}
             onChange={(e) => updateCustomTarget('apiKey', e.target.value)}
           />
-          <p className="text-sm text-muted-foreground">
-            Supplied tokens are used as-is and are not automatically refreshed. Leave blank to use
-            environment authentication defaults.
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Supplied tokens are used as-is and are not automatically refreshed. Leave blank to use environment authentication defaults.`}</p>
         </div>
       )}
 
       {(method === 'keys' || method === 'bearer') && (
-        <p className="text-sm text-muted-foreground">
-          Credentials entered here are saved in the target configuration. Use environment
-          credentials or a profile to avoid saving secrets in your config.
-        </p>
+        <p className="text-sm text-muted-foreground">{t`Credentials entered here are saved in the target configuration. Use environment credentials or a profile to avoid saving secrets in your config.`}</p>
       )}
       {isHttpApi &&
         Object.keys(config.headers ?? {}).some((key) =>
           /^(authorization|x-api-key)$/i.test(key),
         ) && (
-          <p className="text-sm text-muted-foreground">
-            This target also has explicit authentication headers, which override request headers
-            generated here. Edit those headers in YAML to change them.
-          </p>
+          <p className="text-sm text-muted-foreground">{t`This target also has explicit authentication headers, which override request headers generated here. Edit those headers in YAML to change them.`}</p>
         )}
     </div>
   );

@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@app/components/ui/tab
 import { useCustomPoliciesMap } from '@app/hooks/useCustomPoliciesMap';
 import { cn } from '@app/lib/utils';
 import { formatASRForDisplay } from '@app/utils/redteam';
+import { t } from '@lingui/core/macro';
 import { calculateAttackSuccessRate } from '@promptfoo/presentation/redteamMetrics';
 import { displayNameOverrides, subCategoryDescriptions } from '@promptfoo/redteam/constants';
 import { type RedteamPluginObject } from '@promptfoo/redteam/types';
@@ -113,7 +114,10 @@ const DrawerContent = ({
           <>
             {items.map((item) => (
               <div key={item.id}>
-                <strong>Used tool {item.function?.name}</strong>: ({item.function?.arguments})
+                <strong>
+                  {t`Used tool`} {item.function?.name}
+                </strong>
+                : ({item.function?.arguments})
               </div>
             ))}
           </>
@@ -132,12 +136,12 @@ const DrawerContent = ({
         {/* Prompt */}
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-semibold text-muted-foreground">Prompt:</span>
+            <span className="text-sm font-semibold text-muted-foreground">{t`Prompt:`}</span>
             {test.result && (
               <Badge variant="secondary" className="ml-2">
                 {displayNameOverrides[
                   getPluginIdFromResult(test.result) as keyof typeof displayNameOverrides
-                ] || 'Unknown Plugin'}
+                ] || t`Unknown Plugin`}
               </Badge>
             )}
           </div>
@@ -149,7 +153,7 @@ const DrawerContent = ({
         {/* Response */}
         <div>
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-semibold text-muted-foreground">Response:</span>
+            <span className="text-sm font-semibold text-muted-foreground">{t`Response:`}</span>
           </div>
           <div className="rounded border border-border bg-muted/50 p-3 font-mono text-sm whitespace-pre-wrap break-words">
             {getOutputDisplay(test.output)}
@@ -174,11 +178,11 @@ const DrawerContent = ({
         <div className="grid grid-cols-3 gap-4">
           <div className="text-center">
             <p className="text-2xl font-bold text-primary">{selectedStrategyStats.total}</p>
-            <p className="text-sm text-muted-foreground">Total Attempts</p>
+            <p className="text-sm text-muted-foreground">{t`Total Attempts`}</p>
           </div>
           <div className="text-center">
             <p className="text-2xl font-bold text-destructive">{selectedStrategyStats.pass}</p>
-            <p className="text-sm text-muted-foreground">Flagged Attempts</p>
+            <p className="text-sm text-muted-foreground">{t`Flagged Attempts`}</p>
           </div>
           <div className="text-center">
             <p className="text-2xl font-bold">
@@ -190,27 +194,23 @@ const DrawerContent = ({
               )}
               %
             </p>
-            <p className="text-sm text-muted-foreground">Attack Success Rate</p>
+            <p className="text-sm text-muted-foreground">{t`Attack Success Rate`}</p>
           </div>
         </div>
       </div>
 
       {/* Plugin Performance Table */}
-      <h3 className="mb-3 text-lg font-semibold">Attack Performance by Plugin</h3>
+      <h3 className="mb-3 text-lg font-semibold">{t`Attack Performance by Plugin`}</h3>
       <div className="mb-6 overflow-hidden rounded-lg border border-border">
         <table className="w-full text-sm">
           <thead className="bg-muted/50">
             <tr>
-              <th className="px-4 py-3 text-left font-medium text-muted-foreground">Plugin</th>
+              <th className="px-4 py-3 text-left font-medium text-muted-foreground">{t`Plugin`}</th>
               <th className="px-4 py-3 text-right font-medium text-muted-foreground">
-                Attack Success Rate
+                {t`Attack Success Rate`}
               </th>
-              <th className="hidden px-4 py-3 text-right font-medium text-muted-foreground sm:table-cell">
-                # Flagged Attempts
-              </th>
-              <th className="hidden px-4 py-3 text-right font-medium text-muted-foreground sm:table-cell">
-                # Attempts
-              </th>
+              <th className="hidden px-4 py-3 text-right font-medium text-muted-foreground sm:table-cell">{t`# Flagged Attempts`}</th>
+              <th className="hidden px-4 py-3 text-right font-medium text-muted-foreground sm:table-cell">{t`# Attempts`}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -225,7 +225,7 @@ const DrawerContent = ({
                           stat.plugin)}
                     </div>
                     <div className="mt-1 text-xs font-normal text-muted-foreground sm:hidden">
-                      {stat.total - stat.successfulAttacks} flagged / {stat.total} attempts
+                      {stat.total - stat.successfulAttacks} {t`flagged /`} {stat.total} attempts
                     </div>
                   </td>
                   <td className="px-4 py-3 text-right">{formatASRForDisplay(stat.asr)}%</td>
@@ -247,13 +247,15 @@ const DrawerContent = ({
             value="flagged"
             className="min-h-10 flex-1 whitespace-normal px-2 text-center text-xs leading-tight sm:text-sm"
           >
-            Flagged Attempts ({selectedStrategyStats.pass})
+            {t`Flagged Attempts (`}
+            {selectedStrategyStats.pass})
           </TabsTrigger>
           <TabsTrigger
             value="successful"
             className="min-h-10 flex-1 whitespace-normal px-2 text-center text-xs leading-tight sm:text-sm"
           >
-            Successful Attacks ({selectedStrategyStats.failCount})
+            {t`Successful Attacks (`}
+            {selectedStrategyStats.failCount})
           </TabsTrigger>
         </TabsList>
 
@@ -265,7 +267,7 @@ const DrawerContent = ({
                 .map((test, idx) => renderTestItem(test, idx, 'flagged'))}
             </div>
           ) : (
-            <p className="py-8 text-center text-muted-foreground">No flagged attempts</p>
+            <p className="py-8 text-center text-muted-foreground">{t`No flagged attempts`}</p>
           )}
         </TabsContent>
 
@@ -277,7 +279,7 @@ const DrawerContent = ({
                 .map((test, idx) => renderTestItem(test, idx, 'successful'))}
             </div>
           ) : (
-            <p className="py-8 text-center text-muted-foreground">No successful attacks</p>
+            <p className="py-8 text-center text-muted-foreground">{t`No successful attacks`}</p>
           )}
         </TabsContent>
       </Tabs>
@@ -334,8 +336,8 @@ const StrategySheet = ({
           {selectedStrategy
             ? displayNameOverrides[selectedStrategy as keyof typeof displayNameOverrides] ||
               selectedStrategy
-            : 'Strategy'}{' '}
-          Details
+            : t`Strategy`}{' '}
+          {t`Details`}
         </SheetTitle>
         <div ref={scrollContainerRef} className="flex-1 overflow-y-auto">
           {selectedStrategy && strategyStats && (
@@ -383,11 +385,11 @@ const StrategyStats = ({
     <>
       <Card
         role="region"
-        aria-label="Attack Methods Statistics"
+        aria-label={t`Attack Methods Statistics`}
         className="break-inside-avoid print:break-inside-avoid"
       >
         <CardContent className="p-6">
-          <h2 className="mb-4 text-xl font-semibold">Attack Methods</h2>
+          <h2 className="mb-4 text-xl font-semibold">{t`Attack Methods`}</h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(300px,1fr))]">
             {strategies.map(([strategy, { total, failCount }]) => {
               const asr = calculateAttackSuccessRate(total, failCount);
@@ -432,7 +434,7 @@ const StrategyStats = ({
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    {failCount} / {total} attacks succeeded
+                    {failCount} / {total} {t`attacks succeeded`}
                   </p>
                 </div>
               );

@@ -1,6 +1,7 @@
 import { Label } from '@app/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@app/components/ui/radio-group';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 
 export const STATEFULNESS_QUESTION =
   'Does your system remember the full interaction history (prompts, tool calls, etc.) with each request?';
@@ -25,11 +26,9 @@ export default function StatefulnessRadioGroup({
           inline
           className={cn('font-normal', disabled && 'cursor-not-allowed opacity-50')}
         >
-          <span className="font-bold">Yes</span>
+          <span className="font-bold">{t`Yes`}</span>
           <span className="text-muted-foreground">
-            {
-              ' – Promptfoo should only send the current request and assume your system remembers interaction history'
-            }
+            {t` – Promptfoo should only send the current request and assume your system remembers interaction history`}
           </span>
         </Label>
       </div>
@@ -40,9 +39,9 @@ export default function StatefulnessRadioGroup({
           inline
           className={cn('font-normal', disabled && 'cursor-not-allowed opacity-50')}
         >
-          <span className="font-bold">No</span>
+          <span className="font-bold">{t`No`}</span>
           <span className="text-muted-foreground">
-            {' – Promptfoo should resend the full interaction history in each request'}
+            {t` – Promptfoo should resend the full interaction history in each request`}
           </span>
         </Label>
       </div>

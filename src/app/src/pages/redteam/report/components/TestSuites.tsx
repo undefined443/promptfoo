@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { EVAL_ROUTES } from '@app/constants/routes';
 import { useCustomPoliciesMap } from '@app/hooks/useCustomPoliciesMap';
 import { formatASRForDisplay } from '@app/utils/redteam';
+import { t } from '@lingui/core/macro';
 import { getRiskCategorySeverityMap } from '@promptfoo/presentation/redteamConfig';
 import { calculateAttackSuccessRate } from '@promptfoo/presentation/redteamMetrics';
 import {
@@ -323,9 +324,9 @@ const TestSuites = ({
         header: () => (
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="cursor-help">Risk</span>
+              <span className="cursor-help">{t`Risk`}</span>
             </TooltipTrigger>
-            <TooltipContent>Risk Score</TooltipContent>
+            <TooltipContent>{t`Risk Score`}</TooltipContent>
           </Tooltip>
         ),
         size: 110,
@@ -345,18 +346,17 @@ const TestSuites = ({
               </TooltipTrigger>
               <TooltipContent className="max-w-xs">
                 <div className="space-y-1">
-                  <p className="font-semibold">Risk Score</p>
-                  <p className="text-xs">
-                    Risk = Impact + Exploitability + Human Factor + Complexity
-                  </p>
+                  <p className="font-semibold">{t`Risk Score`}</p>
+                  <p className="text-xs">{t`Risk = Impact + Exploitability + Human Factor + Complexity`}</p>
                   <div className="mt-2 space-y-0.5 text-xs">
-                    <p>• Base Severity: {row.original.severity}</p>
                     <p>
-                      • Attack Success Rate: {formatASRForDisplay(row.original.attackSuccessRate)}%
+                      {t`• Base Severity:`} {row.original.severity}
                     </p>
-                    <p className="mt-1 italic">
-                      Higher exploitability increases risk exponentially
+                    <p>
+                      {t`• Attack Success Rate:`}{' '}
+                      {formatASRForDisplay(row.original.attackSuccessRate)}%
                     </p>
+                    <p className="mt-1 italic">{t`Higher exploitability increases risk exponentially`}</p>
                   </div>
                 </div>
               </TooltipContent>
@@ -378,19 +378,23 @@ const TestSuites = ({
               </TooltipTrigger>
               <TooltipContent className="max-w-xs">
                 <div className="space-y-1">
-                  <p className="font-semibold">Attack Complexity</p>
-                  <p className="text-xs">How difficult this attack is to execute</p>
+                  <p className="font-semibold">{t`Attack Complexity`}</p>
+                  <p className="text-xs">{t`How difficult this attack is to execute`}</p>
                   <div className="mt-2 space-y-0.5 text-xs">
-                    <p>Strategy: {row.original.worstStrategy}</p>
-                    <p>• Score: {value.toFixed(0)}/10</p>
+                    <p>
+                      {t`Strategy:`} {row.original.worstStrategy}
+                    </p>
+                    <p>
+                      {t`• Score:`} {value.toFixed(0)}/10
+                    </p>
                     <p className="mt-1">
                       {value >= 7
-                        ? 'Very Hard - Requires automation/tools'
+                        ? t`Very Hard - Requires automation/tools`
                         : value >= 5
-                          ? 'Hard - Requires expertise'
+                          ? t`Hard - Requires expertise`
                           : value >= 3
-                            ? 'Medium - Requires some skill'
-                            : 'Easy - Average user could exploit'}
+                            ? t`Medium - Requires some skill`
+                            : t`Easy - Average user could exploit`}
                     </p>
                   </div>
                 </div>
@@ -404,9 +408,9 @@ const TestSuites = ({
         header: () => (
           <Tooltip>
             <TooltipTrigger asChild>
-              <span className="cursor-help">Succeeded</span>
+              <span className="cursor-help">{t`Succeeded`}</span>
             </TooltipTrigger>
-            <TooltipContent>Successful Attacks</TooltipContent>
+            <TooltipContent>{t`Successful Attacks`}</TooltipContent>
           </Tooltip>
         ),
         size: 120,
@@ -420,7 +424,7 @@ const TestSuites = ({
             <TooltipTrigger asChild>
               <span className="cursor-help">ASR</span>
             </TooltipTrigger>
-            <TooltipContent>Attack Success Rate</TooltipContent>
+            <TooltipContent>{t`Attack Success Rate`}</TooltipContent>
           </Tooltip>
         ),
         size: 88,
@@ -434,7 +438,8 @@ const TestSuites = ({
               <strong>{formatASRForDisplay(value)}%</strong>
               {passRateWithFilter !== passRate && (
                 <>
-                  <br />({formatASRForDisplay(100 - passRateWithFilter)}% with mitigation)
+                  <br />({formatASRForDisplay(100 - passRateWithFilter)}
+                  {t`% with mitigation)`}
                 </>
               )}
             </div>
@@ -464,11 +469,11 @@ const TestSuites = ({
         meta: {
           filterVariant: 'select',
           filterOptions: [
-            { label: 'Critical', value: Severity.Critical },
-            { label: 'High', value: Severity.High },
-            { label: 'Medium', value: Severity.Medium },
-            { label: 'Low', value: Severity.Low },
-            { label: 'Informational', value: Severity.Informational },
+            { label: t`Critical`, value: Severity.Critical },
+            { label: t`High`, value: Severity.High },
+            { label: t`Medium`, value: Severity.Medium },
+            { label: t`Low`, value: Severity.Low },
+            { label: t`Informational`, value: Severity.Informational },
           ],
         },
       },
@@ -485,7 +490,7 @@ const TestSuites = ({
                 variant="ghost"
                 size="icon"
                 className="size-8"
-                aria-label="View logs"
+                aria-label={t`View logs`}
                 onClick={() => {
                   const pluginId = row.original.pluginName;
                   const plugin = pluginsById[pluginId];
@@ -506,10 +511,10 @@ const TestSuites = ({
                 }}
               >
                 <ScrollText className="size-4" />
-                <span className="sr-only">View logs</span>
+                <span className="sr-only">{t`View logs`}</span>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>View logs</TooltipContent>
+            <TooltipContent>{t`View logs`}</TooltipContent>
           </Tooltip>
         ),
       },
@@ -523,10 +528,10 @@ const TestSuites = ({
         data-testid="vulnerabilities-header"
         className="mb-4 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between"
       >
-        <h2 className="text-xl font-semibold">Vulnerabilities and Mitigations</h2>
+        <h2 className="text-xl font-semibold">{t`Vulnerabilities and Mitigations`}</h2>
         <Button onClick={exportToCSV} className="print:hidden">
           <Download className="mr-2 size-4" />
-          Export vulnerabilities to CSV
+          {t`Export vulnerabilities to CSV`}
         </Button>
       </div>
       <DataTable

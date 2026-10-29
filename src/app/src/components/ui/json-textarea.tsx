@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { HelperText } from './helper-text';
 import { Label } from './label';
 import { Textarea } from './textarea';
@@ -44,7 +45,7 @@ const JsonTextarea = ({
         onChange={handleChange}
         className={cn('min-h-20 font-mono text-sm', error && 'border-destructive')}
       />
-      {error && <HelperText error>Invalid JSON</HelperText>}
+      {error && <HelperText error>{t`Invalid JSON`}</HelperText>}
     </div>
   );
 };

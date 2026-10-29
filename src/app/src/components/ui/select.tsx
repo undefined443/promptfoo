@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Check, ChevronDown, ChevronUp } from 'lucide-react';
@@ -86,7 +87,7 @@ function SelectScrollUpButton({
     <SelectPrimitive.ScrollUpButton
       ref={ref}
       className={cn('flex cursor-default items-center justify-center py-1', className)}
-      aria-label="Scroll up"
+      aria-label={t`Scroll up`}
       {...props}
     >
       <ChevronUp className="size-4" />
@@ -103,7 +104,7 @@ function SelectScrollDownButton({
     <SelectPrimitive.ScrollDownButton
       ref={ref}
       className={cn('flex cursor-default items-center justify-center py-1', className)}
-      aria-label="Scroll down"
+      aria-label={t`Scroll down`}
       {...props}
     >
       <ChevronDown className="size-4" />

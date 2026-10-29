@@ -1,3 +1,4 @@
+import { t } from '@lingui/core/macro';
 import { getMissingAssertionVariables } from './assertionPrerequisites';
 import { getFirstRunnableAssertionValueError, isRecord } from './assertionValueValidation';
 import type { AssertionOrSet, ProviderOptions, UnifiedConfig } from '@promptfoo/types';
@@ -374,7 +375,7 @@ function getComparisonSetupIssues(
   }
 
   if (hasInsufficientSelectBest || hasInsufficientMaxScore) {
-    const label = hasInsufficientSelectBest ? 'Choose best output' : 'Choose highest score';
+    const label = hasInsufficientSelectBest ? t`Choose best output` : t`Choose highest score`;
     // Route the user to whichever axis is shorter — adding to the longer one would not increase
     // outputs per test case.
     issues.push({
@@ -387,7 +388,7 @@ function getComparisonSetupIssues(
   if (hasMaxScoreWithoutScoringAssertion(tests, defaultTest, defaultAssertions)) {
     issues.push({
       id: 'comparisonScoring',
-      message: 'Choose highest score needs at least one other assertion to score each output.',
+      message: t`Choose highest score needs at least one other assertion to score each output.`,
       stepId: 3,
     });
   }
@@ -633,21 +634,21 @@ export function getSetupReadiness(config: Partial<UnifiedConfig>): SetupReadines
   if (providerCount === 0) {
     issues.push({
       id: 'providers',
-      message: 'Add at least one provider to evaluate.',
+      message: t`Add at least one provider to evaluate.`,
       stepId: 1,
     });
   }
   if (promptCount === 0) {
     issues.push({
       id: 'prompts',
-      message: 'Add at least one prompt or input.',
+      message: t`Add at least one prompt or input.`,
       stepId: 2,
     });
   }
   if (testCount === 0) {
     issues.push({
       id: 'tests',
-      message: 'Add at least one test case.',
+      message: t`Add at least one test case.`,
       stepId: 3,
     });
   }
@@ -753,7 +754,7 @@ export function getSetupReadiness(config: Partial<UnifiedConfig>): SetupReadines
     const locationMessage = defaultTestHasInvalidAssertions
       ? testCasesWithInvalidAssertions.length > 0
         ? `your default test and ${invalidTestsMessage}`
-        : 'your default test in YAML'
+        : t`your default test in YAML`
       : invalidTestsMessage;
     issues.push({
       id: 'assertions',

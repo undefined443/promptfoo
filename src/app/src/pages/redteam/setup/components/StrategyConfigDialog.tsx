@@ -24,6 +24,7 @@ import { Textarea } from '@app/components/ui/textarea';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import useCloudConfig from '@app/hooks/useCloudConfig';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   ADDITIONAL_STRATEGIES,
   AGENTIC_STRATEGIES,
@@ -229,34 +230,31 @@ export default function StrategyConfigDialog({
 
     if (hasAgentic && hasMultiModal) {
       return {
-        title: 'Multi-Turn + Multi-Modal Attack',
-        description:
-          'The agentic strategy will orchestrate the attack, and each turn will be converted to audio/image before sending to the target.',
+        title: t`Multi-Turn + Multi-Modal Attack`,
+        description: t`The agentic strategy will orchestrate the attack, and each turn will be converted to audio/image before sending to the target.`,
       };
     }
     if (hasAgentic) {
       return {
-        title: 'Multi-Turn Agentic Attack',
-        description:
-          'The agentic strategy will orchestrate a multi-turn conversation to achieve the attack goal.',
+        title: t`Multi-Turn Agentic Attack`,
+        description: t`The agentic strategy will orchestrate a multi-turn conversation to achieve the attack goal.`,
       };
     }
     if (hasMultiModal) {
       return {
-        title: 'Multi-Modal Transform',
-        description: 'Test cases will be converted to audio/image format before evaluation.',
+        title: t`Multi-Modal Transform`,
+        description: t`Test cases will be converted to audio/image format before evaluation.`,
       };
     }
     if (steps.length > 0) {
       return {
-        title: 'Transform Chain',
+        title: t`Transform Chain`,
         description: `Test cases will be transformed through ${steps.length} step${steps.length > 1 ? 's' : ''} sequentially before evaluation.`,
       };
     }
     return {
-      title: 'Configure Layer Strategy',
-      description:
-        'Add steps to create transform chains or combine agentic strategies with multi-modal output.',
+      title: t`Configure Layer Strategy`,
+      description: t`Add steps to create transform chains or combine agentic strategies with multi-modal output.`,
     };
   };
 
@@ -473,11 +471,7 @@ export default function StrategyConfigDialog({
 
   const renderBasicStrategyConfig = () => (
     <>
-      <p className="mb-3 text-sm text-muted-foreground">
-        The basic strategy determines whether to include the original plugin-generated test cases in
-        your evaluation. These are the default test cases created by each plugin before any
-        strategies are applied.
-      </p>
+      <p className="mb-3 text-sm text-muted-foreground">{t`The basic strategy determines whether to include the original plugin-generated test cases in your evaluation. These are the default test cases created by each plugin before any strategies are applied.`}</p>
       <div className="flex items-start gap-3">
         <Switch
           id="basic-enabled"
@@ -486,12 +480,11 @@ export default function StrategyConfigDialog({
           className="mt-0.5"
         />
         <div className="space-y-1">
-          <Label htmlFor="basic-enabled" className="text-sm font-normal">
-            Include plugin-generated test cases
-          </Label>
-          <p className="text-sm text-muted-foreground">
-            Turn off to run only strategy-modified tests
-          </p>
+          <Label
+            htmlFor="basic-enabled"
+            className="text-sm font-normal"
+          >{t`Include plugin-generated test cases`}</Label>
+          <p className="text-sm text-muted-foreground">{t`Turn off to run only strategy-modified tests`}</p>
         </div>
       </div>
     </>
@@ -499,12 +492,10 @@ export default function StrategyConfigDialog({
 
   const renderJailbreakStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Configure the Iterative Jailbreak strategy parameters.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`Configure the Iterative Jailbreak strategy parameters.`}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="num-iterations">Number of Iterations</Label>
+        <Label htmlFor="num-iterations">{t`Number of Iterations`}</Label>
         <Input
           id="num-iterations"
           type="number"
@@ -516,13 +507,13 @@ export default function StrategyConfigDialog({
               numIterations: clampValue(value, 3, maxIterationsLimit),
             });
           }}
-          placeholder="Number of iterations (default: 10)"
+          placeholder={t`Number of iterations (default: 10)`}
           min={3}
           max={maxIterationsLimit}
         />
         <p className="text-xs text-muted-foreground">
-          Number of iterations to try (more iterations increase chance of success)
-          {!isCloudEnabled && ' — sign in for higher limits'}
+          {t`Number of iterations to try (more iterations increase chance of success)`}
+          {!isCloudEnabled && t` — sign in for higher limits`}
         </p>
       </div>
     </div>
@@ -530,12 +521,9 @@ export default function StrategyConfigDialog({
 
   const renderRetryStrategyConfig = () => (
     <>
-      <p className="mb-2 text-sm text-muted-foreground">
-        Automatically reuse previously failed test cases to identify additional vulnerabilities and
-        identify regressions.
-      </p>
+      <p className="mb-2 text-sm text-muted-foreground">{t`Automatically reuse previously failed test cases to identify additional vulnerabilities and identify regressions.`}</p>
       <div className="mt-1 space-y-2">
-        <Label htmlFor="max-tests">Maximum Tests Per Plugin</Label>
+        <Label htmlFor="max-tests">{t`Maximum Tests Per Plugin`}</Label>
         <Input
           id="max-tests"
           type="number"
@@ -546,7 +534,7 @@ export default function StrategyConfigDialog({
           className={error ? 'border-destructive' : ''}
         />
         <p className={cn('text-xs', error ? 'text-destructive' : 'text-muted-foreground')}>
-          {error || 'Default: 10'}
+          {error || t`Default: 10`}
         </p>
       </div>
     </>
@@ -554,13 +542,10 @@ export default function StrategyConfigDialog({
 
   const renderBestOfNStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Configure the Best-of-N strategy parameters. This strategy tries multiple variations of the
-        input prompt.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`Configure the Best-of-N strategy parameters. This strategy tries multiple variations of the input prompt.`}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="max-concurrency">Max Concurrency</Label>
+        <Label htmlFor="max-concurrency">{t`Max Concurrency`}</Label>
         <Input
           id="max-concurrency"
           type="number"
@@ -571,16 +556,14 @@ export default function StrategyConfigDialog({
               maxConcurrency: Number.parseInt(e.target.value, 10),
             })
           }
-          placeholder="Maximum number of concurrent requests (default: 3)"
+          placeholder={t`Maximum number of concurrent requests (default: 3)`}
           min={1}
         />
-        <p className="text-xs text-muted-foreground">
-          Maximum number of concurrent prompt variations to try
-        </p>
+        <p className="text-xs text-muted-foreground">{t`Maximum number of concurrent prompt variations to try`}</p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="n-steps">Number of Steps</Label>
+        <Label htmlFor="n-steps">{t`Number of Steps`}</Label>
         <Input
           id="n-steps"
           type="number"
@@ -589,16 +572,14 @@ export default function StrategyConfigDialog({
             const value = e.target.value ? Number.parseInt(e.target.value, 10) : undefined;
             setLocalConfig({ ...localConfig, nSteps: value });
           }}
-          placeholder="Number of steps (optional)"
+          placeholder={t`Number of steps (optional)`}
           min={1}
         />
-        <p className="text-xs text-muted-foreground">
-          Number of steps to explore in the best-of-N search (optional)
-        </p>
+        <p className="text-xs text-muted-foreground">{t`Number of steps to explore in the best-of-N search (optional)`}</p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="max-candidates">Max Candidates Per Step</Label>
+        <Label htmlFor="max-candidates">{t`Max Candidates Per Step`}</Label>
         <Input
           id="max-candidates"
           type="number"
@@ -611,12 +592,10 @@ export default function StrategyConfigDialog({
             const value = e.target.value ? Number.parseInt(e.target.value, 10) : undefined;
             setLocalConfig({ ...localConfig, maxCandidatesPerStep: value });
           }}
-          placeholder="Maximum candidates per step (optional)"
+          placeholder={t`Maximum candidates per step (optional)`}
           min={1}
         />
-        <p className="text-xs text-muted-foreground">
-          Maximum number of candidate prompts to generate in each step (optional)
-        </p>
+        <p className="text-xs text-muted-foreground">{t`Maximum number of candidate prompts to generate in each step (optional)`}</p>
       </div>
     </div>
   );
@@ -627,12 +606,10 @@ export default function StrategyConfigDialog({
 
     return (
       <div className="flex flex-col gap-4">
-        <p className="text-sm text-muted-foreground">
-          Define your custom multi-turn strategy with specific instructions for the AI agent.
-        </p>
+        <p className="text-sm text-muted-foreground">{t`Define your custom multi-turn strategy with specific instructions for the AI agent.`}</p>
 
         <div className="space-y-2">
-          <Label htmlFor="strategy-text">Strategy Text</Label>
+          <Label htmlFor="strategy-text">{t`Strategy Text`}</Label>
           <Textarea
             id="strategy-text"
             rows={6}
@@ -650,13 +627,13 @@ export default function StrategyConfigDialog({
             )}
           >
             {isStrategyTextEmpty
-              ? 'Strategy text is required for custom strategy'
-              : 'Define how the AI should behave across conversation turns. You can reference variables like conversationObjective, currentRound, maxTurns, lastResponse, application purpose, etc.'}
+              ? t`Strategy text is required for custom strategy`
+              : t`Define how the AI should behave across conversation turns. You can reference variables like conversationObjective, currentRound, maxTurns, lastResponse, application purpose, etc.`}
           </p>
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="max-turns">Max Turns</Label>
+          <Label htmlFor="max-turns">{t`Max Turns`}</Label>
           <Input
             id="max-turns"
             type="number"
@@ -668,13 +645,13 @@ export default function StrategyConfigDialog({
                 maxTurns: clampValue(value, 1, maxTurnsLimit),
               });
             }}
-            placeholder="Maximum number of conversation turns (default: 10)"
+            placeholder={t`Maximum number of conversation turns (default: 10)`}
             min={1}
             max={maxTurnsLimit}
           />
           <p className="text-xs text-muted-foreground">
-            Maximum number of back-and-forth exchanges with the model
-            {!isCloudEnabled && ' — sign in for higher limits'}
+            {t`Maximum number of back-and-forth exchanges with the model`}
+            {!isCloudEnabled && t` — sign in for higher limits`}
           </p>
         </div>
 
@@ -685,10 +662,10 @@ export default function StrategyConfigDialog({
             onCheckedChange={(checked) => setLocalConfig({ ...localConfig, stateful: checked })}
             className="mt-0.5"
           />
-          <Label htmlFor="custom-stateful" className="text-sm font-normal">
-            When enabled, Promptfoo should only send the current request and assume your system
-            remembers interaction history
-          </Label>
+          <Label
+            htmlFor="custom-stateful"
+            className="text-sm font-normal"
+          >{t`When enabled, Promptfoo should only send the current request and assume your system remembers interaction history`}</Label>
         </div>
       </div>
     );
@@ -701,12 +678,12 @@ export default function StrategyConfigDialog({
     return (
       <div className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">
-          {strategyName} tracks its own attack history across turns and reuses what it learns during
-          the scan. By default it sends the full transcript to the target on every turn.
+          {strategyName}{' '}
+          {t`tracks its own attack history across turns and reuses what it learns during the scan. By default it sends the full transcript to the target on every turn.`}
         </p>
 
         <div className="space-y-2">
-          <Label htmlFor={`${strategySlug}-max-turns`}>Max Turns</Label>
+          <Label htmlFor={`${strategySlug}-max-turns`}>{t`Max Turns`}</Label>
           <Input
             id={`${strategySlug}-max-turns`}
             type="number"
@@ -720,13 +697,13 @@ export default function StrategyConfigDialog({
                   : clampValue(parsedValue, 1, maxTurnsLimit),
               });
             }}
-            placeholder="Maximum conversation turns (default: 10)"
+            placeholder={t`Maximum conversation turns (default: 10)`}
             min={1}
             max={maxTurnsLimit}
           />
           <p className="text-xs text-muted-foreground">
-            Maximum number of back-and-forth exchanges with the target model.
-            {!isCloudEnabled && ' — sign in for higher limits'}
+            {t`Maximum number of back-and-forth exchanges with the target model.`}
+            {!isCloudEnabled && t` — sign in for higher limits`}
           </p>
         </div>
 
@@ -738,13 +715,13 @@ export default function StrategyConfigDialog({
             className="mt-0.5"
           />
           <Label htmlFor={`${strategySlug}-stateful`} className="text-sm font-normal">
-            Use target-managed session memory. {strategyName} will send only the newest turn, so
-            your provider must preserve prior turns for the same session.
+            {t`Use target-managed session memory.`} {strategyName}{' '}
+            {t`will send only the newest turn, so your provider must preserve prior turns for the same session.`}
           </Label>
         </div>
 
         <p className="text-xs text-muted-foreground">
-          {strategyName} requires Promptfoo Cloud remote generation.
+          {strategyName} {t`requires Promptfoo Cloud remote generation.`}
         </p>
       </div>
     );
@@ -752,10 +729,10 @@ export default function StrategyConfigDialog({
 
   const renderMultiTurnStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">Configure the multi-turn strategy parameters.</p>
+      <p className="text-sm text-muted-foreground">{t`Configure the multi-turn strategy parameters.`}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="multi-turn-max-turns">Max Turns</Label>
+        <Label htmlFor="multi-turn-max-turns">{t`Max Turns`}</Label>
         <Input
           id="multi-turn-max-turns"
           type="number"
@@ -780,8 +757,8 @@ export default function StrategyConfigDialog({
           max={maxTurnsLimit}
         />
         <p className="text-xs text-muted-foreground">
-          Maximum number of back-and-forth exchanges with the model (default: 5)
-          {!isCloudEnabled && ' — sign in for higher limits'}
+          {t`Maximum number of back-and-forth exchanges with the model (default: 5)`}
+          {!isCloudEnabled && t` — sign in for higher limits`}
         </p>
       </div>
 
@@ -792,22 +769,20 @@ export default function StrategyConfigDialog({
           onCheckedChange={(checked) => setLocalConfig({ ...localConfig, stateful: checked })}
           className="mt-0.5"
         />
-        <Label htmlFor="multi-turn-stateful" className="text-sm font-normal">
-          When enabled, Promptfoo should only send the current request and assume your system
-          remembers interaction history
-        </Label>
+        <Label
+          htmlFor="multi-turn-stateful"
+          className="text-sm font-normal"
+        >{t`When enabled, Promptfoo should only send the current request and assume your system remembers interaction history`}</Label>
       </div>
     </div>
   );
 
   const renderMetaStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Configure the Meta-Agent Jailbreak strategy parameters.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`Configure the Meta-Agent Jailbreak strategy parameters.`}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="meta-num-iterations">Number of Iterations</Label>
+        <Label htmlFor="meta-num-iterations">{t`Number of Iterations`}</Label>
         <Input
           id="meta-num-iterations"
           type="number"
@@ -819,14 +794,13 @@ export default function StrategyConfigDialog({
               numIterations: clampValue(value, 3, maxIterationsLimit),
             });
           }}
-          placeholder="Number of iterations (default: 10)"
+          placeholder={t`Number of iterations (default: 10)`}
           min={3}
           max={maxIterationsLimit}
         />
         <p className="text-xs text-muted-foreground">
-          Number of iterations for the meta-agent to attempt. Agent builds attack taxonomy and makes
-          strategic decisions.
-          {!isCloudEnabled && ' — sign in for higher limits'}
+          {t`Number of iterations for the meta-agent to attempt. Agent builds attack taxonomy and makes strategic decisions.`}
+          {!isCloudEnabled && t` — sign in for higher limits`}
         </p>
       </div>
     </div>
@@ -834,12 +808,10 @@ export default function StrategyConfigDialog({
 
   const renderTreeStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Configure the Tree-based Jailbreak strategy parameters.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`Configure the Tree-based Jailbreak strategy parameters.`}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="tree-max-depth">Maximum Depth</Label>
+        <Label htmlFor="tree-max-depth">{t`Maximum Depth`}</Label>
         <Input
           id="tree-max-depth"
           type="number"
@@ -851,18 +823,18 @@ export default function StrategyConfigDialog({
               maxDepth: clampValue(value, 3, treeMaxDepthLimit),
             });
           }}
-          placeholder="Maximum tree depth (default: 25)"
+          placeholder={t`Maximum tree depth (default: 25)`}
           min={3}
           max={treeMaxDepthLimit}
         />
         <p className="text-xs text-muted-foreground">
-          Maximum depth of the search tree
-          {!isCloudEnabled && ' — sign in for higher limits'}
+          {t`Maximum depth of the search tree`}
+          {!isCloudEnabled && t` — sign in for higher limits`}
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="tree-max-attempts">Maximum Attempts</Label>
+        <Label htmlFor="tree-max-attempts">{t`Maximum Attempts`}</Label>
         <Input
           id="tree-max-attempts"
           type="number"
@@ -874,18 +846,18 @@ export default function StrategyConfigDialog({
               maxAttempts: clampValue(value, 10, treeMaxAttemptsLimit),
             });
           }}
-          placeholder="Maximum attempts (default: 250)"
+          placeholder={t`Maximum attempts (default: 250)`}
           min={10}
           max={treeMaxAttemptsLimit}
         />
         <p className="text-xs text-muted-foreground">
-          Maximum number of attempts to try (note: higher values are more expensive)
-          {!isCloudEnabled && ' — sign in for higher limits'}
+          {t`Maximum number of attempts to try (note: higher values are more expensive)`}
+          {!isCloudEnabled && t` — sign in for higher limits`}
         </p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="tree-max-width">Max Width</Label>
+        <Label htmlFor="tree-max-width">{t`Max Width`}</Label>
         <Input
           id="tree-max-width"
           type="number"
@@ -897,17 +869,15 @@ export default function StrategyConfigDialog({
               maxWidth: clampValue(value, 2, treeMaxWidthLimit),
             });
           }}
-          placeholder="Maximum width (default: 10)"
+          placeholder={t`Maximum width (default: 10)`}
           min={2}
           max={treeMaxWidthLimit}
         />
-        <p className="text-xs text-muted-foreground">
-          Number of top-scoring nodes to keep during tree pruning
-        </p>
+        <p className="text-xs text-muted-foreground">{t`Number of top-scoring nodes to keep during tree pruning`}</p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="tree-branching">Branching Factor</Label>
+        <Label htmlFor="tree-branching">{t`Branching Factor`}</Label>
         <Input
           id="tree-branching"
           type="number"
@@ -921,17 +891,15 @@ export default function StrategyConfigDialog({
               branchingFactor: clampValue(value, 2, treeBranchingLimit),
             });
           }}
-          placeholder="Branching factor (default: 4)"
+          placeholder={t`Branching factor (default: 4)`}
           min={2}
           max={treeBranchingLimit}
         />
-        <p className="text-xs text-muted-foreground">
-          Number of child nodes to generate at each step
-        </p>
+        <p className="text-xs text-muted-foreground">{t`Number of child nodes to generate at each step`}</p>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="tree-no-improvement">Max No Improvement</Label>
+        <Label htmlFor="tree-no-improvement">{t`Max No Improvement`}</Label>
         <Input
           id="tree-no-improvement"
           type="number"
@@ -945,25 +913,21 @@ export default function StrategyConfigDialog({
               maxNoImprovement: clampValue(value, 5, treeNoImprovementLimit),
             });
           }}
-          placeholder="Max consecutive iterations without improvement (default: 25)"
+          placeholder={t`Max consecutive iterations without improvement (default: 25)`}
           min={5}
           max={treeNoImprovementLimit}
         />
-        <p className="text-xs text-muted-foreground">
-          Stop after this many consecutive iterations without score improvement
-        </p>
+        <p className="text-xs text-muted-foreground">{t`Stop after this many consecutive iterations without score improvement`}</p>
       </div>
     </div>
   );
 
   const renderGcgStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Configure the Greedy Coordinate Gradient (GCG) attack parameters.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`Configure the Greedy Coordinate Gradient (GCG) attack parameters.`}</p>
 
       <div className="space-y-2">
-        <Label htmlFor="gcg-n">Number of Outputs (n)</Label>
+        <Label htmlFor="gcg-n">{t`Number of Outputs (n)`}</Label>
         <Input
           id="gcg-n"
           type="number"
@@ -972,22 +936,18 @@ export default function StrategyConfigDialog({
             const value = e.target.value ? Number.parseInt(e.target.value, 10) : 5;
             setLocalConfig({ ...localConfig, n: value });
           }}
-          placeholder="Number of adversarial outputs to generate (default: 5)"
+          placeholder={t`Number of adversarial outputs to generate (default: 5)`}
           min={1}
           max={20}
         />
-        <p className="text-xs text-muted-foreground">
-          More outputs increase chance of success but cost more
-        </p>
+        <p className="text-xs text-muted-foreground">{t`More outputs increase chance of success but cost more`}</p>
       </div>
     </div>
   );
 
   const renderCitationStrategyConfig = () => (
     <div className="flex flex-col gap-4">
-      <p className="text-sm text-muted-foreground">
-        Configure the Citation-based attack parameters.
-      </p>
+      <p className="text-sm text-muted-foreground">{t`Configure the Citation-based attack parameters.`}</p>
 
       <div className="flex items-start gap-3">
         <Switch
@@ -997,12 +957,11 @@ export default function StrategyConfigDialog({
           className="mt-0.5"
         />
         <div className="space-y-0.5">
-          <Label htmlFor="citation-academic" className="text-sm font-normal">
-            Use Academic Citations
-          </Label>
-          <span className="ml-1 text-sm text-muted-foreground">
-            - Generate academic-style citations (recommended)
-          </span>
+          <Label
+            htmlFor="citation-academic"
+            className="text-sm font-normal"
+          >{t`Use Academic Citations`}</Label>
+          <span className="ml-1 text-sm text-muted-foreground">{t`- Generate academic-style citations (recommended)`}</span>
         </div>
       </div>
 
@@ -1014,12 +973,11 @@ export default function StrategyConfigDialog({
           className="mt-0.5"
         />
         <div className="space-y-0.5">
-          <Label htmlFor="citation-journals" className="text-sm font-normal">
-            Include Journal Citations
-          </Label>
-          <span className="ml-1 text-sm text-muted-foreground">
-            - Include journal articles in citation types
-          </span>
+          <Label
+            htmlFor="citation-journals"
+            className="text-sm font-normal"
+          >{t`Include Journal Citations`}</Label>
+          <span className="ml-1 text-sm text-muted-foreground">{t`- Include journal articles in citation types`}</span>
         </div>
       </div>
 
@@ -1031,12 +989,11 @@ export default function StrategyConfigDialog({
           className="mt-0.5"
         />
         <div className="space-y-0.5">
-          <Label htmlFor="citation-books" className="text-sm font-normal">
-            Include Book Citations
-          </Label>
-          <span className="ml-1 text-sm text-muted-foreground">
-            - Include books in citation types
-          </span>
+          <Label
+            htmlFor="citation-books"
+            className="text-sm font-normal"
+          >{t`Include Book Citations`}</Label>
+          <span className="ml-1 text-sm text-muted-foreground">{t`- Include books in citation types`}</span>
         </div>
       </div>
     </div>
@@ -1072,24 +1029,20 @@ export default function StrategyConfigDialog({
 
   const renderLayerPluginControls = () => (
     <div>
-      <Label className="mb-1.5 block font-semibold">Target Plugins</Label>
+      <Label className="mb-1.5 block font-semibold">{t`Target Plugins`}</Label>
       <div className={cn('mb-2 grid grid-cols-2 gap-1', pluginTargeting === 'specific' && 'mb-4')}>
         <Button
           type="button"
           variant={pluginTargeting === 'all' ? 'default' : 'outline'}
           onClick={() => handlePluginTargetingChange('all')}
           className="w-full"
-        >
-          All plugins
-        </Button>
+        >{t`All plugins`}</Button>
         <Button
           type="button"
           variant={pluginTargeting === 'specific' ? 'default' : 'outline'}
           onClick={() => handlePluginTargetingChange('specific')}
           className="w-full"
-        >
-          Specific plugins only
-        </Button>
+        >{t`Specific plugins only`}</Button>
       </div>
 
       {pluginTargeting === 'specific' && (
@@ -1103,7 +1056,7 @@ export default function StrategyConfigDialog({
             }}
           >
             <SelectTrigger>
-              <SelectValue placeholder="Select plugins" />
+              <SelectValue placeholder={t`Select plugins`} />
             </SelectTrigger>
             <SelectContent>
               {availablePlugins
@@ -1167,9 +1120,7 @@ export default function StrategyConfigDialog({
                   agentic
                 </Badge>
               </TooltipTrigger>
-              <TooltipContent>
-                Orchestrates multi-turn or multi-attempt attacks. Should be first step.
-              </TooltipContent>
+              <TooltipContent>{t`Orchestrates multi-turn or multi-attempt attacks. Should be first step.`}</TooltipContent>
             </Tooltip>
           )}
           {isMultiModal && (
@@ -1179,7 +1130,7 @@ export default function StrategyConfigDialog({
                   multi-modal
                 </Badge>
               </TooltipTrigger>
-              <TooltipContent>Converts text to audio or image. Must be last step.</TooltipContent>
+              <TooltipContent>{t`Converts text to audio or image. Must be last step.`}</TooltipContent>
             </Tooltip>
           )}
         </div>
@@ -1190,7 +1141,7 @@ export default function StrategyConfigDialog({
             size="icon"
             onClick={() => handleMoveStepUp(index)}
             disabled={!canMoveUp}
-            aria-label="move step up"
+            aria-label={t`move step up`}
             className={cn('size-8', !canMoveUp && 'opacity-30')}
           >
             <ArrowUp className="size-4" />
@@ -1201,7 +1152,7 @@ export default function StrategyConfigDialog({
             size="icon"
             onClick={() => handleMoveStepDown(index)}
             disabled={!canMoveDown}
-            aria-label="move step down"
+            aria-label={t`move step down`}
             className={cn('size-8', !canMoveDown && 'opacity-30')}
           >
             <ArrowDown className="size-4" />
@@ -1211,7 +1162,7 @@ export default function StrategyConfigDialog({
             variant="ghost"
             size="icon"
             onClick={() => handleRemoveStep(index)}
-            aria-label="delete step"
+            aria-label={t`delete step`}
             className="size-8 text-destructive hover:bg-destructive/10 hover:text-destructive"
           >
             <Trash2 className="size-4" />
@@ -1223,10 +1174,8 @@ export default function StrategyConfigDialog({
 
   const renderLayerStepsSection = () => (
     <div>
-      <Label className="mb-1 block font-semibold">Steps (in order)</Label>
-      <p className="mb-2 text-sm text-muted-foreground">
-        Select strategies from the dropdown or enter custom file:// paths
-      </p>
+      <Label className="mb-1 block font-semibold">{t`Steps (in order)`}</Label>
+      <p className="mb-2 text-sm text-muted-foreground">{t`Select strategies from the dropdown or enter custom file:// paths`}</p>
 
       <div className="flex gap-2">
         <Select
@@ -1242,8 +1191,8 @@ export default function StrategyConfigDialog({
             <SelectValue
               placeholder={
                 availableStrategies.length === 0
-                  ? 'No more strategies available'
-                  : 'Select a strategy'
+                  ? t`No more strategies available`
+                  : t`Select a strategy`
               }
             />
           </SelectTrigger>
@@ -1261,7 +1210,7 @@ export default function StrategyConfigDialog({
         <Input
           value={newStep}
           onChange={(e) => setNewStep(e.target.value)}
-          placeholder="Or type file://path/to/custom.js"
+          placeholder={t`Or type file://path/to/custom.js`}
           onKeyDown={(e) => {
             if (e.key === 'Enter' && newStep.trim()) {
               e.preventDefault();
@@ -1275,7 +1224,7 @@ export default function StrategyConfigDialog({
           onClick={() => handleAddStep(newStep)}
           disabled={!newStep.trim()}
         >
-          Add
+          {t`Add`}
         </Button>
       </div>
 
@@ -1286,7 +1235,7 @@ export default function StrategyConfigDialog({
         )}
       >
         {steps.length === 0
-          ? 'Add at least one strategy step (required)'
+          ? t`Add at least one strategy step (required)`
           : getValidationMessage() || 'Add steps to build your transform chain'}
       </p>
 
@@ -1336,9 +1285,7 @@ export default function StrategyConfigDialog({
           return renderMultiTurnStrategyConfig();
         }
         return (
-          <p className="text-muted-foreground">
-            No configuration options available for this strategy.
-          </p>
+          <p className="text-muted-foreground">{t`No configuration options available for this strategy.`}</p>
         );
     }
   };
@@ -1351,12 +1298,14 @@ export default function StrategyConfigDialog({
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <DialogContent className="flex max-h-[85vh] max-w-lg flex-col">
         <DialogHeader>
-          <DialogTitle>Configure {strategyData?.name ?? strategy}</DialogTitle>
+          <DialogTitle>
+            {t`Configure`} {strategyData?.name ?? strategy}
+          </DialogTitle>
         </DialogHeader>
         <div className="flex-1 overflow-y-auto py-4">{renderStrategyConfig()}</div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>
-            Cancel
+            {t`Cancel`}
           </Button>
           <Button
             onClick={handleSave}
@@ -1366,7 +1315,7 @@ export default function StrategyConfigDialog({
               (strategy === 'layer' && steps.length === 0)
             }
           >
-            Save
+            {t`Save`}
           </Button>
         </DialogFooter>
       </DialogContent>

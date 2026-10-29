@@ -4,6 +4,7 @@ import { Button } from '@app/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@app/components/ui/dialog';
 import { useToast } from '@app/hooks/useToast';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import Convert from 'ansi-to-html';
 import { ChevronsDown, Copy, Download, Maximize2 } from 'lucide-react';
 
@@ -186,19 +187,19 @@ export function LogViewer({ logs }: LogViewerProps) {
   return (
     <>
       <div className="mb-2 mt-4 flex items-center gap-2">
-        <p className="text-sm font-medium">Logs</p>
+        <p className="text-sm font-medium">{t`Logs`}</p>
         <div className="ml-auto flex gap-2">
           <Button variant="ghost" size="sm" onClick={handleCopyLogs}>
             <Copy className="mr-1 size-4" />
-            Copy
+            {t`Copy`}
           </Button>
           <Button variant="ghost" size="sm" onClick={handleSaveLogs}>
             <Download className="mr-1 size-4" />
-            Save
+            {t`Save`}
           </Button>
           <Button variant="ghost" size="sm" onClick={handleOpenFullscreen}>
             <Maximize2 className="mr-1 size-4" />
-            Fullscreen
+            {t`Fullscreen`}
           </Button>
         </div>
       </div>
@@ -212,7 +213,7 @@ export function LogViewer({ logs }: LogViewerProps) {
         {showScrollButton && !isFullscreen && (
           <Button
             size="icon"
-            aria-label="Scroll to bottom"
+            aria-label={t`Scroll to bottom`}
             className="absolute bottom-4 right-4 size-8 rounded-full shadow-md"
             onClick={() => scrollToBottom(logsContainerRef)}
           >
@@ -224,19 +225,21 @@ export function LogViewer({ logs }: LogViewerProps) {
       <Dialog open={isFullscreen} onOpenChange={(open) => !open && handleCloseFullscreen()}>
         <DialogContent className="h-screen max-w-none p-0 sm:max-w-none">
           <DialogHeader className="flex flex-row items-center justify-between border-b border-border px-4 py-3">
-            <DialogTitle>Logs</DialogTitle>
+            <DialogTitle>{t`Logs`}</DialogTitle>
             <div className="mr-8 flex gap-2">
               <Button variant="ghost" size="sm" onClick={handleCopyLogs}>
                 <Copy className="mr-1 size-4" />
-                Copy
+                {t`Copy`}
               </Button>
               <Button variant="ghost" size="sm" onClick={handleSaveLogs}>
                 <Download className="mr-1 size-4" />
-                Save
+                {t`Save`}
               </Button>
-              <Button variant="ghost" size="sm" onClick={handleCloseFullscreen}>
-                Exit Fullscreen
-              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleCloseFullscreen}
+              >{t`Exit Fullscreen`}</Button>
             </div>
           </DialogHeader>
           <div className="relative h-[calc(100vh-80px)]">
@@ -248,7 +251,7 @@ export function LogViewer({ logs }: LogViewerProps) {
             {showScrollButton && isFullscreen && (
               <Button
                 size="icon"
-                aria-label="Scroll to bottom"
+                aria-label={t`Scroll to bottom`}
                 className="fixed bottom-4 right-4 size-8 rounded-full shadow-md"
                 onClick={() => scrollToBottom(fullscreenLogsContainerRef)}
               >

@@ -26,6 +26,7 @@ import ChatMessages, {
   type LoadingMessage,
   type Message,
 } from '@app/pages/eval/components/ChatMessages';
+import { t } from '@lingui/core/macro';
 import {
   categoryAliases,
   displayNameOverrides,
@@ -164,14 +165,14 @@ export const TestCaseDialog: React.FC<TestCaseDialogProps> = ({
           <div>
             <DialogTitle>
               {allowPluginChange
-                ? `${strategyDisplayName}${maxTurns > 1 ? ` (${maxTurns} turns)` : ''}`
+                ? `${strategyDisplayName}${maxTurns > 1 ? t` (${maxTurns} turns)` : ''}`
                 : pluginDisplayName}
             </DialogTitle>
             <p
               className="text-sm text-muted-foreground"
               data-testid={allowPluginChange ? 'strategy-chip' : 'plugin-chip'}
             >
-              {allowPluginChange ? 'Strategy Preview' : 'Plugin Preview'}
+              {allowPluginChange ? t`Strategy Preview` : t`Plugin Preview`}
             </p>
           </div>
           {allowPluginChange && (
@@ -184,7 +185,7 @@ export const TestCaseDialog: React.FC<TestCaseDialogProps> = ({
               }}
             >
               <SelectTrigger className="w-full sm:w-[280px]" data-testid="plugin-dropdown">
-                <SelectValue placeholder="Select plugin" />
+                <SelectValue placeholder={t`Select plugin`} />
               </SelectTrigger>
               <SelectContent className="z-[10001]">
                 {availablePlugins.map((option) => (
@@ -210,8 +211,8 @@ export const TestCaseDialog: React.FC<TestCaseDialogProps> = ({
               <Info className="size-4" />
               <AlertContent>
                 <AlertDescription>
-                  Dissatisfied with the test case? Fine tune it by adjusting your{' '}
-                  {pluginName === 'policy' ? 'Policy details' : 'Application Details'}.
+                  {t`Dissatisfied with the test case? Fine tune it by adjusting your`}{' '}
+                  {pluginName === 'policy' ? t`Policy details` : t`Application Details`}.
                 </AlertDescription>
               </AlertContent>
             </Alert>
@@ -226,7 +227,7 @@ export const TestCaseDialog: React.FC<TestCaseDialogProps> = ({
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
             >
-              Learn more about {pluginDisplayName}
+              {t`Learn more about`} {pluginDisplayName}
               <ExternalLink className="size-3" />
             </a>
           )}
@@ -244,10 +245,10 @@ export const TestCaseDialog: React.FC<TestCaseDialogProps> = ({
               disabled={isGenerating || isRunningTest}
             >
               {(isGenerating || isRunningTest) && <Spinner size="sm" className="mr-2" />}
-              {canAddAdditionalTurns ? 'Start Over' : 'Regenerate'}
+              {canAddAdditionalTurns ? t`Start Over` : t`Regenerate`}
             </Button>
             <Button onClick={onClose} variant="outline">
-              Close
+              {t`Close`}
             </Button>
           </div>
         </DialogFooter>
@@ -280,7 +281,7 @@ export const TestCaseGenerateButton: React.FC<{
   const buttonLabel =
     targetConfigError ||
     tooltipTitle ||
-    (isRemoteDisabled ? 'Requires Promptfoo Cloud connection' : 'Generate a test case');
+    (isRemoteDisabled ? t`Requires Promptfoo Cloud connection` : t`Generate a test case`);
 
   return (
     <Tooltip open={shouldRenderTooltip} onOpenChange={setShouldRenderTooltip}>
@@ -305,8 +306,8 @@ export const TestCaseGenerateButton: React.FC<{
       <TooltipContent>
         {targetConfigError ||
           (isRemoteDisabled
-            ? 'Requires Promptfoo Cloud connection'
-            : tooltipTitle || 'Generate test case')}
+            ? t`Requires Promptfoo Cloud connection`
+            : tooltipTitle || t`Generate test case`)}
       </TooltipContent>
     </Tooltip>
   );
@@ -327,11 +328,11 @@ const MultiTurnExtensionControl: React.FC<{
           }
         }}
         className="w-32"
-        label="Additional Turns"
+        label={t`Additional Turns`}
         min={1}
         max={100}
       />
-      <Button onClick={() => onContinue(additionalTurns)}>Continue</Button>
+      <Button onClick={() => onContinue(additionalTurns)}>{t`Continue`}</Button>
     </div>
   );
 };

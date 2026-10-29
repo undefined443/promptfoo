@@ -6,6 +6,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tool
 import { cn } from '@app/lib/utils';
 import { getApiBaseUrl } from '@app/utils/api';
 import { downloadMediaItem, formatBytes, getKindIcon, getKindLabel } from '@app/utils/media';
+import { t } from '@lingui/core/macro';
 import { Check, CheckCircle, Download, Music, Video, XCircle } from 'lucide-react';
 import { AudioPreviewButton } from './AudioPreviewButton';
 import { VideoHoverPreview } from './VideoHoverPreview';
@@ -129,7 +130,7 @@ export function MediaCard({
         onClick={handlePrimaryAction}
         onFocus={onFocus}
         tabIndex={tabIndex}
-        aria-label={`${getKindLabel(item.kind)}: ${item.context.evalDescription || 'Media item'}${isViewing ? ' (currently viewing)' : ''}${isSelectionMode ? (isSelected ? ' (selected)' : ' (not selected)') : ''}`}
+        aria-label={`${getKindLabel(item.kind)}: ${item.context.evalDescription || t`Media item`}${isViewing ? t` (currently viewing)` : ''}${isSelectionMode ? (isSelected ? t` (selected)` : t` (not selected)`) : ''}`}
       />
 
       {/* Media Preview Area */}
@@ -142,7 +143,7 @@ export function MediaCard({
             {!imageLoaded && <Skeleton className="absolute inset-0 rounded-none" />}
             <img
               src={mediaUrl}
-              alt={item.context.evalDescription || 'Generated image'}
+              alt={item.context.evalDescription || t`Generated image`}
               className={cn(
                 'h-full w-full object-cover transition-opacity duration-200',
                 imageLoaded ? 'opacity-100' : 'opacity-0',
@@ -176,12 +177,12 @@ export function MediaCard({
                   'opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-visible:opacity-100 [@media(hover:none)]:opacity-100',
                   'hover:bg-black/80',
                 )}
-                aria-label="Download"
+                aria-label={t`Download`}
               >
                 <Download className="h-3.5 w-3.5 text-white" />
               </button>
             </TooltipTrigger>
-            <TooltipContent>Download</TooltipContent>
+            <TooltipContent>{t`Download`}</TooltipContent>
           </Tooltip>
         )}
 
@@ -196,7 +197,7 @@ export function MediaCard({
                 ? 'border-primary bg-primary text-primary-foreground'
                 : 'border-muted-foreground/50 bg-white/90 dark:bg-zinc-800/90 hover:border-primary',
             )}
-            aria-label={isSelected ? 'Deselect' : 'Select'}
+            aria-label={isSelected ? t`Deselect` : t`Select`}
           >
             {isSelected && <Check className="h-4 w-4" />}
           </button>
@@ -239,9 +240,9 @@ export function MediaCard({
                 </div>
               </TooltipTrigger>
               <TooltipContent side="bottom">
-                {item.context.pass ? 'Passed' : 'Failed'}
+                {item.context.pass ? t`Passed` : t`Failed`}
                 {item.context.score !== undefined &&
-                  ` (Score: ${(item.context.score * 100).toFixed(1)}%)`}
+                  t` (Score: ${(item.context.score * 100).toFixed(1)}%)`}
               </TooltipContent>
             </Tooltip>
           </div>

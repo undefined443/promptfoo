@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@app/components/ui/card';
+import { t } from '@lingui/core/macro';
 import StatefulnessRadioGroup, { STATEFULNESS_QUESTION } from '../StatefulnessRadioGroup';
 
 interface SystemConfigurationProps {
@@ -13,7 +14,7 @@ export function SystemConfiguration({
   return (
     <Card className="mb-6">
       <CardHeader className="pb-3">
-        <CardTitle className="text-lg">System Configuration</CardTitle>
+        <CardTitle className="text-lg">{t`System Configuration`}</CardTitle>
       </CardHeader>
       <CardContent>
         <p className="mb-4 text-sm font-medium">{STATEFULNESS_QUESTION}</p>

@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@app/components/ui/select';
+import { t } from '@lingui/core/macro';
 import { Plus, Trash2 } from 'lucide-react';
 
 import type { ProviderOptions } from '../../types';
@@ -40,63 +41,56 @@ const BrowserAutomationConfiguration = ({
 }: BrowserAutomationConfigurationProps) => {
   return (
     <div className="mt-4">
-      <h3 className="mb-4 text-lg font-semibold">Browser Automation Configuration</h3>
+      <h3 className="mb-4 text-lg font-semibold">{t`Browser Automation Configuration`}</h3>
       <div className="rounded-lg border border-border p-4">
-        <p className="mb-4 text-sm text-muted-foreground">
-          Configure browser automation steps to interact with web applications. Each step represents
-          an action like navigation, clicking, or typing.
-        </p>
+        <p className="mb-4 text-sm text-muted-foreground">{t`Configure browser automation steps to interact with web applications. Each step represents an action like navigation, clicking, or typing.`}</p>
 
         <div className="space-y-2">
-          <Label htmlFor="headless-mode">Headless Mode</Label>
+          <Label htmlFor="headless-mode">{t`Headless Mode`}</Label>
           <Select
             value={String(selectedTarget.config.headless ?? true)}
             onValueChange={(value) => updateCustomTarget('headless', value === 'true')}
           >
             <SelectTrigger id="headless-mode">
-              <SelectValue placeholder="Select mode" />
+              <SelectValue placeholder={t`Select mode`} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="true">Yes (Hidden Browser)</SelectItem>
-              <SelectItem value="false">No (Visible Browser)</SelectItem>
+              <SelectItem value="true">{t`Yes (Hidden Browser)`}</SelectItem>
+              <SelectItem value="false">{t`No (Visible Browser)`}</SelectItem>
             </SelectContent>
           </Select>
         </div>
 
         <div className="mt-4 space-y-2">
-          <Label htmlFor="timeout-ms">Timeout (ms)</Label>
+          <Label htmlFor="timeout-ms">{t`Timeout (ms)`}</Label>
           <Input
             id="timeout-ms"
             type="number"
             value={selectedTarget.config.timeoutMs || 30000}
             onChange={(e) => updateCustomTarget('timeoutMs', Number(e.target.value))}
           />
-          <p className="text-sm text-muted-foreground">
-            Maximum time to wait for browser operations (in milliseconds)
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Maximum time to wait for browser operations (in milliseconds)`}</p>
         </div>
 
         <div className="mt-4 space-y-2">
-          <Label htmlFor="response-transform">Response Transform</Label>
+          <Label htmlFor="response-transform">{t`Response Transform`}</Label>
           <Input
             id="response-transform"
             value={selectedTarget.config.transformResponse || ''}
             onChange={(e) => updateCustomTarget('transformResponse', e.target.value)}
-            placeholder="e.g., extracted.searchResults"
+            placeholder={t`e.g., extracted.searchResults`}
           />
-          <p className="text-sm text-muted-foreground">
-            JavaScript expression to parse the extracted data
-          </p>
+          <p className="text-sm text-muted-foreground">{t`JavaScript expression to parse the extracted data`}</p>
         </div>
 
         <div className="mt-6">
-          <h4 className="mb-2 font-medium">Browser Steps</h4>
+          <h4 className="mb-2 font-medium">{t`Browser Steps`}</h4>
 
           {selectedTarget.config.steps?.map((step: BrowserStep, index: number) => (
             <div key={index} className="mb-4 rounded-lg border border-border p-4">
               <div className="flex items-center gap-4">
                 <div className="min-w-[200px]">
-                  <Label htmlFor={`step-${index}-action`}>Action Type</Label>
+                  <Label htmlFor={`step-${index}-action`}>{t`Action Type`}</Label>
                   <Select
                     value={step.action || ''}
                     onValueChange={(value) => {
@@ -109,15 +103,15 @@ const BrowserAutomationConfiguration = ({
                     }}
                   >
                     <SelectTrigger id={`step-${index}-action`}>
-                      <SelectValue placeholder="Select action" />
+                      <SelectValue placeholder={t`Select action`} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="navigate">Navigate</SelectItem>
-                      <SelectItem value="click">Click</SelectItem>
-                      <SelectItem value="type">Type</SelectItem>
-                      <SelectItem value="extract">Extract</SelectItem>
-                      <SelectItem value="wait">Wait</SelectItem>
-                      <SelectItem value="waitForNewChildren">Wait for New Children</SelectItem>
+                      <SelectItem value="navigate">{t`Navigate`}</SelectItem>
+                      <SelectItem value="click">{t`Click`}</SelectItem>
+                      <SelectItem value="type">{t`Type`}</SelectItem>
+                      <SelectItem value="extract">{t`Extract`}</SelectItem>
+                      <SelectItem value="wait">{t`Wait`}</SelectItem>
+                      <SelectItem value="waitForNewChildren">{t`Wait for New Children`}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -163,7 +157,7 @@ const BrowserAutomationConfiguration = ({
                   step.action === 'extract') && (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor={`step-${index}-selector`}>Selector</Label>
+                      <Label htmlFor={`step-${index}-selector`}>{t`Selector`}</Label>
                       <Input
                         id={`step-${index}-selector`}
                         value={step.args?.selector || ''}
@@ -175,12 +169,12 @@ const BrowserAutomationConfiguration = ({
                           };
                           updateCustomTarget('steps', newSteps);
                         }}
-                        placeholder="#search-input"
+                        placeholder={t`#search-input`}
                       />
                     </div>
                     {step.action === 'click' && (
                       <div className="space-y-2">
-                        <Label htmlFor={`step-${index}-optional`}>Optional</Label>
+                        <Label htmlFor={`step-${index}-optional`}>{t`Optional`}</Label>
                         <Select
                           value={String(step.args?.optional || false)}
                           onValueChange={(value) => {
@@ -196,8 +190,8 @@ const BrowserAutomationConfiguration = ({
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="true">Yes</SelectItem>
-                            <SelectItem value="false">No</SelectItem>
+                            <SelectItem value="true">{t`Yes`}</SelectItem>
+                            <SelectItem value="false">{t`No`}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -207,7 +201,7 @@ const BrowserAutomationConfiguration = ({
 
                 {step.action === 'type' && (
                   <div className="mt-4 space-y-2">
-                    <Label htmlFor={`step-${index}-text`}>Text</Label>
+                    <Label htmlFor={`step-${index}-text`}>{t`Text`}</Label>
                     <Input
                       id={`step-${index}-text`}
                       value={step.args?.text || ''}
@@ -226,7 +220,7 @@ const BrowserAutomationConfiguration = ({
 
                 {step.action === 'wait' && (
                   <div className="space-y-2">
-                    <Label htmlFor={`step-${index}-wait-time`}>Wait Time (ms)</Label>
+                    <Label htmlFor={`step-${index}-wait-time`}>{t`Wait Time (ms)`}</Label>
                     <Input
                       id={`step-${index}-wait-time`}
                       type="number"
@@ -245,7 +239,7 @@ const BrowserAutomationConfiguration = ({
 
                 {step.action === 'extract' && (
                   <div className="mt-4 space-y-2">
-                    <Label htmlFor={`step-${index}-var-name`}>Variable Name</Label>
+                    <Label htmlFor={`step-${index}-var-name`}>{t`Variable Name`}</Label>
                     <Input
                       id={`step-${index}-var-name`}
                       value={step.name || ''}
@@ -254,7 +248,7 @@ const BrowserAutomationConfiguration = ({
                         newSteps[index] = { ...step, name: e.target.value };
                         updateCustomTarget('steps', newSteps);
                       }}
-                      placeholder="searchResults"
+                      placeholder={t`searchResults`}
                     />
                   </div>
                 )}
@@ -262,7 +256,7 @@ const BrowserAutomationConfiguration = ({
                 {step.action === 'waitForNewChildren' && (
                   <div className="space-y-4">
                     <div className="space-y-2">
-                      <Label htmlFor={`step-${index}-parent-selector`}>Parent Selector</Label>
+                      <Label htmlFor={`step-${index}-parent-selector`}>{t`Parent Selector`}</Label>
                       <Input
                         id={`step-${index}-parent-selector`}
                         value={step.args?.parentSelector || ''}
@@ -274,11 +268,11 @@ const BrowserAutomationConfiguration = ({
                           };
                           updateCustomTarget('steps', newSteps);
                         }}
-                        placeholder="#results"
+                        placeholder={t`#results`}
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor={`step-${index}-delay`}>Initial Delay (ms)</Label>
+                      <Label htmlFor={`step-${index}-delay`}>{t`Initial Delay (ms)`}</Label>
                       <Input
                         id={`step-${index}-delay`}
                         type="number"
@@ -294,7 +288,7 @@ const BrowserAutomationConfiguration = ({
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor={`step-${index}-timeout`}>Timeout (ms)</Label>
+                      <Label htmlFor={`step-${index}-timeout`}>{t`Timeout (ms)`}</Label>
                       <Input
                         id={`step-${index}-timeout`}
                         type="number"
@@ -324,7 +318,7 @@ const BrowserAutomationConfiguration = ({
             className="mt-2"
           >
             <Plus className="mr-1 size-4" />
-            Add Step
+            {t`Add Step`}
           </Button>
         </div>
       </div>

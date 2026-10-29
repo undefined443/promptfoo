@@ -25,6 +25,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@app/components/ui/tab
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
 import { callApi } from '@app/utils/api';
+import { t } from '@lingui/core/macro';
 import { useModelAuditConfigStore } from '../stores';
 
 import type { ScanPath } from '../ModelAudit.types';
@@ -105,7 +106,7 @@ function EnterpriseTabContent({
           rel="noopener noreferrer"
         >
           <LockIcon className="size-4 mr-2" />
-          Available in Enterprise
+          {t`Available in Enterprise`}
         </a>
       </Button>
     </div>
@@ -229,15 +230,19 @@ export default function PathSelector({
     <div className="space-y-6">
       <Tabs defaultValue="local" className="w-full">
         <TabsList className="grid !h-auto w-full grid-cols-2 gap-1 sm:!h-10 sm:grid-cols-4 sm:gap-0">
-          <TabsTrigger value="local" aria-label="Local Files" className="flex items-center gap-2">
+          <TabsTrigger
+            value="local"
+            aria-label={t`Local Files`}
+            className="flex items-center gap-2"
+          >
             <ComputerIcon className="size-4" />
-            <span>Local Files</span>
+            <span>{t`Local Files`}</span>
           </TabsTrigger>
           <Tooltip>
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="cloud"
-                aria-label="Cloud"
+                aria-label={t`Cloud`}
                 disabled
                 className="flex items-center gap-2 opacity-60"
               >
@@ -245,16 +250,16 @@ export default function PathSelector({
                   <CloudIcon className="size-4" />
                   <LockIcon className="size-2.5 absolute -top-1 -right-1 text-muted-foreground" />
                 </div>
-                <span>Cloud</span>
+                <span>{t`Cloud`}</span>
               </TabsTrigger>
             </TooltipTrigger>
-            <TooltipContent>Cloud storage is available in Enterprise</TooltipContent>
+            <TooltipContent>{t`Cloud storage is available in Enterprise`}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="github"
-                aria-label="GitHub"
+                aria-label={t`GitHub`}
                 disabled
                 className="flex items-center gap-2 opacity-60"
               >
@@ -262,16 +267,16 @@ export default function PathSelector({
                   <GitHubIcon className="size-4" />
                   <LockIcon className="size-2.5 absolute -top-1 -right-1 text-muted-foreground" />
                 </div>
-                <span>GitHub</span>
+                <span>{t`GitHub`}</span>
               </TabsTrigger>
             </TooltipTrigger>
-            <TooltipContent>GitHub integration is available in Enterprise</TooltipContent>
+            <TooltipContent>{t`GitHub integration is available in Enterprise`}</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <TabsTrigger
                 value="registry"
-                aria-label="Registry"
+                aria-label={t`Registry`}
                 disabled
                 className="flex items-center gap-2 opacity-60"
               >
@@ -279,10 +284,10 @@ export default function PathSelector({
                   <StorageIcon className="size-4" />
                   <LockIcon className="size-2.5 absolute -top-1 -right-1 text-muted-foreground" />
                 </div>
-                <span>Registry</span>
+                <span>{t`Registry`}</span>
               </TabsTrigger>
             </TooltipTrigger>
-            <TooltipContent>Model registries are available in Enterprise</TooltipContent>
+            <TooltipContent>{t`Model registries are available in Enterprise`}</TooltipContent>
           </Tooltip>
         </TabsList>
 
@@ -292,11 +297,9 @@ export default function PathSelector({
             <Alert variant="info">
               <AlertContent>
                 <AlertDescription>
-                  <strong>Current directory:</strong>
+                  <strong>{t`Current directory:`}</strong>
                   <span className="block break-all">{currentWorkingDir}</span>
-                  <span className="block text-xs text-muted-foreground mt-1">
-                    Relative paths will be resolved from this directory
-                  </span>
+                  <span className="block text-xs text-muted-foreground mt-1">{t`Relative paths will be resolved from this directory`}</span>
                 </AlertDescription>
               </AlertContent>
             </Alert>
@@ -304,9 +307,10 @@ export default function PathSelector({
 
           {/* Drag and Drop Zone */}
           <div>
-            <Label htmlFor="model-path-input" className="text-muted-foreground block">
-              Add model path
-            </Label>
+            <Label
+              htmlFor="model-path-input"
+              className="text-muted-foreground block"
+            >{t`Add model path`}</Label>
             <div
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -324,8 +328,8 @@ export default function PathSelector({
                   isDragging ? 'text-primary' : 'text-muted-foreground',
                 )}
               />
-              <p className="font-medium mb-1">Drop files or folders here to add their paths</p>
-              <p className="text-sm text-muted-foreground mb-4">or type the path manually below</p>
+              <p className="font-medium mb-1">{t`Drop files or folders here to add their paths`}</p>
+              <p className="text-sm text-muted-foreground mb-4">{t`or type the path manually below`}</p>
 
               {/* Supported file types */}
               <div className="flex flex-wrap gap-2 justify-center">
@@ -352,7 +356,7 @@ export default function PathSelector({
                     handleAddPath(pathInput);
                   }
                 }}
-                placeholder="Type a path or drag & drop above"
+                placeholder={t`Type a path or drag & drop above`}
                 disabled={isChecking}
                 className={cn('pl-10', error && 'border-destructive')}
               />
@@ -361,7 +365,7 @@ export default function PathSelector({
               onClick={() => handleAddPath(pathInput)}
               disabled={!pathInput.trim() || isChecking}
             >
-              {isChecking ? 'Checking...' : 'Add'}
+              {isChecking ? t`Checking...` : t`Add`}
             </Button>
           </div>
           {error && (
@@ -374,7 +378,7 @@ export default function PathSelector({
           {recentPaths.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h4 className="text-sm font-medium text-muted-foreground">Recent Paths</h4>
+                <h4 className="text-sm font-medium text-muted-foreground">{t`Recent Paths`}</h4>
                 <Button
                   variant="ghost"
                   size="sm"
@@ -382,7 +386,7 @@ export default function PathSelector({
                   className="text-muted-foreground"
                 >
                   <ClearIcon className="size-4 mr-1" />
-                  Clear All
+                  {t`Clear All`}
                 </Button>
               </div>
               <div className="flex flex-wrap gap-2 p-3 rounded-lg border border-border/50 bg-muted/30">
@@ -430,8 +434,8 @@ export default function PathSelector({
         <TabsContent value="cloud">
           <EnterpriseTabContent
             icon={CloudIcon}
-            title="Cloud Storage Integration"
-            description="Scan models directly from cloud storage providers with automatic authentication and secure access."
+            title={t`Cloud Storage Integration`}
+            description={t`Scan models directly from cloud storage providers with automatic authentication and secure access.`}
             examples={[
               {
                 provider: 'AWS S3',
@@ -455,16 +459,16 @@ export default function PathSelector({
         <TabsContent value="github">
           <EnterpriseTabContent
             icon={GitHubIcon}
-            title="Git Repository Integration"
-            description="Scan models directly from GitHub, GitLab, or Bitbucket repositories with OAuth integration. Configure paths like: github:org/repo/path/to/model.pkl"
+            title={t`Git Repository Integration`}
+            description={t`Scan models directly from GitHub, GitLab, or Bitbucket repositories with OAuth integration. Configure paths like: github:org/repo/path/to/model.pkl`}
           />
         </TabsContent>
 
         <TabsContent value="registry">
           <EnterpriseTabContent
             icon={StorageIcon}
-            title="Model Registry Integration"
-            description="Connect to MLflow, Weights & Biases, Neptune, and other model registries. Scan models by registry URI: mlflow://model-name/version"
+            title={t`Model Registry Integration`}
+            description={t`Connect to MLflow, Weights & Biases, Neptune, and other model registries. Scan models by registry URI: mlflow://model-name/version`}
           />
         </TabsContent>
       </Tabs>
@@ -473,7 +477,7 @@ export default function PathSelector({
       {paths.length > 0 && (
         <div className="mt-8">
           <div className="flex items-center gap-2 mb-3">
-            <h3 className="text-lg font-semibold">Selected Paths</h3>
+            <h3 className="text-lg font-semibold">{t`Selected Paths`}</h3>
             <Badge variant="default" className="text-xs">
               {paths.length}
             </Badge>

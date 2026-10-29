@@ -2,6 +2,7 @@ import React from 'react';
 
 import Editor from '@app/components/ui/code-editor';
 import { highlightJS } from '@app/lib/codeHighlight';
+import { t } from '@lingui/core/macro';
 import dedent from 'dedent';
 
 import type { HttpProviderOptions } from '../../../types';
@@ -18,8 +19,7 @@ const HttpStatusCodeTab: React.FC<HttpStatusCodeTabProps> = ({
   return (
     <>
       <p className="mb-4">
-        Customize which HTTP status codes are treated as successful responses. By default accepts
-        200-299. See{' '}
+        {t`Customize which HTTP status codes are treated as successful responses. By default accepts 200-299. See`}{' '}
         <a
           href="https://www.promptfoo.dev/docs/providers/http/#error-handling"
           target="_blank"
@@ -28,7 +28,7 @@ const HttpStatusCodeTab: React.FC<HttpStatusCodeTabProps> = ({
         >
           docs
         </a>{' '}
-        for more details.
+        {t`for more details.`}
       </p>
       <div className="relative rounded-md border border-border bg-white dark:bg-zinc-900">
         <Editor

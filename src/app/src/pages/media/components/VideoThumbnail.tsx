@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { Skeleton } from '@app/components/ui/skeleton';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import { Play, Video } from 'lucide-react';
 import { useVideoThumbnail } from '../hooks/useVideoThumbnail';
 
@@ -47,7 +48,7 @@ export function VideoThumbnail({
       {thumbnail && !error && (
         <img
           src={thumbnail}
-          alt="Video thumbnail"
+          alt={t`Video thumbnail`}
           className={cn(
             'h-full w-full object-cover transition-opacity duration-200',
             imageLoaded ? 'opacity-100' : 'opacity-0',

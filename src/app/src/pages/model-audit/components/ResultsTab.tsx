@@ -22,6 +22,7 @@ import {
 import { Separator } from '@app/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@app/components/ui/tooltip';
 import { cn } from '@app/lib/utils';
+import { t } from '@lingui/core/macro';
 import {
   getIssueFilePath,
   getSeverityLabel,
@@ -170,7 +171,7 @@ export default function ResultsTab({
       {/* Toolbar */}
       <div className="flex flex-wrap items-center gap-3">
         <h2 className="text-lg font-semibold">
-          Findings
+          {t`Findings`}
           <span className="ml-2 text-muted-foreground font-normal">({filteredIssues.length})</span>
         </h2>
         <div className="flex-1" />
@@ -180,13 +181,13 @@ export default function ResultsTab({
           onValueChange={(value) => setSelectedSeverity(value === 'all' ? null : value)}
         >
           <SelectTrigger className="w-[140px] h-8 text-sm">
-            <SelectValue placeholder="All severities" />
+            <SelectValue placeholder={t`All severities`} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All severities</SelectItem>
-            <SelectItem value="error">Critical only</SelectItem>
-            <SelectItem value="warning">Warnings only</SelectItem>
-            <SelectItem value="info">Info only</SelectItem>
+            <SelectItem value="all">{t`All severities`}</SelectItem>
+            <SelectItem value="error">{t`Critical only`}</SelectItem>
+            <SelectItem value="warning">{t`Warnings only`}</SelectItem>
+            <SelectItem value="info">{t`Info only`}</SelectItem>
           </SelectContent>
         </Select>
 
@@ -197,12 +198,12 @@ export default function ResultsTab({
 
         <Button variant="ghost" size="sm" onClick={() => setShowRawOutput(true)}>
           <CodeIcon className="size-4 mr-1.5" />
-          Raw
+          {t`Raw`}
         </Button>
 
         <Button variant="ghost" size="sm" onClick={onShowFilesDialog}>
           <FileIcon className="size-4 mr-1.5" />
-          Files
+          {t`Files`}
         </Button>
       </div>
 
@@ -227,15 +228,15 @@ export default function ResultsTab({
             {selectedSeverity
               ? `No ${getSeverityLabel(selectedSeverity)} issues`
               : hasFindings
-                ? 'No issue rows returned'
-                : 'No issues found'}
+                ? t`No issue rows returned`
+                : t`No issues found`}
           </h3>
           <p className="text-sm text-muted-foreground mt-1">
             {selectedSeverity
-              ? 'Try selecting a different severity filter.'
+              ? t`Try selecting a different severity filter.`
               : hasFindings
-                ? 'The scan reported findings or failed checks without issue details.'
-                : 'Your model passed all security checks.'}
+                ? t`The scan reported findings or failed checks without issue details.`
+                : t`Your model passed all security checks.`}
           </p>
         </div>
       ) : (
@@ -245,9 +246,7 @@ export default function ResultsTab({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="critical">{issuesBySeverity.critical.length}</Badge>
-                <span className="text-sm font-medium text-red-700 dark:text-red-300">
-                  Critical Issues
-                </span>
+                <span className="text-sm font-medium text-red-700 dark:text-red-300">{t`Critical Issues`}</span>
               </div>
               <div className="rounded-lg border border-red-200/70 dark:border-red-700/50 bg-red-50/50 dark:bg-red-950/40 divide-y divide-red-100 dark:divide-red-800/40">
                 {issuesBySeverity.critical.map((issue, index) => (
@@ -262,9 +261,7 @@ export default function ResultsTab({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="warning">{issuesBySeverity.warnings.length}</Badge>
-                <span className="text-sm font-medium text-amber-700 dark:text-amber-300">
-                  Warnings
-                </span>
+                <span className="text-sm font-medium text-amber-700 dark:text-amber-300">{t`Warnings`}</span>
               </div>
               <div className="rounded-lg border border-amber-200/70 dark:border-amber-700/50 bg-amber-50/50 dark:bg-amber-950/40 divide-y divide-amber-100 dark:divide-amber-800/40">
                 {issuesBySeverity.warnings.map((issue, index) => (
@@ -279,9 +276,7 @@ export default function ResultsTab({
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <Badge variant="info">{issuesBySeverity.info.length}</Badge>
-                <span className="text-sm font-medium text-blue-700 dark:text-blue-300">
-                  Informational
-                </span>
+                <span className="text-sm font-medium text-blue-700 dark:text-blue-300">{t`Informational`}</span>
               </div>
               <div className="rounded-lg border border-blue-200/70 dark:border-blue-700/50 bg-blue-50/50 dark:bg-blue-950/40 divide-y divide-blue-100 dark:divide-blue-800/40">
                 {issuesBySeverity.info.map((issue, index) => (
@@ -310,7 +305,7 @@ export default function ResultsTab({
       <Dialog open={showRawOutput} onOpenChange={setShowRawOutput}>
         <DialogContent className="max-w-4xl max-h-[80vh] overflow-hidden flex flex-col">
           <DialogHeader>
-            <DialogTitle>Raw Scanner Output</DialogTitle>
+            <DialogTitle>{t`Raw Scanner Output`}</DialogTitle>
           </DialogHeader>
           <div className="flex-1 overflow-auto">
             <pre className="p-4 rounded-lg bg-muted font-mono text-xs whitespace-pre-wrap break-all">
@@ -328,7 +323,7 @@ export default function ResultsTab({
               className="mt-4 self-start"
               onClick={() => setShowFullRawOutput((prev) => !prev)}
             >
-              {showFullRawOutput ? 'Show Less' : 'Show More'}
+              {showFullRawOutput ? t`Show Less` : t`Show More`}
             </Button>
           )}
         </DialogContent>

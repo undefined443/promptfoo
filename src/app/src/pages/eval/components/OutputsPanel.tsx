@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { t } from '@lingui/core/macro';
 import Citations from './Citations';
 
 import type { Citation } from './Citations';
@@ -46,7 +47,7 @@ export function OutputsPanel({
 }: OutputsPanelProps) {
   // Use providerPrompt if available, fall back to redteamFinalPrompt for backward compat
   const actualPrompt = providerPrompt || redteamFinalPrompt;
-  const promptTitle = providerPrompt ? 'Actual Prompt Sent' : 'Modified User Input (Red Team)';
+  const promptTitle = providerPrompt ? t`Actual Prompt Sent` : t`Modified User Input (Red Team)`;
   const promptKey = providerPrompt ? 'providerPrompt' : 'redteamFinalPrompt';
 
   return (
@@ -65,7 +66,7 @@ export function OutputsPanel({
       {replayOutput && (
         <CodeDisplay
           content={replayOutput}
-          title="Replay Output"
+          title={t`Replay Output`}
           onCopy={() => onCopy('replayOutput', replayOutput)}
           copied={copiedFields['replayOutput'] || false}
           onMouseEnter={() => onMouseEnter('replayOutput')}
@@ -76,7 +77,7 @@ export function OutputsPanel({
       {output && (
         <CodeDisplay
           content={output}
-          title="Original Output"
+          title={t`Original Output`}
           onCopy={() => onCopy('output', output)}
           copied={copiedFields['output'] || false}
           onMouseEnter={() => onMouseEnter('output')}

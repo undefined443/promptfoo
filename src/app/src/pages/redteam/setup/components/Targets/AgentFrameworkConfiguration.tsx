@@ -12,6 +12,7 @@ import {
 import { Input } from '@app/components/ui/input';
 import { Label } from '@app/components/ui/label';
 import { useTelemetry } from '@app/hooks/useTelemetry';
+import { t } from '@lingui/core/macro';
 import { AlertTriangle, Code, Copy, Download, Info } from 'lucide-react';
 import { AGENT_TEMPLATE } from './consts';
 
@@ -26,48 +27,47 @@ interface AgentFrameworkConfigurationProps {
 const frameworkInfo: Record<string, { name: string; description: string; pip: string }> = {
   langchain: {
     name: 'LangChain',
-    description: 'Framework for developing applications powered by language models',
+    description: t`Framework for developing applications powered by language models`,
     pip: 'langchain langchain-openai',
   },
   autogen: {
     name: 'AutoGen',
-    description: 'Multi-agent collaborative framework from Microsoft',
+    description: t`Multi-agent collaborative framework from Microsoft`,
     pip: 'pyautogen',
   },
   crewai: {
     name: 'CrewAI',
-    description: 'Framework for orchestrating role-playing autonomous AI agents',
+    description: t`Framework for orchestrating role-playing autonomous AI agents`,
     pip: 'crewai',
   },
   llamaindex: {
     name: 'LlamaIndex',
-    description: 'Data framework for LLM applications with RAG capabilities',
+    description: t`Data framework for LLM applications with RAG capabilities`,
     pip: 'llama-index',
   },
   langgraph: {
     name: 'LangGraph',
-    description: 'Build stateful, multi-actor applications with LLMs',
+    description: t`Build stateful, multi-actor applications with LLMs`,
     pip: 'langgraph langchain-openai',
   },
   'openai-agents-sdk': {
     name: 'OpenAI Agents SDK',
-    description: 'Official OpenAI SDK for building AI agents.',
+    description: t`Official OpenAI SDK for building AI agents.`,
     pip: 'openai-agents',
   },
   'pydantic-ai': {
     name: 'PydanticAI',
-    description: 'Type-safe AI agents with structured outputs using Pydantic',
+    description: t`Type-safe AI agents with structured outputs using Pydantic`,
     pip: 'pydantic-ai',
   },
   'google-adk': {
     name: 'Google ADK',
-    description: 'Google AI Development Kit for building agents with Gemini',
+    description: t`Google AI Development Kit for building agents with Gemini`,
     pip: 'google-genai',
   },
   'generic-agent': {
     name: 'Other Agent',
-    description:
-      'Any agent framework - promptfoo is fully customizable and supports all agent frameworks',
+    description: t`Any agent framework - promptfoo is fully customizable and supports all agent frameworks`,
     pip: '# Install your agent framework dependencies',
   },
 };
@@ -83,7 +83,7 @@ export default function AgentFrameworkConfiguration({
 
   const frameworkDetails = frameworkInfo[agentType] || {
     name: agentType,
-    description: 'Agent framework',
+    description: t`Agent framework`,
     pip: agentType,
   };
 
@@ -143,16 +143,21 @@ export default function AgentFrameworkConfiguration({
         <Info className="size-4" />
         <AlertContent>
           <AlertDescription>
-            <p className="mb-2 font-semibold">{frameworkDetails.name} Agent Configuration</p>
+            <p className="mb-2 font-semibold">
+              {frameworkDetails.name} {t`Agent Configuration`}
+            </p>
             <p className="mb-3">{frameworkDetails.description}</p>
             {agentType === 'generic-agent' ? (
               <p className="italic">
-                <strong>Tip:</strong> Promptfoo works with ANY Python-based agent framework. Simply
-                implement the call_api function in your Python file to connect your agent.
+                <strong>{t`Tip:`}</strong>{' '}
+                {t`Promptfoo works with ANY Python-based agent framework. Simply implement the call_api function in your Python file to connect your agent.`}
               </p>
             ) : (
               <p className="font-mono text-xs">
-                Install with: <strong>pip install {frameworkDetails.pip}</strong>
+                {t`Install with:`}{' '}
+                <strong>
+                  {t`pip install`} {frameworkDetails.pip}
+                </strong>
               </p>
             )}
           </AlertDescription>
@@ -162,7 +167,7 @@ export default function AgentFrameworkConfiguration({
       <div className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="provider-id">
-            Provider ID (Python file path) <span className="text-destructive">*</span>
+            {t`Provider ID (Python file path)`} <span className="text-destructive">*</span>
           </Label>
           <Input
             id="provider-id"
@@ -170,22 +175,19 @@ export default function AgentFrameworkConfiguration({
             onChange={(e) => updateCustomTarget('id', e.target.value)}
             placeholder={`file:///path/to/${agentType}_agent.py`}
           />
-          <p className="text-sm text-muted-foreground">
-            Path to your Python agent implementation file
-          </p>
+          <p className="text-sm text-muted-foreground">{t`Path to your Python agent implementation file`}</p>
         </div>
 
         <div>
-          <h3 className="mb-2 text-lg font-semibold">Quickstart Template</h3>
+          <h3 className="mb-2 text-lg font-semibold">{t`Quickstart Template`}</h3>
           <p className="mb-4 max-w-[1000px] text-muted-foreground">
-            Want to see how it works? Promptfoo can generate a starter template for{' '}
-            {frameworkDetails.name} that shows you how to connect your agent to the red team
-            evaluation system. You can use this as a starting point and customize it to fit your
-            needs.
+            {t`Want to see how it works? Promptfoo can generate a starter template for`}{' '}
+            {frameworkDetails.name}{' '}
+            {t`that shows you how to connect your agent to the red team evaluation system. You can use this as a starting point and customize it to fit your needs.`}
           </p>
           <Button onClick={handleOpenTemplateModal}>
             <Code className="mr-2 size-4" />
-            Generate Template File
+            {t`Generate Template File`}
           </Button>
         </div>
       </div>
@@ -195,7 +197,7 @@ export default function AgentFrameworkConfiguration({
         <DialogContent className="flex max-h-[85vh] min-h-0 flex-col overflow-hidden sm:max-w-4xl">
           <DialogHeader>
             <DialogTitle>
-              {frameworkDetails.name} Template - {templateFilename}
+              {frameworkDetails.name} {t`Template -`} {templateFilename}
             </DialogTitle>
           </DialogHeader>
 
@@ -204,31 +206,31 @@ export default function AgentFrameworkConfiguration({
               <AlertTriangle className="size-4" />
               <AlertContent>
                 <AlertDescription>
-                  <p className="font-semibold">Next Steps:</p>
+                  <p className="font-semibold">{t`Next Steps:`}</p>
                   <ol className="ml-5 mt-2 list-decimal">
-                    <li>Save the template to a Python file</li>
+                    <li>{t`Save the template to a Python file`}</li>
                     {agentType === 'generic-agent' ? (
                       <>
-                        <li>Install your agent framework's dependencies</li>
+                        <li>{t`Install your agent framework's dependencies`}</li>
                         <li>
-                          Replace the TODOs in the <code>call_api</code> function with your agent
-                          implementation
+                          {t`Replace the TODOs in the`} <code>call_api</code>{' '}
+                          {t`function with your agent implementation`}
                         </li>
                       </>
                     ) : (
                       <>
                         <li>
-                          Install required dependencies:{' '}
+                          {t`Install required dependencies:`}{' '}
                           <code className="rounded bg-muted px-1">
                             pip install {frameworkDetails.pip}
                           </code>
                         </li>
                         <li>
-                          Customize the agent logic in the <code>call_api</code> function
+                          {t`Customize the agent logic in the`} <code>call_api</code> function
                         </li>
                       </>
                     )}
-                    <li>Update the Provider ID field above with the file path</li>
+                    <li>{t`Update the Provider ID field above with the file path`}</li>
                   </ol>
                 </AlertDescription>
               </AlertContent>
@@ -244,11 +246,11 @@ export default function AgentFrameworkConfiguration({
           <DialogFooter className="shrink-0 gap-2">
             <Button variant="outline" onClick={handleCopyTemplate} disabled={copied}>
               <Copy className="mr-2 size-4" />
-              {copied ? 'Copied!' : 'Copy Template'}
+              {copied ? t`Copied!` : t`Copy Template`}
             </Button>
             <Button onClick={handleDownloadTemplate}>
               <Download className="mr-2 size-4" />
-              Download {templateFilename}
+              {t`Download`} {templateFilename}
             </Button>
           </DialogFooter>
         </DialogContent>
